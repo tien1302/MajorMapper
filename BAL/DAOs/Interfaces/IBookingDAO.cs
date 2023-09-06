@@ -11,9 +11,9 @@ namespace BAL.DAOs.Interfaces
     public interface IBookingDAO
     {
         public List<GetBooking> GetAll();
-        public GetBooking Get(int key);
-        public void Create(GetBooking create);
-        public void Update(int key, GetBooking update);
-        public void Delete(int key);
+        //public GetBooking Get(int key);
+        //public void Create(GetBooking create);
+        //public void Update(int key, GetBooking update);
+        //public void Delete(int key);
     }
 }
