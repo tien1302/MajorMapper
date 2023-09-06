@@ -1,3 +1,9 @@
+using BAL.DAOs.Implementations;
+using BAL.DAOs.Interfaces;
+using BAL.Profiles;
+using DAL.Repositories.Implementations;
+using DAL.Repositories.Interfaces;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +13,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<IUniversityRepository, UniversityRepository>();
+builder.Services.AddScoped<IMajorRepository, MajorRepository>();
+builder.Services.AddScoped<IMajorDAO, MajorDAO>();
+builder.Services.AddScoped<IUniversityDAO, UniversityDAO>();
+
+builder.Services.AddAutoMapper(typeof(UniversityProfile),
+                               typeof(MajorProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

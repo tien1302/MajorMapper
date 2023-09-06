@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace DAL.Models;
 
@@ -37,16 +36,9 @@ public partial class MajorMapperContext : DbContext
     public virtual DbSet<University> Universities { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        if (!optionsBuilder.IsConfigured)
-        {
-            var builder = new ConfigurationBuilder()
-                              .SetBasePath(Directory.GetCurrentDirectory())
-                              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            IConfigurationRoot configuration = builder.Build();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DBStore"));
-        }
-    }
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("server =(local); database = MajorMapper;uid=sa;pwd=123456;TrustServerCertificate=true;");
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
@@ -72,8 +64,6 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("Booking");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
-            entity.Property(e => e.ConsultantId).ValueGeneratedOnAdd();
             entity.Property(e => e.EndDateTime).HasColumnType("date");
             entity.Property(e => e.StartDateTime).HasColumnType("date");
             entity.Property(e => e.Status).HasMaxLength(50);
@@ -146,7 +136,6 @@ public partial class MajorMapperContext : DbContext
 
             entity.ToTable("ReviewTest");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreatedDateTime).HasColumnType("date");
 
             entity.HasOne(d => d.TestResult).WithMany(p => p.ReviewTests)
@@ -183,7 +172,6 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("TestResult");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.AccountId).HasColumnName("AccountID");
             entity.Property(e => e.CreatedDateTime).HasColumnType("date");
 
@@ -197,7 +185,6 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("University");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.Address).HasMaxLength(200);
             entity.Property(e => e.CreatedDateTime).HasColumnType("date");
             entity.Property(e => e.Email).HasMaxLength(50);
