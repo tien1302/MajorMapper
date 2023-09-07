@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BAL.DTOs.Authentications
 {
-    public class Account
+    public class AuthenticationAccount
     {
         [Required(ErrorMessage = "Username is required.")]
         public string Id { get; set; }

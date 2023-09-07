@@ -6,7 +6,16 @@ using System.Threading.Tasks;
 
 namespace BAL.DTOs.Bookings
 {
-    internal class CreateBooking
+    public class CreateBooking
     {
+        public int StudentId { get; set; }
+
+        public int ConsultantId { get; set; }
+
+        public DateTime StartDateTime { get; set; }
+
+        public DateTime EndDateTime { get; set; }
+
+        public string Status { get; set; } = null!;
     }
 }
