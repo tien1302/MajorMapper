@@ -52,15 +52,17 @@ namespace BAL.DAOs.Implementations
                     Icon = createUni.Icon,
                     CreatedDateTime = DateTime.Now
                 };
-                university.Majors = listMajor;
+
+                _uniRepository.Insert(university);
+                _uniRepository.Commit();
+
                 foreach (var item in listMajor) 
                 {
                     item.Universities.Add(university);
                     _majorRepository.Update(item);
                     _majorRepository.Commit();
                 }
-                _uniRepository.Insert(university);
-                _uniRepository.Commit();
+
             }
             catch (Exception ex)
             {
