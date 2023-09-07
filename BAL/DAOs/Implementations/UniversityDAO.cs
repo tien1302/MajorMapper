@@ -35,7 +35,7 @@ namespace BAL.DAOs.Implementations
                     Email = createUni.Email,
                     Website = createUni.Website,
                     Icon = createUni.Icon,
-                    CreatedDateTime = DateTime.Now,
+                    CreatedDateTime = DateTime.Now
                 };
                 _uniRepository.Insert(university);
                 _uniRepository.Commit();

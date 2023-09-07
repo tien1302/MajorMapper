@@ -15,11 +15,14 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUniversityRepository, UniversityRepository>();
 builder.Services.AddScoped<IMajorRepository, MajorRepository>();
+builder.Services.AddScoped<IPersonalityTypeRepository, PersonalityTypeRepository>();
+builder.Services.AddScoped<IPersonalityTypeDAO, PersonalityTypeDAO>();
 builder.Services.AddScoped<IMajorDAO, MajorDAO>();
 builder.Services.AddScoped<IUniversityDAO, UniversityDAO>();
 
 builder.Services.AddAutoMapper(typeof(UniversityProfile),
-                               typeof(MajorProfile));
+                               typeof(MajorProfile),
+                               typeof(PersonalityTypeProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
