@@ -21,5 +21,7 @@ namespace BAL.DTOs.Universities
         public string Website { get; set; }
 
         public string Icon { get; set; }
+
+        public List<int> MajorId { get; set; }
     }
 }
