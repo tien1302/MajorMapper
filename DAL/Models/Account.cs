@@ -33,7 +33,7 @@ public partial class Account
 
     public virtual ICollection<Booking> BookingStudents { get; set; } = new List<Booking>();
 
-    public virtual Role RoleNavigation { get; set; } = null!;
+    public virtual Role? RoleNavigation { get; set; } = null!;
 
     public virtual ICollection<TestResult> TestResults { get; set; } = new List<TestResult>();
 }
