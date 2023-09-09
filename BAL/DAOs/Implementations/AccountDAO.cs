@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
 using BAL.DAOs.Interfaces;
 using BAL.DTOs.Accounts;
+using BAL.DTOs.Authentications;
 using DAL.Models;
 using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -120,6 +124,82 @@ namespace BAL.DAOs.Implementations
                 }
                 this._Repo.Delete(key);
                 this._Repo.Commit();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public GetAccount Login(AuthenticationAccount authenAccount, JwtAuth jwtAuth)
+        {
+            try
+            {
+                Account existedAccount = this._Repo.Get(x => x.Email == authenAccount.Email && x.Password.Equals(authenAccount.Password))
+                                             .SingleOrDefault();
+                if (existedAccount == null)
+                {
+                    throw new Exception("Email or Password is in valid.");
+                }
+                GetAccount getAccount = this._mapper.Map<GetAccount>(existedAccount);
+                //GenerateToken
+                switch (existedAccount.Role)
+                {
+                    case 1:
+                        {
+                            getAccount.RoleName = "Admin";
+                            break;
+                        }
+                    case 2:
+                        {
+                            getAccount.RoleName = "Consultant";
+                            break;
+                        }
+                    case 3:
+                        {
+                            getAccount.RoleName = "User";
+                            break;
+                        }
+                }
+
+
+                return GenerateToken(getAccount, jwtAuth);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        private GetAccount GenerateToken(GetAccount getAccount, JwtAuth jwtAuth)
+        {
+            try
+            {
+                var jwtTokenHandler = new JwtSecurityTokenHandler();
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtAuth.Key));
+                var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+                var claims = new ClaimsIdentity(new[] {
+                 new Claim(JwtRegisteredClaimNames.Sub, getAccount.Id.ToString()),
+                 new Claim(JwtRegisteredClaimNames.Email, getAccount.Email),
+                 new Claim(JwtRegisteredClaimNames.Name, getAccount.Name),
+                 new Claim("Role", getAccount.RoleName),
+                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+             });
+
+                var tokenDescription = new SecurityTokenDescriptor
+                {
+                    Subject = claims,
+                    Expires = DateTime.UtcNow.AddHours(1),
+                    SigningCredentials = credentials,
+                };
+
+                var token = jwtTokenHandler.CreateToken(tokenDescription);
+                string accessToken = jwtTokenHandler.WriteToken(token);
+
+                getAccount.AccessToken = accessToken;
+
+                return getAccount;
             }
             catch (Exception ex)
             {

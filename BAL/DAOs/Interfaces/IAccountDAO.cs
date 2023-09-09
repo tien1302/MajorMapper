@@ -1,4 +1,6 @@
 ﻿using BAL.DTOs.Accounts;
+using BAL.DTOs.Authentications;
+using DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +16,6 @@ namespace BAL.DAOs.Interfaces
         public void Create(CreateAccount create);
         public void Update(int key, UpdateAccount update);
         public void Delete(int key);
+        public GetAccount Login(AuthenticationAccount authenAccount, JwtAuth jwtAuth);
     }
 }

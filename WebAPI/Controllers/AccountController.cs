@@ -2,9 +2,12 @@
 using BAL.DAOs.Implementations;
 using BAL.DAOs.Interfaces;
 using BAL.DTOs.Accounts;
+using BAL.DTOs.Authentications;
 using BAL.DTOs.Universities;
+using DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace WebAPI.Controllers
 {
@@ -13,13 +16,16 @@ namespace WebAPI.Controllers
     public class AccountController : ControllerBase
     {
         public IAccountDAO _DAO;
+        private IOptions<JwtAuth> _jwtAuthOptions;
 
-        public AccountController(IAccountDAO DAO)
+        public AccountController(IAccountDAO DAO, IOptions<JwtAuth> jwtAuthOptions)
         {
             _DAO = DAO;
+            _jwtAuthOptions = jwtAuthOptions;
         }
-
+        
         [HttpGet]
+        [PermissionAuthorize("Admin")]
         public IActionResult Get()
         {
             try
@@ -40,11 +46,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] int key)
+        public IActionResult Get(int id)
         {
             try
             {
-                GetAccount account = _DAO.Get(key);
+                GetAccount account = _DAO.Get(id);
                 return Ok(new
                 {
                     Data = account
@@ -78,7 +84,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put([FromRoute] int key, [FromBody] UpdateAccount update)
+        public IActionResult Put(int id, [FromBody] UpdateAccount update)
         {
             try
             {
@@ -86,7 +92,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _DAO.Update(key, update);
+                _DAO.Update(id, update);
                 return Ok();
             }
             catch (Exception ex)
@@ -95,17 +101,41 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpDelete]
-        public IActionResult Delete([FromForm] int key)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
             try
             {
-                _DAO.Delete(key);
+                _DAO.Delete(id);
                 return Ok();
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("Login")]
+        public IActionResult Post([FromBody] AuthenticationAccount authenAccount)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                GetAccount getAccount = this._DAO.Login(authenAccount, this._jwtAuthOptions.Value);
+                return Ok(new
+                {
+                    Data = getAccount
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
             }
         }
     }

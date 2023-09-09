@@ -32,5 +32,7 @@ namespace BAL.DTOs.Accounts
         public int? Turn { get; set; }
 
         public DateTime CreatedDateTime { get; set; }
+
+        public string AccessToken { get; set; }
     }
 }
