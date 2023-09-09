@@ -39,11 +39,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] int key)
+        public IActionResult Get([FromRoute] int id)
         {
             try
             {
-                GetMajor major = _majorDAO.Get(key);
+                GetMajor major = _majorDAO.Get(id);
                 return Ok(new
                 {
                     Data = major
@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put([FromRoute] int key, [FromBody] UpdateMajor updateMajor)
+        public IActionResult Put([FromRoute] int id, [FromBody] UpdateMajor updateMajor)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _majorDAO.Update(key, updateMajor);
+                _majorDAO.Update(id, updateMajor);
                 return Ok();
             }
             catch (Exception ex)
@@ -95,11 +95,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromForm] int key)
+        public IActionResult Delete([FromForm] int id)
         {
             try
             {
-                _majorDAO.Delete(key);
+                _majorDAO.Delete(id);
                 return Ok();
             }
             catch (Exception ex)
