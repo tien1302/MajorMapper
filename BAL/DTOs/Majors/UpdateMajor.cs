@@ -11,7 +11,5 @@ namespace BAL.DTOs.Majors
         public string Name { get; set; } = null!;
 
         public string Description { get; set; } = null!;
-
-        public List<int> PersonalityTypeId { get; set; }
     }
 }

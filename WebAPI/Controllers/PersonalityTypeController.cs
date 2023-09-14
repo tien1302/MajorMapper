@@ -41,11 +41,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] int id)
+        public IActionResult Get([FromRoute] int key)
         {
             try
             {
-                GetPersonalityType personalityType = _personalityTypeDAO.Get(id);
+                GetPersonalityType personalityType = _personalityTypeDAO.Get(key);
                 return Ok(new
                 {
                     Data = personalityType
@@ -79,7 +79,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put([FromRoute] int id, [FromBody] UpdatePersonalityType updatePersonalityType)
+        public IActionResult Put([FromRoute] int key, [FromBody] UpdatePersonalityType updatePersonalityType)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _personalityTypeDAO.Update(id, updatePersonalityType);
+                _personalityTypeDAO.Update(key, updatePersonalityType);
                 return Ok();
             }
             catch (Exception ex)
@@ -97,11 +97,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromForm] int id)
+        public IActionResult Delete([FromForm] int key)
         {
             try
             {
-                _personalityTypeDAO.Delete(id);
+                _personalityTypeDAO.Delete(key);
                 return Ok();
             }
             catch (Exception ex)

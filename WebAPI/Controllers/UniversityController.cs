@@ -38,11 +38,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] int id)
+        public IActionResult Get([FromRoute] int key)
         {
             try
             {
-                GetUniversity university = _universityDAO.Get(id);
+                GetUniversity university = _universityDAO.Get(key);
                 return Ok(new
                 {
                     Data = university
@@ -76,7 +76,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put([FromRoute] int id, [FromBody] UpdateUniversity updateUni)
+        public IActionResult Put([FromRoute] int key, [FromBody] UpdateUniversity updateUni)
         {
             try
             {
@@ -84,7 +84,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _universityDAO.Update(id, updateUni);
+                _universityDAO.Update(key, updateUni);
                 return Ok();
             }
             catch (Exception ex)
@@ -94,11 +94,11 @@ namespace WebAPI.Controllers
         }
 
         [HttpDelete]
-        public IActionResult Delete([FromForm] int id)
+        public IActionResult Delete([FromForm] int key)
         {
             try
             {
-                _universityDAO.Delete(id);
+                _universityDAO.Delete(key);
                 return Ok();
             }
             catch (Exception ex)
