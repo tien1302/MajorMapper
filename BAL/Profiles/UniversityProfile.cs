@@ -13,7 +13,7 @@ namespace BAL.Profiles
     {
         public UniversityProfile() 
         {
-            CreateMap<University, GetUniversity>().ForMember(dept => dept.MajorName, opts => opts.MapFrom(src => src.Majors.Select(m => m.Name))).ReverseMap();
+            CreateMap<University, GetUniversity>().ReverseMap();
         }
     }
 }

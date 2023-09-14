@@ -24,8 +24,6 @@ namespace BAL.DTOs.Universities
 
         public string Icon { get; set; }
 
-        public List<string> MajorName { get; set; }
-
         public DateTime CreatedDateTime { get; set; }
 
         public DateTime UpdatedDateTime { get; set; }

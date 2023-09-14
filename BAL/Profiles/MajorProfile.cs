@@ -14,7 +14,7 @@ namespace BAL.Profiles
     {
         public MajorProfile()
         {
-            CreateMap<Major, GetMajor>().ForMember(dept => dept.PersonalityTypeName, opts => opts.MapFrom(src => src.PersonalityTypes.Select(m => m.Name))).ReverseMap();
+            CreateMap<Major, GetMajor>().ReverseMap();
         }
     }
 }

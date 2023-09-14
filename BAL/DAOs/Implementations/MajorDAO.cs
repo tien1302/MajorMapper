@@ -16,13 +16,11 @@ namespace BAL.DAOs.Implementations
     public class MajorDAO : IMajorDAO
     {
         private MajorRepository _majorRepository;
-        private PersonalityTypeRepository _personalityTypeRepository;
         private IMapper _mapper;
 
-        public MajorDAO(IMajorRepository majorRepository, IPersonalityTypeRepository personalityTypeRepository, IMapper mapper)
+        public MajorDAO(IMajorRepository majorRepository, IMapper mapper)
         {
             _majorRepository = (MajorRepository)majorRepository;
-            _personalityTypeRepository = (PersonalityTypeRepository)personalityTypeRepository;
             _mapper = mapper;
         }
 
@@ -30,18 +28,6 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<PersonalityType> listPersonalityType = new List<PersonalityType>();
-                var listPersonalityTypeId = createMajor.PersonalityTypeId;
-                foreach (int id in listPersonalityTypeId)
-                {
-                    var checkPersonalityTypeId = _personalityTypeRepository.GetByID(id);
-                    if (checkPersonalityTypeId == null)
-                    {
-                        throw new Exception("PersonalityType Id does not exist in the system.");
-                    }
-                    listPersonalityType.Add(checkPersonalityTypeId);
-                }
-
                 Major major = new Major()
                 {
                     Name = createMajor.Name,
@@ -50,13 +36,6 @@ namespace BAL.DAOs.Implementations
                 };
                 _majorRepository.Insert(major);
                 _majorRepository.Commit();
-
-                foreach (var item in listPersonalityType)
-                {
-                    item.Majors.Add(major);
-                    _personalityTypeRepository.Update(item);
-                    _personalityTypeRepository.Commit();
-                }
             }
             catch (Exception ex)
             {
@@ -67,12 +46,11 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                Major existedMajor = _majorRepository.Get(includeProperties: "PersonalityTypes").FirstOrDefault(u => u.Id == key);
+                Major existedMajor = _majorRepository.GetByID(key);
                 if (existedMajor == null)
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
-                existedMajor.PersonalityTypes.Clear();
                 _majorRepository.Delete(key);
                 _majorRepository.Commit();
             }
@@ -86,7 +64,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetMajor> listMajor = _mapper.Map<List<GetMajor>>(_majorRepository.Get(includeProperties: "PersonalityTypes").ToList());
+                List<GetMajor> listMajor = _mapper.Map<List<GetMajor>>(_majorRepository.Get().ToList());
                 Major major = _majorRepository.GetByID(key);
 
                 if (major == null)
@@ -120,19 +98,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<PersonalityType> listPersonalityType = new List<PersonalityType>();
-                var listPersonalityTypeId = updateMajor.PersonalityTypeId;
-                foreach (int id in listPersonalityTypeId)
-                {
-                    var checkPersonalityTypeId = _personalityTypeRepository.GetByID(id);
-                    if (checkPersonalityTypeId == null)
-                    {
-                        throw new Exception("PersonalityType Id does not exist in the system.");
-                    }
-                    listPersonalityType.Add(checkPersonalityTypeId);
-                }
-
-                Major existedMajor = _majorRepository.Get(includeProperties: "PersonalityTypes").FirstOrDefault(u => u.Id == key);
+                Major existedMajor = _majorRepository.GetByID(key);
                 if (existedMajor == null)
                 {
                     throw new Exception("Id does not exist in the system.");
@@ -141,16 +107,8 @@ namespace BAL.DAOs.Implementations
                 existedMajor.Name = updateMajor.Name;
                 existedMajor.Description = updateMajor.Description;
                 existedMajor.UpdatedDateTime = DateTime.Now;
-                existedMajor.PersonalityTypes.Clear();
                 _majorRepository.Update(existedMajor);
                 _majorRepository.Commit();
-
-                foreach (var item in listPersonalityType)
-                {
-                    item.Majors.Add(existedMajor);
-                    _personalityTypeRepository.Update(item);
-                    _personalityTypeRepository.Commit();
-                }
             }
             catch (Exception ex)
             {
