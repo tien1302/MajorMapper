@@ -33,7 +33,7 @@ public partial class Account
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual Role RoleNavigation { get; set; } = null!;
+    public virtual Role? RoleNavigation { get; set; } = null!;
 
     public virtual ICollection<Slot> Slots { get; set; } = new List<Slot>();
 

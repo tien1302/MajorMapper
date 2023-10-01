@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BAL.DTOs.Notifications
 {
-    public class GetNotification
+    public class CreateNotification
     {
-        [Key]
-        public int Id { get; set; }
         public int? BookingId { get; set; }
 
         public int AccountId { get; set; }

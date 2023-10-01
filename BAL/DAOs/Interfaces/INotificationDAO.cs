@@ -12,8 +12,8 @@ namespace BAL.DAOs.Interfaces
     {
         public List<GetNotification> GetAll();
         public GetNotification Get(int key);
-        public void Create(GetNotification create);
-        public void Update(int key, GetNotification update);
+        public void Create(CreateNotification create);
+        public void Update(int key, UpdateNotification update);
         public void Delete(int key);
     }
 }

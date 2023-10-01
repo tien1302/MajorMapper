@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using BAL.DTOs.Accounts;
-using BAL.DTOs.Bookings;
+using BAL.DTOs.Notifications;
 using DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -10,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace BAL.Profiles
 {
-    public class BookingProfile : Profile
+    public class RoleProfile : Profile
     {
-        public BookingProfile()
+        public RoleProfile()
         {
-            CreateMap<Booking, GetBooking>().ReverseMap();
+
         }
     }
 }

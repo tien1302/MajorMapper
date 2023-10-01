@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BAL.DTOs.Accounts
 {
-    public class GetAccount
+    public class UpdateAccount
     {
-        [Key]
-        public int Id { get; set; }
         public string Name { get; set; } = null!;
 
         public string Email { get; set; } = null!;
@@ -21,7 +18,7 @@ namespace BAL.DTOs.Accounts
 
         public DateTime? DoB { get; set; }
 
-        public string RoleName { get; set; }
+        public int Role { get; set; }
 
         public string? Address { get; set; }
 
@@ -32,7 +29,5 @@ namespace BAL.DTOs.Accounts
         public int? Turn { get; set; }
 
         public DateTime CreatedDateTime { get; set; }
-
-        public string AccessToken { get; set; }
     }
 }
