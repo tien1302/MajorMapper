@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using BAL.DAOs.Interfaces;
 using BAL.DTOs.Majors;
-using BAL.DTOs.Universities;
 using DAL.Models;
 using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;

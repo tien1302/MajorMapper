@@ -24,6 +24,8 @@ public partial class MajorMapperContext : DbContext
 
     public virtual DbSet<Notification> Notifications { get; set; }
 
+    public virtual DbSet<Payment> Payments { get; set; }
+
     public virtual DbSet<PersonalityType> PersonalityTypes { get; set; }
 
     public virtual DbSet<ReviewTest> ReviewTests { get; set; }
@@ -32,9 +34,9 @@ public partial class MajorMapperContext : DbContext
 
     public virtual DbSet<Score> Scores { get; set; }
 
-    public virtual DbSet<TestResult> TestResults { get; set; }
+    public virtual DbSet<Slot> Slots { get; set; }
 
-    public virtual DbSet<University> Universities { get; set; }
+    public virtual DbSet<TestResult> TestResults { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -73,17 +75,15 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("Booking");
 
-            entity.Property(e => e.EndDateTime).HasColumnType("date");
-            entity.Property(e => e.StartDateTime).HasColumnType("date");
             entity.Property(e => e.Status).HasMaxLength(50);
 
-            entity.HasOne(d => d.Consultant).WithMany(p => p.BookingConsultants)
-                .HasForeignKey(d => d.ConsultantId)
+            entity.HasOne(d => d.Slot).WithMany(p => p.Bookings)
+                .HasForeignKey(d => d.SlotId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Booking_Account1");
+                .HasConstraintName("FK_Booking_Slot");
 
-            entity.HasOne(d => d.Student).WithMany(p => p.BookingStudents)
-                .HasForeignKey(d => d.StudentId)
+            entity.HasOne(d => d.User).WithMany(p => p.Bookings)
+                .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Booking_Account");
         });
@@ -111,6 +111,31 @@ public partial class MajorMapperContext : DbContext
             entity.HasOne(d => d.Booking).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.BookingId)
                 .HasConstraintName("FK_Notification_Booking");
+        });
+
+        modelBuilder.Entity<Payment>(entity =>
+        {
+            entity.ToTable("Payment");
+
+            entity.Property(e => e.CreateDateTime).HasColumnType("date");
+            entity.Property(e => e.Description).HasMaxLength(1);
+            entity.Property(e => e.OrderType).HasMaxLength(1);
+            entity.Property(e => e.Status).HasMaxLength(50);
+
+            entity.HasOne(d => d.Relatied).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.RelatiedId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Payment_Booking");
+
+            entity.HasOne(d => d.RelatiedNavigation).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.RelatiedId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Payment_TestResult");
+
+            entity.HasOne(d => d.User).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Payment_Account");
         });
 
         modelBuilder.Entity<PersonalityType>(entity =>
@@ -177,6 +202,20 @@ public partial class MajorMapperContext : DbContext
                 .HasConstraintName("FK_Score_TestResult");
         });
 
+        modelBuilder.Entity<Slot>(entity =>
+        {
+            entity.ToTable("Slot");
+
+            entity.Property(e => e.EndDateTime).HasColumnType("datetime");
+            entity.Property(e => e.StartDateTime).HasColumnType("datetime");
+            entity.Property(e => e.Status).HasMaxLength(50);
+
+            entity.HasOne(d => d.Consultant).WithMany(p => p.Slots)
+                .HasForeignKey(d => d.ConsultantId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Slot_Account");
+        });
+
         modelBuilder.Entity<TestResult>(entity =>
         {
             entity.ToTable("TestResult");
@@ -188,38 +227,6 @@ public partial class MajorMapperContext : DbContext
                 .HasForeignKey(d => d.AccountId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TestResult_Account");
-        });
-
-        modelBuilder.Entity<University>(entity =>
-        {
-            entity.ToTable("University");
-
-            entity.Property(e => e.Address).HasMaxLength(200);
-            entity.Property(e => e.CreatedDateTime).HasColumnType("date");
-            entity.Property(e => e.Email).HasMaxLength(50);
-            entity.Property(e => e.Icon).HasMaxLength(50);
-            entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.UpdatedDateTime).HasColumnType("date");
-            entity.Property(e => e.Website).HasMaxLength(200);
-
-            entity.HasMany(d => d.Majors).WithMany(p => p.Universities)
-                .UsingEntity<Dictionary<string, object>>(
-                    "UniversityMajor",
-                    r => r.HasOne<Major>().WithMany()
-                        .HasForeignKey("MajorId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_University_Major_Major"),
-                    l => l.HasOne<University>().WithMany()
-                        .HasForeignKey("UniversityId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_University_Major_University"),
-                    j =>
-                    {
-                        j.HasKey("UniversityId", "MajorId");
-                        j.ToTable("University_Major");
-                        j.IndexerProperty<int>("UniversityId").HasColumnName("UniversityID");
-                        j.IndexerProperty<int>("MajorId").HasColumnName("MajorID");
-                    });
         });
 
         OnModelCreatingPartial(modelBuilder);

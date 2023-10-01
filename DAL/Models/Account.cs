@@ -29,11 +29,13 @@ public partial class Account
 
     public DateTime CreatedDateTime { get; set; }
 
-    public virtual ICollection<Booking> BookingConsultants { get; set; } = new List<Booking>();
+    public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
-    public virtual ICollection<Booking> BookingStudents { get; set; } = new List<Booking>();
+    public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
     public virtual Role? RoleNavigation { get; set; } = null!;
+
+    public virtual ICollection<Slot> Slots { get; set; } = new List<Slot>();
 
     public virtual ICollection<TestResult> TestResults { get; set; } = new List<TestResult>();
 }

@@ -1,5 +1,4 @@
 ﻿using BAL.DTOs.Majors;
-using BAL.DTOs.Universities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

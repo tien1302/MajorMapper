@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BAL.DTOs.Majors;
-using BAL.DTOs.Universities;
 using DAL.Models;
 using System;
 using System.Collections.Generic;

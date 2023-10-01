@@ -90,7 +90,6 @@ builder.Services.AddCors(cors => cors.AddPolicy(
                                     ));
 
 builder.Services.Configure<JwtAuth>(builder.Configuration.GetSection("JwtAuth"));
-builder.Services.AddScoped<IUniversityRepository, UniversityRepository>();
 builder.Services.AddScoped<IMajorRepository, MajorRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IPersonalityTypeRepository, PersonalityTypeRepository>();
@@ -99,19 +98,18 @@ builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
 builder.Services.AddScoped<IMajorDAO, MajorDAO>();
-builder.Services.AddScoped<IUniversityDAO, UniversityDAO>();
 builder.Services.AddScoped<IAccountDAO, AccountDAO>();
 builder.Services.AddScoped<IRoleDAO, RoleDAO>();
 builder.Services.AddScoped<IPersonalityTypeDAO, PersonalityTypeDAO>();
 builder.Services.AddScoped<IBookingDAO, BookingDAO>();
 builder.Services.AddScoped<INotificationDAO, NotificationDAO>();
 
-builder.Services.AddAutoMapper(typeof(UniversityProfile),
-                               typeof(AccountProfile),
+builder.Services.AddAutoMapper(typeof(AccountProfile),
                                typeof(BookingProfile),
                                typeof(NotificationProfile),
                                typeof(RoleProfile),
-                               typeof(MajorProfile));
+                               typeof(MajorProfile),
+                               typeof(PersonalityTypeProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

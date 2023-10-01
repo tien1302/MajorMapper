@@ -16,6 +16,4 @@ public partial class Major
     public DateTime UpdatedDateTime { get; set; }
 
     public virtual ICollection<PersonalityType> PersonalityTypes { get; set; } = new List<PersonalityType>();
-
-    public virtual ICollection<University> Universities { get; set; } = new List<University>();
 }
