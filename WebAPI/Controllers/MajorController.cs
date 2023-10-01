@@ -1,7 +1,6 @@
 ﻿using BAL.DAOs.Implementations;
 using BAL.DAOs.Interfaces;
 using BAL.DTOs.Majors;
-using BAL.DTOs.Universities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

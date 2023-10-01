@@ -13,15 +13,12 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IUniversityRepository, UniversityRepository>();
 builder.Services.AddScoped<IMajorRepository, MajorRepository>();
 builder.Services.AddScoped<IPersonalityTypeRepository, PersonalityTypeRepository>();
 builder.Services.AddScoped<IPersonalityTypeDAO, PersonalityTypeDAO>();
 builder.Services.AddScoped<IMajorDAO, MajorDAO>();
-builder.Services.AddScoped<IUniversityDAO, UniversityDAO>();
 
-builder.Services.AddAutoMapper(typeof(UniversityProfile),
-                               typeof(MajorProfile),
+builder.Services.AddAutoMapper(typeof(MajorProfile),
                                typeof(PersonalityTypeProfile));
 var app = builder.Build();
 
