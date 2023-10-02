@@ -57,10 +57,8 @@ namespace BAL.DAOs.Implementations
             {
                 Booking booking = new Booking()
                 {
-                    StudentId = create.StudentId,
-                    ConsultantId = create.ConsultantId,
-                    StartDateTime = create.StartDateTime,
-                    EndDateTime = create.EndDateTime,
+                    UserId = create.UserId,
+                    SlotId = create.SlotId,
                     Status = create.Status
                 };
                 this._Repo.Insert(booking);
@@ -81,10 +79,8 @@ namespace BAL.DAOs.Implementations
                     throw new Exception("BookingId does not exist in the system.");
                 }
 
-                existedBooking.StudentId = update.StudentId;
-                existedBooking.ConsultantId = update.ConsultantId;
-                existedBooking.StartDateTime = update.StartDateTime;
-                existedBooking.EndDateTime = update.EndDateTime;
+                existedBooking.UserId = update.UserId;
+                existedBooking.SlotId = update.SlotId;
                 existedBooking.Status = update.Status;
                 this._Repo.Update(existedBooking);
                 this._Repo.Commit();

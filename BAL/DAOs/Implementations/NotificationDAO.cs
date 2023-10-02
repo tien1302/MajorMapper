@@ -58,7 +58,6 @@ namespace BAL.DAOs.Implementations
                 Notification notification = new Notification()
                 {
                     BookingId = create.BookingId,
-                    AccountId = create.AccountId,
                     NotificationContent = create.NotificationContent,
                     Title = create.Title,
                     Time = create.Time,
@@ -83,7 +82,6 @@ namespace BAL.DAOs.Implementations
                 }
 
                 existedNotification.BookingId = update.BookingId;
-                existedNotification.AccountId = update.AccountId;
                 existedNotification.NotificationContent = update.NotificationContent;
                 existedNotification.Title = update.Title;
                 existedNotification.Time = update.Time;

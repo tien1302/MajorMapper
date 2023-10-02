@@ -10,8 +10,6 @@ namespace BAL.DTOs.Notifications
     {
         public int? BookingId { get; set; }
 
-        public int AccountId { get; set; }
-
         public string NotificationContent { get; set; } = null!;
 
         public string Title { get; set; } = null!;
