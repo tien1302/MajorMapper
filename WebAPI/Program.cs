@@ -96,6 +96,8 @@ builder.Services.AddScoped<IPersonalityTypeRepository, PersonalityTypeRepository
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<ISlotRepository, SlotRepository>();
+builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 
 builder.Services.AddScoped<IMajorDAO, MajorDAO>();
 builder.Services.AddScoped<IAccountDAO, AccountDAO>();
@@ -103,13 +105,17 @@ builder.Services.AddScoped<IRoleDAO, RoleDAO>();
 builder.Services.AddScoped<IPersonalityTypeDAO, PersonalityTypeDAO>();
 builder.Services.AddScoped<IBookingDAO, BookingDAO>();
 builder.Services.AddScoped<INotificationDAO, NotificationDAO>();
+builder.Services.AddScoped<ISlotDAO, SlotDAO>();
+builder.Services.AddScoped<IPaymentDAO, PaymentDAO>();
 
 builder.Services.AddAutoMapper(typeof(AccountProfile),
                                typeof(BookingProfile),
                                typeof(NotificationProfile),
                                typeof(RoleProfile),
                                typeof(MajorProfile),
-                               typeof(PersonalityTypeProfile));
+                               typeof(PersonalityTypeProfile),
+                               typeof(SlotProfile),
+                               typeof(PaymentProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

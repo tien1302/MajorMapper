@@ -1,5 +1,4 @@
-﻿using BAL.DTOs.Accounts;
-using BAL.DTOs.Bookings;
+﻿using BAL.DTOs.Bookings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
