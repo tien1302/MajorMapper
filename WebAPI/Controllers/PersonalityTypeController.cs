@@ -1,9 +1,7 @@
-﻿using BAL.DAOs.Implementations;
-using BAL.DAOs.Interfaces;
-using BAL.DTOs.Majors;
+﻿using BAL.DAOs.Interfaces;
 using BAL.DTOs.PersonalityTypes;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -41,7 +39,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get([FromRoute] int id)
+        public IActionResult Get(int id)
         {
             try
             {
@@ -79,7 +77,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put([FromRoute] int id, [FromBody] UpdatePersonalityType updatePersonalityType)
+        public IActionResult Put(int id, [FromBody] UpdatePersonalityType updatePersonalityType)
         {
             try
             {
@@ -96,8 +94,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpDelete]
-        public IActionResult Delete([FromForm] int id)
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
         {
             try
             {

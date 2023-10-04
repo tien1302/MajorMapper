@@ -1,5 +1,6 @@
-﻿using BAL.DAOs.Interfaces;
-using BAL.DTOs.Majors;
+﻿using BAL.DAOs.Implementations;
+using BAL.DAOs.Interfaces;
+using BAL.DTOs.Payments;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,13 +8,13 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MajorController : ControllerBase
+    public class PaymentController : ControllerBase
     {
-        private IMajorDAO _majorDAO;
+        private IPaymentDAO _paymentDAO;
 
-        public MajorController(IMajorDAO majorDAO)
+        public PaymentController(IPaymentDAO paymentDAO)
         {
-            _majorDAO = majorDAO;
+            _paymentDAO = paymentDAO;
         }
 
         [HttpGet]
@@ -21,10 +22,10 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetMajor> listMajor = _majorDAO.GetAll();
+                List<GetPayment> listPayment = _paymentDAO.GetAll();
                 return Ok(new
                 {
-                    Data = listMajor
+                    Data = listPayment
                 });
             }
             catch (Exception ex)
@@ -41,10 +42,10 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetMajor major = _majorDAO.Get(id);
+                GetPayment payment = _paymentDAO.Get(id);
                 return Ok(new
                 {
-                    Data = major
+                    Data = payment
                 });
             }
             catch (Exception ex)
@@ -57,7 +58,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateMajor createMajor)
+        public IActionResult Post([FromBody] CreatePayment createPayment)
         {
             try
             {
@@ -65,25 +66,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _majorDAO.Create(createMajor);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UpdateMajor updateMajor)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                _majorDAO.Update(id, updateMajor);
+                _paymentDAO.Create(createPayment);
                 return Ok();
             }
             catch (Exception ex)
@@ -97,7 +80,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _majorDAO.Delete(id);
+                _paymentDAO.Delete(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -105,5 +88,6 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
     }
 }

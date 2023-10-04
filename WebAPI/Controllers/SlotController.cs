@@ -1,5 +1,5 @@
 ﻿using BAL.DAOs.Interfaces;
-using BAL.DTOs.Majors;
+using BAL.DTOs.Slots;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,13 +7,13 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MajorController : ControllerBase
+    public class SlotController : ControllerBase
     {
-        private IMajorDAO _majorDAO;
+        private ISlotDAO _slotDAO;
 
-        public MajorController(IMajorDAO majorDAO)
+        public SlotController(ISlotDAO slotDAO)
         {
-            _majorDAO = majorDAO;
+            _slotDAO = slotDAO;
         }
 
         [HttpGet]
@@ -21,10 +21,10 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetMajor> listMajor = _majorDAO.GetAll();
+                List<GetSlot> listSlot = _slotDAO.GetAll();
                 return Ok(new
                 {
-                    Data = listMajor
+                    Data = listSlot
                 });
             }
             catch (Exception ex)
@@ -41,10 +41,10 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetMajor major = _majorDAO.Get(id);
+                GetSlot slot = _slotDAO.Get(id);
                 return Ok(new
                 {
-                    Data = major
+                    Data = slot
                 });
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateMajor createMajor)
+        public IActionResult Post([FromBody] CreateSlot createSlot)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _majorDAO.Create(createMajor);
+                _slotDAO.Create(createSlot);
                 return Ok();
             }
             catch (Exception ex)
@@ -75,7 +75,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UpdateMajor updateMajor)
+        public IActionResult Put(int id, [FromBody] UpdateSlot updateSlot)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _majorDAO.Update(id, updateMajor);
+                _slotDAO.Update(id, updateSlot);
                 return Ok();
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _majorDAO.Delete(id);
+                _slotDAO.Delete(id);
                 return Ok();
             }
             catch (Exception ex)
