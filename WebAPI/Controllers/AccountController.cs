@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         }
         
         [HttpGet]
-        [PermissionAuthorize("Admin")]
+        //[PermissionAuthorize("Admin")]
         public IActionResult Get()
         {
             try
