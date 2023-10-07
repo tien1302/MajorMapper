@@ -15,6 +15,8 @@ public partial class Slot
 
     public string Status { get; set; } = null!;
 
+    public DateTime CreateDateTime { get; set; }
+
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual Account Consultant { get; set; } = null!;

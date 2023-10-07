@@ -9,9 +9,9 @@ public partial class PersonalityType
 
     public string Name { get; set; } = null!;
 
-    public DateTime CreatedDateTime { get; set; }
+    public DateTime CreateDateTime { get; set; }
 
-    public DateTime UpdatedDateTime { get; set; }
+    public DateTime UpdateDateTime { get; set; }
 
     public virtual ICollection<Score> Scores { get; set; } = new List<Score>();
 
