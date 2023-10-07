@@ -45,7 +45,7 @@ namespace BAL.DAOs.Implementations
                 {
                     Name = createMajor.Name,
                     Description = createMajor.Description,
-                    CreatedDateTime = DateTime.Now,
+                    CreateDateTime = DateTime.Now,
                 };
                 _majorRepository.Insert(major);
                 _majorRepository.Commit();
@@ -139,7 +139,7 @@ namespace BAL.DAOs.Implementations
 
                 existedMajor.Name = updateMajor.Name;
                 existedMajor.Description = updateMajor.Description;
-                existedMajor.UpdatedDateTime = DateTime.Now;
+                existedMajor.UpdateDateTime = DateTime.Now;
                 existedMajor.PersonalityTypes.Clear();
                 _majorRepository.Update(existedMajor);
                 _majorRepository.Commit();
