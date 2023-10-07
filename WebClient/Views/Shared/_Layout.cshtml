@@ -4,6 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebClient</title>
+
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" asp-append-version="true">
+    <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" asp-append-version="true"></script>
+    <script defer src="https://code.jquery.com/jquery-3.7.0.jss" asp-append-version="true"></script>
+    <script defer src="~/js/order-column.js"></script>
     <!-- favicon
       ============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.ico" asp-append-version="true">
@@ -72,6 +77,8 @@
     <!-- modernizr JS
         ============================================ -->
     <script src="~/js/vendor/modernizr-2.8.3.min.js" asp-append-version="true"></script>
+
+
 </head>
 <body>
     <!-- Start Left menu area -->

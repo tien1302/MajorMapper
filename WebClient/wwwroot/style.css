@@ -2324,7 +2324,7 @@ ul.two-part-sp li{
 /*  14. Library
 /*----------------------------------------*/
 .add-product a {
-    /*float: right;
+   /* float: right;
     position: absolute;*/
     top: 20px;
     right: 35px;
@@ -3208,7 +3208,6 @@ td.text-right.mail-date {
 }
 
 .main-sparkline8-hd h1, .main-sparkline9-hd h1, .main-spark7-hd h1, .main-sparkline10-hd h1, .main-sparkline11-hd h1, .main-sparkline12-hd h1, .main-sparkline13-hd h1, .main-sparkline14-hd h1{
-	font-size:20px;
 	color:#303030;
 }
 .basic-choropleth {
