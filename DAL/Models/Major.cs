@@ -11,9 +11,9 @@ public partial class Major
 
     public string Description { get; set; } = null!;
 
-    public DateTime CreatedDateTime { get; set; }
+    public DateTime CreateDateTime { get; set; }
 
-    public DateTime UpdatedDateTime { get; set; }
+    public DateTime UpdateDateTime { get; set; }
 
     public virtual ICollection<PersonalityType> PersonalityTypes { get; set; } = new List<PersonalityType>();
 }

@@ -27,15 +27,15 @@ public partial class Account
 
     public int? Turn { get; set; }
 
-    public DateTime CreatedDateTime { get; set; }
+    public DateTime CreateDateTime { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual Role? RoleNavigation { get; set; } = null!;
+    public virtual Role RoleNavigation { get; set; } = null!;
 
     public virtual ICollection<Slot> Slots { get; set; } = new List<Slot>();
 
-    public virtual ICollection<TestResult> TestResults { get; set; } = new List<TestResult>();
+    public virtual ICollection<Test> Tests { get; set; } = new List<Test>();
 }

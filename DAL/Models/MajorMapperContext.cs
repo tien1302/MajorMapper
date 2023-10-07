@@ -20,6 +20,8 @@ public partial class MajorMapperContext : DbContext
 
     public virtual DbSet<Booking> Bookings { get; set; }
 
+    public virtual DbSet<Feedback> Feedbacks { get; set; }
+
     public virtual DbSet<Major> Majors { get; set; }
 
     public virtual DbSet<Notification> Notifications { get; set; }
@@ -28,6 +30,8 @@ public partial class MajorMapperContext : DbContext
 
     public virtual DbSet<PersonalityType> PersonalityTypes { get; set; }
 
+    public virtual DbSet<Question> Questions { get; set; }
+
     public virtual DbSet<ReviewTest> ReviewTests { get; set; }
 
     public virtual DbSet<Role> Roles { get; set; }
@@ -35,6 +39,10 @@ public partial class MajorMapperContext : DbContext
     public virtual DbSet<Score> Scores { get; set; }
 
     public virtual DbSet<Slot> Slots { get; set; }
+
+    public virtual DbSet<Test> Tests { get; set; }
+
+    public virtual DbSet<TestQuestion> TestQuestions { get; set; }
 
     public virtual DbSet<TestResult> TestResults { get; set; }
 
@@ -57,7 +65,7 @@ public partial class MajorMapperContext : DbContext
             entity.ToTable("Account");
 
             entity.Property(e => e.Address).HasMaxLength(200);
-            entity.Property(e => e.CreatedDateTime).HasColumnType("date");
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.DoB).HasColumnType("date");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.Gender).HasMaxLength(50);
@@ -75,6 +83,7 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("Booking");
 
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Status).HasMaxLength(50);
 
             entity.HasOne(d => d.Slot).WithMany(p => p.Bookings)
@@ -88,13 +97,27 @@ public partial class MajorMapperContext : DbContext
                 .HasConstraintName("FK_Booking_Account");
         });
 
+        modelBuilder.Entity<Feedback>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__feedback__3214EC07F4DEEA96");
+
+            entity.ToTable("Feedback");
+
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Booking).WithMany(p => p.Feedbacks)
+                .HasForeignKey(d => d.BookingId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Feedback_Booking");
+        });
+
         modelBuilder.Entity<Major>(entity =>
         {
             entity.ToTable("Major");
 
-            entity.Property(e => e.CreatedDateTime).HasColumnType("date");
+            entity.Property(e => e.CreateDateTime).HasColumnType("date");
             entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.UpdatedDateTime).HasColumnType("date");
+            entity.Property(e => e.UpdateDateTime).HasColumnType("date");
         });
 
         modelBuilder.Entity<Notification>(entity =>
@@ -117,7 +140,7 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("Payment");
 
-            entity.Property(e => e.CreateDateTime).HasColumnType("date");
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(1);
             entity.Property(e => e.OrderType).HasMaxLength(1);
             entity.Property(e => e.Status).HasMaxLength(50);
@@ -142,9 +165,9 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("PersonalityType");
 
-            entity.Property(e => e.CreatedDateTime).HasColumnType("date");
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.UpdatedDateTime).HasColumnType("date");
+            entity.Property(e => e.UpdateDateTime).HasColumnType("datetime");
 
             entity.HasMany(d => d.Majors).WithMany(p => p.PersonalityTypes)
                 .UsingEntity<Dictionary<string, object>>(
@@ -164,13 +187,21 @@ public partial class MajorMapperContext : DbContext
                     });
         });
 
+        modelBuilder.Entity<Question>(entity =>
+        {
+            entity.ToTable("Question");
+
+            entity.Property(e => e.AssetsName).HasMaxLength(1);
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
+        });
+
         modelBuilder.Entity<ReviewTest>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK_ReviewAnalysis");
 
             entity.ToTable("ReviewTest");
 
-            entity.Property(e => e.CreatedDateTime).HasColumnType("date");
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
 
             entity.HasOne(d => d.TestResult).WithMany(p => p.ReviewTests)
                 .HasForeignKey(d => d.TestResultId)
@@ -206,6 +237,7 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("Slot");
 
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.EndDateTime).HasColumnType("datetime");
             entity.Property(e => e.StartDateTime).HasColumnType("datetime");
             entity.Property(e => e.Status).HasMaxLength(50);
@@ -216,17 +248,46 @@ public partial class MajorMapperContext : DbContext
                 .HasConstraintName("FK_Slot_Account");
         });
 
+        modelBuilder.Entity<Test>(entity =>
+        {
+            entity.ToTable("Test");
+
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
+            entity.Property(e => e.Status).HasMaxLength(50);
+
+            entity.HasOne(d => d.User).WithMany(p => p.Tests)
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Test_Account");
+        });
+
+        modelBuilder.Entity<TestQuestion>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("Test_Question");
+
+            entity.HasOne(d => d.Question).WithMany()
+                .HasForeignKey(d => d.QuestionId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Test_Question_Question");
+
+            entity.HasOne(d => d.Test).WithMany()
+                .HasForeignKey(d => d.TestId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Test_Question_Test");
+        });
+
         modelBuilder.Entity<TestResult>(entity =>
         {
             entity.ToTable("TestResult");
 
-            entity.Property(e => e.AccountId).HasColumnName("AccountID");
-            entity.Property(e => e.CreatedDateTime).HasColumnType("date");
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
 
-            entity.HasOne(d => d.Account).WithMany(p => p.TestResults)
-                .HasForeignKey(d => d.AccountId)
+            entity.HasOne(d => d.Test).WithMany(p => p.TestResults)
+                .HasForeignKey(d => d.TestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_TestResult_Account");
+                .HasConstraintName("FK_TestResult_Test");
         });
 
         OnModelCreatingPartial(modelBuilder);
