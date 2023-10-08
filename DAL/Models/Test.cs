@@ -9,9 +9,11 @@ public partial class Test
 
     public int UserId { get; set; }
 
-    public string Status { get; set; } = null!;
+    public bool Status { get; set; }
 
     public DateTime CreateDateTime { get; set; }
+
+    public virtual ICollection<TestQuestion> TestQuestions { get; set; } = new List<TestQuestion>();
 
     public virtual ICollection<TestResult> TestResults { get; set; } = new List<TestResult>();
 

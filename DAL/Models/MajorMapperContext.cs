@@ -253,7 +253,6 @@ public partial class MajorMapperContext : DbContext
             entity.ToTable("Test");
 
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
-            entity.Property(e => e.Status).HasMaxLength(50);
 
             entity.HasOne(d => d.User).WithMany(p => p.Tests)
                 .HasForeignKey(d => d.UserId)
@@ -263,16 +262,21 @@ public partial class MajorMapperContext : DbContext
 
         modelBuilder.Entity<TestQuestion>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Test_Question");
+            entity.HasKey(e => new { e.TestId, e.QuestionId });
 
-            entity.HasOne(d => d.Question).WithMany()
+            entity.ToTable("Test_Question");
+
+            entity.HasOne(d => d.PersonalityType).WithMany(p => p.TestQuestions)
+                .HasForeignKey(d => d.PersonalityTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Test_Question_PersonalityType");
+
+            entity.HasOne(d => d.Question).WithMany(p => p.TestQuestions)
                 .HasForeignKey(d => d.QuestionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Test_Question_Question");
 
-            entity.HasOne(d => d.Test).WithMany()
+            entity.HasOne(d => d.Test).WithMany(p => p.TestQuestions)
                 .HasForeignKey(d => d.TestId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Test_Question_Test");
