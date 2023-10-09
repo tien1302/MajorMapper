@@ -13,5 +13,7 @@ public partial class Question
 
     public DateTime CreateDateTime { get; set; }
 
+    public string Description { get; set; } = null!;
+
     public virtual ICollection<TestQuestion> TestQuestions { get; set; } = new List<TestQuestion>();
 }
