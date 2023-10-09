@@ -193,6 +193,7 @@ public partial class MajorMapperContext : DbContext
 
             entity.Property(e => e.AssetsName).HasMaxLength(1);
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
+            entity.Property(e => e.Description).HasMaxLength(1);
         });
 
         modelBuilder.Entity<ReviewTest>(entity =>
