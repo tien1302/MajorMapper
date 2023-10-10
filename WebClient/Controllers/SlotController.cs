@@ -1,24 +1,26 @@
-﻿using BAL.DTOs.Majors;
+﻿using BAL.DTOs.Slots;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Update.Internal;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace WebClient.Controllers
 {
-    public class MajorController : Controller
+    public class SlotController : Controller
     {
         private readonly HttpClient client;
         private string baseApiUrl = "";
-        public MajorController()
+
+        public SlotController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            baseApiUrl = "http://localhost:1189/api/Major";
+            baseApiUrl = baseApiUrl = "http://localhost:1189/api/Slot";
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult> Index()
         {
             HttpResponseMessage response = await client.GetAsync(baseApiUrl);
             string strData = await response.Content.ReadAsStringAsync();
@@ -27,11 +29,11 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<GetMajor> list = JsonSerializer.Deserialize<List<GetMajor>>(strData, options);
+            List<GetSlot> list = JsonSerializer.Deserialize <List<GetSlot>>(strData, options);
             return View(list);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
             HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
             var strData = await response.Content.ReadAsStringAsync();
@@ -40,18 +42,18 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            GetMajor major = JsonSerializer.Deserialize<GetMajor>(strData, options);
-            return View(major);
+            GetSlot slot = JsonSerializer.Deserialize<GetSlot>(strData, options);
+            return View(slot);
         }
 
-        public async Task<ActionResult> Create()
+        public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateMajor p)
+        public async Task<ActionResult> Create(CreateSlot p)
         {
             if (ModelState.IsValid)
             {
@@ -68,10 +70,10 @@ namespace WebClient.Controllers
                 }
             }
             ViewBag.Message = "Error!";
-            return RedirectToAction(nameof(Index));
+            return View(p);
         }
 
-        public async Task<IActionResult> Update(int id)
+        public async Task<ActionResult> Update(int id)
         {
             HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
             var strData = await response.Content.ReadAsStringAsync();
@@ -80,19 +82,19 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            UpdateMajor major = JsonSerializer.Deserialize<UpdateMajor>(strData, options);
-            return View(major);
+            UpdateSlot slot = JsonSerializer.Deserialize<UpdateSlot>(strData, options);
+            return View(slot);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update([FromRoute] int id, UpdateMajor p)
+        public async Task<ActionResult> Update(int id, UpdateSlot p)
         {
             if (ModelState.IsValid)
             {
                 string strData = JsonSerializer.Serialize(p);
                 var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsJsonAsync($"{baseApiUrl}/{id}", contentData);
+                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Insert successfully!";
