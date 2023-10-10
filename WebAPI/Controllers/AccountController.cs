@@ -30,10 +30,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetAccount> accounts = this._DAO.GetAll();
-                return Ok(new
-                {
-                    Data = accounts
-                });
+                return Ok(accounts);
             }
             catch (Exception ex)
             {
@@ -50,10 +47,7 @@ namespace WebAPI.Controllers
             try
             {
                 GetAccount account = _DAO.Get(id);
-                return Ok(new
-                {
-                    Data = account
-                });
+                return Ok(account);
             }
             catch (Exception ex)
             {
@@ -124,10 +118,7 @@ namespace WebAPI.Controllers
                     return BadRequest(ModelState);
                 }
                 GetAccount getAccount = this._DAO.Login(authenAccount, this._jwtAuthOptions.Value);
-                return Ok(new
-                {
-                    Data = getAccount
-                });
+                return Ok(getAccount);
             }
             catch (Exception ex)
             {

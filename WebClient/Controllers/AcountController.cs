@@ -27,20 +27,20 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<Account> list = JsonSerializer.Deserialize<List<Account>>(strData, options);
+            List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
             return View(list);
         }
 
         public async Task<IActionResult> Details(int id)
         {
             HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
-            string strData = await response.Content.ReadAsStringAsync();
+            var strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            Account account = JsonSerializer.Deserialize<Account>(strData, options);
+            GetAccount account = JsonSerializer.Deserialize<GetAccount>(strData,options);
             return View(account);
         }
 
@@ -74,25 +74,25 @@ namespace WebClient.Controllers
         public async Task<IActionResult> Update(int id)
         {
             HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
-            string strData = await response.Content.ReadAsStringAsync();
+            var strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            var account = JsonSerializer.Deserialize<UpdateAccount>(strData, options);
+            UpdateAccount account = JsonSerializer.Deserialize<UpdateAccount>(strData, options);
             return View(account);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(UpdateAccount p)
+        public async Task<ActionResult> Update([FromRoute] int id,UpdateAccount p)
         {
             if (ModelState.IsValid)
             {
                 string strData = JsonSerializer.Serialize(p);
                 var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsJsonAsync(baseApiUrl, contentData);
+                HttpResponseMessage response = await client.PutAsJsonAsync($"{baseApiUrl}/{id}", contentData);
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Insert successfully!";
@@ -107,6 +107,22 @@ namespace WebClient.Controllers
             return View(p);
         }
 
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
+            var strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            GetAccount account = JsonSerializer.Deserialize<GetAccount>(strData, options);
+            return View(account);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             HttpResponseMessage response = await client.DeleteAsync(baseApiUrl + "/" + id);
