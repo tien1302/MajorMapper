@@ -1,23 +1,24 @@
 ﻿using BAL.DTOs.Accounts;
-using DAL.Models;
+using BAL.DTOs.Majors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace WebClient.Controllers
 {
-    public class AcountController : Controller
+    public class MajorController : Controller
     {
         private readonly HttpClient client;
         private string baseApiUrl = "";
-        public AcountController()
+        public MajorController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            baseApiUrl = "http://localhost:1189/api/Account";
+            baseApiUrl = "http://localhost:1189/api/Major";
         }
+
         public async Task<IActionResult> Index()
         {
             HttpResponseMessage response = await client.GetAsync(baseApiUrl);
@@ -27,7 +28,7 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
+            List<GetMajor> list = JsonSerializer.Deserialize<List<GetMajor>>(strData, options);
             return View(list);
         }
 
@@ -40,8 +41,8 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            GetAccount account = JsonSerializer.Deserialize<GetAccount>(strData,options);
-            return View(account);
+            GetMajor major = JsonSerializer.Deserialize<GetMajor>(strData, options);
+            return View(major);
         }
 
         public async Task<ActionResult> Create()
@@ -51,7 +52,7 @@ namespace WebClient.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateAccount p)
+        public async Task<IActionResult> Create(CreateMajor p)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +69,7 @@ namespace WebClient.Controllers
                 }
             }
             ViewBag.Message = "Error!";
-            return View(p);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Update(int id)
@@ -80,13 +81,13 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            UpdateAccount account = JsonSerializer.Deserialize<UpdateAccount>(strData, options);
-            return View(account);
+            UpdateMajor major = JsonSerializer.Deserialize<UpdateMajor>(strData, options);
+            return View(major);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update([FromRoute] int id,UpdateAccount p)
+        public async Task<ActionResult> Update([FromRoute] int id, UpdateMajor p)
         {
             if (ModelState.IsValid)
             {
@@ -104,25 +105,9 @@ namespace WebClient.Controllers
             }
             else
                 ViewBag.Message = "Error!";
-            return View(p);
+            return RedirectToAction(nameof(Index));
         }
 
-
-        public async Task<IActionResult> Delete(int id)
-        {
-            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
-            var strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            GetAccount account = JsonSerializer.Deserialize<GetAccount>(strData, options);
-            return View(account);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int? id)
         {
             HttpResponseMessage response = await client.DeleteAsync(baseApiUrl + "/" + id);
@@ -136,6 +121,5 @@ namespace WebClient.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-
     }
 }

@@ -22,10 +22,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetMajor> listMajor = _majorDAO.GetAll();
-                return Ok(new
-                {
-                    Data = listMajor
-                });
+                return Ok(listMajor);
             }
             catch (Exception ex)
             {
@@ -42,10 +39,7 @@ namespace WebAPI.Controllers
             try
             {
                 GetMajor major = _majorDAO.Get(id);
-                return Ok(new
-                {
-                    Data = major
-                });
+                return Ok(major);
             }
             catch (Exception ex)
             {

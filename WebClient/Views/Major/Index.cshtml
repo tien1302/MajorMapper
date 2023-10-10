@@ -1,9 +1,8 @@
-﻿@model IEnumerable<BAL.DTOs.Accounts.GetAccount>
+﻿@model IEnumerable<BAL.DTOs.Majors.GetMajor>
 
 @{
     ViewData["Title"] = "Index";
 }
-
 <!-- Static Table Start -->
 <div class="data-table-area mg-b-15">
     <div class="container-fluid">
@@ -18,7 +17,7 @@
                     <div class="sparkline13-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbar">
-                                <a class="btn btn-primary waves-effect waves-light" href="add-department.html">Add Departments</a>
+                                <a class="btn btn-primary waves-effect waves-light" href="/Major/Create">Add Departments</a>
                             </div>
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true"
                                    data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
@@ -31,34 +30,13 @@
                                             @Html.DisplayNameFor(model => model.Name)
                                         </th>
                                         <th>
-                                            @Html.DisplayNameFor(model => model.Email)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Password)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Gender)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.DoB)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.RoleName)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Address)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Phone)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Status)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Turn)
+                                            @Html.DisplayNameFor(model => model.Description)
                                         </th>
                                         <th>
                                             @Html.DisplayNameFor(model => model.CreatedDateTime)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.UpdatedDateTime)
                                         </th>
                                         <th></th>
                                     </tr>
@@ -74,34 +52,13 @@
                                                 @Html.DisplayFor(modelItem => item.Name)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Email)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Password)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Gender)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.DoB)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.RoleName)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Address)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Phone)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Status)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Turn)
+                                                @Html.DisplayFor(modelItem => item.Description)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.CreatedDateTime)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UpdatedDateTime)
                                             </td>
                                             <td>
                                                 <a href="@Url.Action("Details", new {id=item.Id})" title="Details" class="btn btn-default">
@@ -110,11 +67,30 @@
                                                 <a href="@Url.Action("Update", new {id=item.Id})" title="Edit" class="btn btn-default">
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
-                                                <a href="@Url.Action("Delete", new {id=item.Id})" title="Trash" class="btn btn-default">
+                                                <a class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#PrimaryModalalert" title="Trash">
                                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                 </a>
                                             </td>
                                         </tr>
+                                        <!-- delete modal -->
+                                        <div id="PrimaryModalalert" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-close-area modal-close-df">
+                                                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <i class="educate-icon educate-checked modal-check-pro"></i>
+                                                        <h2>Awesome!</h2>
+                                                        <p>The Modal plugin is a dialog box/popup window that is displayed on top of the current page</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a data-dismiss="modal" href="#">Cancel</a>
+                                                        <a href="@Url.Action("Delete", new {id=item.Id})">Process</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     }
                                 </tbody>
                             </table>
@@ -124,5 +100,6 @@
             </div>
         </div>
     </div>
+
 </div>
 <!-- Static Table End -->
