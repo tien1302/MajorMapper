@@ -86,13 +86,13 @@ namespace WebClient.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update([FromRoute] int id,UpdateAccount p)
+        public async Task<ActionResult> Update(int id,UpdateAccount p)
         {
             if (ModelState.IsValid)
             {
                 string strData = JsonSerializer.Serialize(p);
                 var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsJsonAsync($"{baseApiUrl}/{id}", contentData);
+                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Insert successfully!";
@@ -104,12 +104,12 @@ namespace WebClient.Controllers
             }
             else
                 ViewBag.Message = "Error!";
-            return View(p);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            HttpResponseMessage response = await client.DeleteAsync(baseApiUrl + "/" + id);
+            HttpResponseMessage response = await client.DeleteAsync($"{baseApiUrl}/{id}");
             if (response.IsSuccessStatusCode)
             {
                 TempData["Message"] = "Delete successfully!";
