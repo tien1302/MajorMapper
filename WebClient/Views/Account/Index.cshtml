@@ -24,40 +24,32 @@
                                    data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Id)
-                                        </th>
-                                        <th>
+                                      
+                                        <th data-field="name" data-sortable="true">
                                             @Html.DisplayNameFor(model => model.Name)
                                         </th>
-                                        <th>
+                                        <th data-field="email" data-sortable="true">
                                             @Html.DisplayNameFor(model => model.Email)
                                         </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Password)
-                                        </th>
-                                        <th>
+                                        <th data-field="gender" data-sortable="true">
                                             @Html.DisplayNameFor(model => model.Gender)
                                         </th>
-                                        <th>
+                                        <th data-field="dob" data-sortable="true">
                                             @Html.DisplayNameFor(model => model.DoB)
                                         </th>
-                                        <th>
+                                        <th data-field="roleName" data-sortable="true">
                                             @Html.DisplayNameFor(model => model.RoleName)
                                         </th>
-                                        <th>
+                                        <th data-field="address" data-sortable="true">
                                             @Html.DisplayNameFor(model => model.Address)
                                         </th>
-                                        <th>
+                                        <th data-field="phone" data-sortable="true">
                                             @Html.DisplayNameFor(model => model.Phone)
                                         </th>
-                                        <th>
+                                        <th data-field="status" data-sortable="true">
                                             @Html.DisplayNameFor(model => model.Status)
                                         </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Turn)
-                                        </th>
-                                        <th>
+                                        <th data-field="date" data-sortable="true">
                                             @Html.DisplayNameFor(model => model.CreatedDateTime)
                                         </th>
                                         <th></th>
@@ -67,17 +59,12 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Id)
-                                            </td>
+                                           
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Email)
-                                            </td>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Password)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Gender)
@@ -98,9 +85,6 @@
                                                 @Html.DisplayFor(modelItem => item.Status)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Turn)
-                                            </td>
-                                            <td>
                                                 @Html.DisplayFor(modelItem => item.CreatedDateTime)
                                             </td>
                                             <td>
@@ -119,16 +103,13 @@
                                         <div id="PrimaryModalalert" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <div class="modal-close-area modal-close-df">
-                                                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                                                    </div>
                                                     <div class="modal-body">
-                                                        <i class="educate-icon educate-checked modal-check-pro"></i>
-                                                        <h2>Awesome!</h2>
+                                                        <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                                        <h2>Xác nhận xóa</h2>
                                                         <p>The Modal plugin is a dialog box/popup window that is displayed on top of the current page</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <a data-dismiss="modal" href="#">Cancel</a>
+                                                        <a style="background-color:#d80027" data-dismiss="modal" href="#">Cancel</a>
                                                         <a href="@Url.Action("Delete", new {id=item.Id})">Process</a>
                                                     </div>
                                                 </div>

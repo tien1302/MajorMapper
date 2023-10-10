@@ -2,7 +2,8 @@
     $('#tableteam').DataTable();
 });
 new DataTable('#tableteam', {
-    info: false,
-    paging: false,
-    searching: false
+    responsive: true,
+    rowReorder: {
+        selector: 'td:nth-child(2)'
+    }
 });
