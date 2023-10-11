@@ -1,21 +1,21 @@
-﻿using BAL.DTOs.Majors;
+﻿using BAL.DTOs.PersonalityTypes;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Update.Internal;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace WebClient.Controllers
 {
-    public class MajorController : Controller
+    public class PersonalityTypeController : Controller
     {
         private readonly HttpClient client;
         private string baseApiUrl = "";
-        public MajorController()
+
+        public PersonalityTypeController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            baseApiUrl = "http://localhost:1189/api/Major";
+            baseApiUrl = baseApiUrl = "http://localhost:1189/api/PersonalityType";
         }
 
         public async Task<IActionResult> Index()
@@ -27,7 +27,7 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<GetMajor> list = JsonSerializer.Deserialize<List<GetMajor>>(strData, options);
+            List<GetPersonalityType> list = JsonSerializer.Deserialize<List<GetPersonalityType>>(strData, options);
             return View(list);
         }
 
@@ -40,8 +40,8 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            GetMajor major = JsonSerializer.Deserialize<GetMajor>(strData, options);
-            return View(major);
+            GetPersonalityType personalityType = JsonSerializer.Deserialize<GetPersonalityType>(strData, options);
+            return View(personalityType);
         }
 
         public async Task<ActionResult> Create()
@@ -51,7 +51,7 @@ namespace WebClient.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreateMajor p)
+        public async Task<IActionResult> Create(CreatePersonalityType p)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace WebClient.Controllers
                 }
             }
             ViewBag.Message = "Error!";
-            return RedirectToAction(nameof(Index));
+            return View(p);
         }
 
         public async Task<IActionResult> Update(int id)
@@ -80,19 +80,19 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            UpdateMajor major = JsonSerializer.Deserialize<UpdateMajor>(strData, options);
-            return View(major);
+            UpdatePersonalityType personalityType = JsonSerializer.Deserialize<UpdatePersonalityType>(strData, options);
+            return View(personalityType);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update([FromRoute] int id, UpdateMajor p)
+        public async Task<ActionResult> Update(int id, UpdatePersonalityType p)
         {
             if (ModelState.IsValid)
             {
                 string strData = JsonSerializer.Serialize(p);
                 var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsJsonAsync($"{baseApiUrl}/{id}", contentData);
+                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Insert successfully!";
