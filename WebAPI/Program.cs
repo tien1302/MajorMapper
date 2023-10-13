@@ -98,6 +98,9 @@ builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<ISlotRepository, SlotRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IReviewTestRepository, ReviewTestRepository>();
+builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
 
 builder.Services.AddScoped<IMajorDAO, MajorDAO>();
 builder.Services.AddScoped<IAccountDAO, AccountDAO>();
@@ -107,6 +110,9 @@ builder.Services.AddScoped<IBookingDAO, BookingDAO>();
 builder.Services.AddScoped<INotificationDAO, NotificationDAO>();
 builder.Services.AddScoped<ISlotDAO, SlotDAO>();
 builder.Services.AddScoped<IPaymentDAO, PaymentDAO>();
+builder.Services.AddScoped<IFeedbackDAO, FeedbackDAO>();
+builder.Services.AddScoped<IReviewTestDAO, ReviewTestDAO>();
+builder.Services.AddScoped<ITestResultDAO, TestResultDAO>();
 
 builder.Services.AddAutoMapper(typeof(AccountProfile),
                                typeof(BookingProfile),
@@ -115,7 +121,10 @@ builder.Services.AddAutoMapper(typeof(AccountProfile),
                                typeof(MajorProfile),
                                typeof(PersonalityTypeProfile),
                                typeof(SlotProfile),
-                               typeof(PaymentProfile));
+                               typeof(PaymentProfile),
+                               typeof(FeedbackProfile),
+                               typeof(ReviewTestProfile),
+                               typeof(TestResultProfile));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
