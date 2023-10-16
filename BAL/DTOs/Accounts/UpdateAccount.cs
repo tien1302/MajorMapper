@@ -26,8 +26,6 @@ namespace BAL.DTOs.Accounts
 
         public string Status { get; set; } = null!;
 
-        public int? Turn { get; set; }
-
         public DateTime CreatedDateTime { get; set; }
     }
 }

@@ -73,7 +73,6 @@ namespace BAL.DAOs.Implementations
                     Address = create.Address,
                     Phone = create.Phone,
                     Status = create.Status,
-                    Turn = create.Turn,
                     CreateDateTime = DateTime.Now
                 };
                 this._Repo.Insert(account);
@@ -103,7 +102,6 @@ namespace BAL.DAOs.Implementations
                 existedAccount.Address = update.Address;
                 existedAccount.Phone = update.Phone;
                 existedAccount.Status = update.Status;
-                existedAccount.Turn = update.Turn;
                 this._Repo.Update(existedAccount);
                 this._Repo.Commit();
             }

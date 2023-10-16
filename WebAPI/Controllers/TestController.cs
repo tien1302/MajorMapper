@@ -1,5 +1,5 @@
 ﻿using BAL.DAOs.Interfaces;
-using BAL.DTOs.TestResults;
+using BAL.DTOs.Tests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,13 +7,13 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TestResultController : ControllerBase
+    public class TestController : ControllerBase
     {
-        private ITestResultDAO _testResultDAO;
+        private ITestDAO _testDAO;
 
-        public TestResultController(ITestResultDAO testResultDAO)
+        public TestController(ITestDAO testDAO)
         {
-            _testResultDAO = testResultDAO;
+            _testDAO = testDAO;
         }
 
         [HttpGet]
@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetTestResult> list = _testResultDAO.GetAll();
+                List<GetTest> list = _testDAO.GetAll();
                 return Ok(new
                 {
                     Data = list
@@ -41,10 +41,10 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetTestResult testResult = _testResultDAO.Get(id);
+                GetTest test = _testDAO.Get(id);
                 return Ok(new
                 {
-                    Data = testResult
+                    Data = test
                 });
             }
             catch (Exception ex)
@@ -57,7 +57,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateTestResult create)
+        public IActionResult Post([FromBody] CreateTest create)
         {
             try
             {
@@ -65,7 +65,25 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _testResultDAO.Create(create);
+                _testDAO.Create(create);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] UpdateTest update)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _testDAO.Update(id, update);
                 return Ok();
             }
             catch (Exception ex)
@@ -79,7 +97,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _testResultDAO.Delete(id);
+                _testDAO.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

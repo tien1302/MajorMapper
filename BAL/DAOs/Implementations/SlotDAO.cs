@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BAL.DAOs.Interfaces;
-using BAL.DTOs.PersonalityTypes;
 using BAL.DTOs.Slots;
 using DAL.Models;
 using DAL.Repositories.Implementations;
