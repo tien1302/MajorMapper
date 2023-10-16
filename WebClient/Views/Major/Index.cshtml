@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BAL.DTOs.Majors.GetMajor>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Danh sách ngành nghề";
 }
 <!-- Static Table Start -->
 <div class="data-table-area mg-b-15">
@@ -11,32 +11,29 @@
                 <div class="sparkline13-list">
                     <div class="sparkline13-hd">
                         <div class="main-sparkline13-hd">
-                            <h1>Projects Data Table</h1>
+                            <h1>Danh sách ngành nghề</h1>
                         </div>
                     </div>
                     <div class="sparkline13-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbar">
-                                <a class="btn btn-primary waves-effect waves-light" href="/Major/Create">Add Departments</a>
+                                <a class="btn btn-primary waves-effect waves-light" href="/Major/Create">Thêm ngành nghề</a>
                             </div>
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true"
                                    data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Id)
+                                        <th data-field="name" data-sortable="true">
+                                            Tên ngành nghề
                                         </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Name)
+                                        <th data-field="des" data-sortable="true">
+                                            Mô tả
                                         </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Description)
+                                        <th data-field="createdate" data-sortable="true">
+                                            Ngày tạo
                                         </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.CreatedDateTime)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.UpdatedDateTime)
+                                        <th data-field="updatedate" data-sortable="true">
+                                            Ngày cập nhật
                                         </th>
                                         <th></th>
                                     </tr>
@@ -45,9 +42,6 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>
-                                                @Html.DisplayFor(modelItem => item.Id)
-                                            </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)
                                             </td>
@@ -61,13 +55,13 @@
                                                 @Html.DisplayFor(modelItem => item.UpdatedDateTime)
                                             </td>
                                             <td>
-                                                <a href="@Url.Action("Details", new {id=item.Id})" title="Details" class="btn btn-default">
+                                                <a href="@Url.Action("Details", new {id=item.Id})" title="Thông tin" class="btn btn-default">
                                                     <i class="fa fa-info" aria-hidden="true"></i>
                                                 </a>
-                                                <a href="@Url.Action("Update", new {id=item.Id})" title="Edit" class="btn btn-default">
+                                                <a href="@Url.Action("Update", new {id=item.Id})" title="Sửa" class="btn btn-default">
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
-                                                <a class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#PrimaryModalalert" title="Trash">
+                                                <a class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#PrimaryModalalert" title="Xóa">
                                                     <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                 </a>
                                             </td>
@@ -76,17 +70,14 @@
                                         <div id="PrimaryModalalert" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
-                                                    <div class="modal-close-area modal-close-df">
-                                                        <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
-                                                    </div>
                                                     <div class="modal-body">
-                                                        <i class="educate-icon educate-checked modal-check-pro"></i>
-                                                        <h2>Awesome!</h2>
-                                                        <p>The Modal plugin is a dialog box/popup window that is displayed on top of the current page</p>
+                                                        <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                                        <h2>Xác nhận xóa</h2>
+                                                        <p>Xác nhận xóa ngành @Html.DisplayFor(modelItem => item.Name)</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <a data-dismiss="modal" href="#">Cancel</a>
-                                                        <a href="@Url.Action("Delete", new {id=item.Id})">Process</a>
+                                                        <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
+                                                        <a href="@Url.Action("Delete", new {id=item.Id})">Xác nhận</a>
                                                     </div>
                                                 </div>
                                             </div>

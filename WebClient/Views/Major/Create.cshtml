@@ -1,7 +1,7 @@
 ﻿@model BAL.DTOs.Majors.CreateMajor
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Thêm ngành nghề";
 }
 
 <!-- Single pro tab review Start-->
@@ -10,7 +10,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-payment-inner-st">
-                    <h1>Departments List</h1>
+                    <h1>Thêm ngành nghề</h1>
                     <div id="myTabContent" class="tab-content custom-product-edit">
                         <div class="product-tab-list tab-pane fade active in" id="reviews">
                             <div class="row">
@@ -19,17 +19,18 @@
                                         <form asp-action="Create" id="add-department" class="add-department">
                                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                             <div class="form-group">
-                                                <label asp-for="Name" class="control-label"></label>
+                                                <label asp-for="Name" class="control-label">Tên ngành nghề</label>
                                                 <input asp-for="Name" class="form-control" />
                                                 <span asp-validation-for="Name" class="text-danger"></span>
                                             </div>
                                             <div class="form-group">
-                                                <label asp-for="Description" class="control-label"></label>
+                                                <label asp-for="Description" class="control-label">Mô tả</label>
                                                 <input asp-for="Description" class="form-control" />
                                                 <span asp-validation-for="Description" class="text-danger"></span>
                                             </div>
                                             <div class="form-group">
-                                                <input type="submit" value="Create" class="btn btn-primary waves-effect waves-light" />
+                                                <button type="submit" value="Create" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
+                                                <a asp-action="Index">Quay lại</a>
                                             </div>
                                         </form>
                                     </div>
