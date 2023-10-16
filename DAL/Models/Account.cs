@@ -25,8 +25,6 @@ public partial class Account
 
     public string Status { get; set; } = null!;
 
-    public int? Turn { get; set; }
-
     public DateTime CreateDateTime { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();
