@@ -1,9 +1,12 @@
 ﻿using BAL.DTOs.Accounts;
 using DAL.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authentication.Google;
 
 namespace WebClient.Controllers
 {
@@ -121,5 +124,22 @@ namespace WebClient.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Route("google-login")]
+        public IActionResult GoogleLogin()
+        {
+            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
+
+            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
+        }
+
+        [Route("google-response")]
+        public async Task<IActionResult> GoogleResponse()
+        {
+            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var claims = result.Principal.Identities.FirstOrDefault()
+                .Claims.Where(claim => claim.Type == "name")
+                .Select(claim => claim.Value);
+            return View("Home/Index", claims);
+        }
     }
 }
