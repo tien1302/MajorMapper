@@ -3,6 +3,7 @@ using BAL.DAOs.Implementations;
 using BAL.DAOs.Interfaces;
 using BAL.DTOs.Accounts;
 using BAL.DTOs.Authentications;
+using BAL.DTOs.TestResults;
 using DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,12 +18,12 @@ namespace WebAPI.Controllers
         public IAccountDAO _DAO;
         private IOptions<JwtAuth> _jwtAuthOptions;
 
-        public AccountController(IAccountDAO DAO, IOptions<JwtAuth> jwtAuthOptions)
+        public AccountController(IAccountDAO dAO, IOptions<JwtAuth> jwtAuthOptions)
         {
-            _DAO = DAO;
+            _DAO = dAO;
             _jwtAuthOptions = jwtAuthOptions;
         }
-        
+
         [HttpGet]
         [PermissionAuthorize("Admin")]
         public IActionResult Get()
@@ -48,6 +49,23 @@ namespace WebAPI.Controllers
             {
                 GetAccount account = _DAO.Get(id);
                 return Ok(account);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("GetTestResult/{id}")]
+        public IActionResult GetTestResult(int id)
+        {
+            try
+            {
+                List<GetTestResult> list = _DAO.GetTestResultbyAccountId(id);
+                return Ok(list);
             }
             catch (Exception ex)
             {

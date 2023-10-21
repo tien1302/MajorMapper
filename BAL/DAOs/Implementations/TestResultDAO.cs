@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BAL.DAOs.Interfaces;
+using BAL.DTOs.Scores;
 using BAL.DTOs.TestResults;
 using DAL.Models;
 using DAL.Repositories.Implementations;
@@ -15,11 +16,13 @@ namespace BAL.DAOs.Implementations
     public class TestResultDAO : ITestResultDAO
     {
         private TestResultRepository _testResultRepository;
+        private ScoreRepository _scoreRepository;
         private IMapper _mapper;
 
-        public TestResultDAO(ITestResultRepository testResultRepository, IMapper mapper)
+        public TestResultDAO(ITestResultRepository testResultRepository, IScoreRepository scoreRepository, IMapper mapper)
         {
             _testResultRepository = (TestResultRepository)testResultRepository;
+            _scoreRepository = (ScoreRepository)scoreRepository;
             _mapper = mapper;
         }
 
@@ -63,7 +66,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetTestResult> listTestResult = _mapper.Map<List<GetTestResult>>(_testResultRepository.Get().ToList());
+                List<GetTestResult> listTestResult = _mapper.Map<List<GetTestResult>>(_testResultRepository.Get(includeProperties: "Scores,Test").ToList());
                 TestResult testResult = _testResultRepository.GetByID(key);
 
                 if (testResult == null)

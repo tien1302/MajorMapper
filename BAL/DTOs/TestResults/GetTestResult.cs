@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BAL.DTOs.Scores;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,6 +14,10 @@ namespace BAL.DTOs.TestResults
         public int Id { get; set; }
 
         public int TestId { get; set; }
+
+        public int UserId { get; set; }
+
+        public List<GetScore> getScores { get; set; }
 
         public DateTime CreateDateTime { get; set; }
     }
