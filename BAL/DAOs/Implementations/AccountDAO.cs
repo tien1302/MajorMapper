@@ -2,9 +2,11 @@
 using BAL.DAOs.Interfaces;
 using BAL.DTOs.Accounts;
 using BAL.DTOs.Authentications;
+using BAL.DTOs.TestResults;
 using DAL.Models;
 using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -18,14 +20,17 @@ namespace BAL.DAOs.Implementations
 {
     public class AccountDAO : IAccountDAO
     {
+        MajorMapperContext _dbContext = new MajorMapperContext();
         private AccountRepository _Repo;
         private RoleRepository _roleRepo;
+        private TestResultRepository _testResultRepo;
         private IMapper _mapper;
 
-        public AccountDAO(IAccountRepository repo, IRoleRepository roleRepo, IMapper mapper)
+        public AccountDAO(IAccountRepository repo, IRoleRepository roleRepo, ITestResultRepository testResultRepo, IMapper mapper)
         {
             _Repo = (AccountRepository)repo;
             _roleRepo = (RoleRepository)roleRepo;
+            _testResultRepo = (TestResultRepository)testResultRepo;
             _mapper = mapper;
         }
 
@@ -235,6 +240,25 @@ namespace BAL.DAOs.Implementations
                 getAccount.AccessToken = accessToken;
 
                 return getAccount;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<GetTestResult> GetTestResultbyAccountId(int key)
+        {
+            try
+            {
+                List<GetTestResult> listTestResult = _mapper.Map<List<GetTestResult>>(_testResultRepo.Get(includeProperties: "Scores,Test").ToList());
+                Account account = _Repo.GetByID(key);
+                if (account == null)
+                {
+                    throw new Exception("Id does not exist in the system.");
+                }
+                List<GetTestResult> result = listTestResult.Where(t => t.UserId == key).ToList();
+                return (result);
             }
             catch (Exception ex)
             {
