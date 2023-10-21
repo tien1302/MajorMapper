@@ -17,5 +17,6 @@ namespace BAL.DAOs.Interfaces
         public void Update(int key, UpdateAccount update);
         public void Delete(int key);
         public GetAccount Login(AuthenticationAccount authenAccount, JwtAuth jwtAuth);
+        public GetAccount LoginGoogle(AuthenticationAccountGoogle authenAccount, JwtAuth jwtAuth);
     }
 }

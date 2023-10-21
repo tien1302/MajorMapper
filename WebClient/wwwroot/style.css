@@ -1368,7 +1368,7 @@ ul.tab-custon-design, ul.tab-review-design {
 }
 .chat-discussion .chat-message .message {
     text-align: left;
-    margin-left: 55px;
+    /*margin-left: 55px;*/
 }
 .chat-discussion .message {
     background-color: #f7f8fa;

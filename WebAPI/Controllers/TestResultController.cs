@@ -22,10 +22,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetTestResult> list = _testResultDAO.GetAll();
-                return Ok(new
-                {
-                    Data = list
-                });
+                return Ok(list);
             }
             catch (Exception ex)
             {
@@ -42,10 +39,7 @@ namespace WebAPI.Controllers
             try
             {
                 GetTestResult testResult = _testResultDAO.Get(id);
-                return Ok(new
-                {
-                    Data = testResult
-                });
+                return Ok(testResult);
             }
             catch (Exception ex)
             {

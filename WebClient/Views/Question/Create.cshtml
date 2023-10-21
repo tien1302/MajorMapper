@@ -1,0 +1,64 @@
+﻿@model BAL.DTOs.Questions.CreateQuestion
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<!-- Single pro tab review Start-->
+<div class="single-pro-review-area mt-t-30 mg-b-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="product-payment-inner-st">
+                    <h1>Tạo câu hỏi</h1>
+                    <div id="myTabContent" class="tab-content custom-product-edit">
+                        <div class="product-tab-list tab-pane fade active in" id="reviews">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="review-content-section">
+                                        <form asp-action="Create" id="add-department" class="add-department">
+                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                            <div class="form-group">
+                                                <label asp-for="Type" class="control-label">Loại câu hỏi</label>
+                                                <input asp-for="Type" class="form-control" />
+                                                <span asp-validation-for="Type" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="AssetsName" class="control-label">Tên Asset</label>
+                                                <input asp-for="AssetsName" class="form-control" />
+                                                <span asp-validation-for="AssetsName" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="Description" class="control-label">Mô tả</label>
+                                                <textarea asp-for="Description" class="form-control"></textarea>
+                                                <span asp-validation-for="Description" class="text-danger"></span>
+                                            </div>
+                                           @*  <div class="form-group">
+                                                <div class="tinymce-single">
+                                                    <label asp-for="Description" class="control-label">Mô tả</label>
+                                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                                    <input id="summernote1" asp-for="Description" class="form-control" />
+                                                </div>
+                                            </div> *@
+                                            <div class="form-group">
+                                                <button type="submit" value="Create" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
+                                                <a asp-action="Index">Quay lại</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

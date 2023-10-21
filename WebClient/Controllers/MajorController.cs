@@ -30,20 +30,6 @@ namespace WebClient.Controllers
             List<GetMajor> list = JsonSerializer.Deserialize<List<GetMajor>>(strData, options);
             return View(list);
         }
-
-        public async Task<IActionResult> Details(int id)
-        {
-            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
-            var strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            GetMajor major = JsonSerializer.Deserialize<GetMajor>(strData, options);
-            return View(major);
-        }
-
         public async Task<ActionResult> Create()
         {
             return View();

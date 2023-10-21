@@ -1,84 +1,157 @@
-﻿@model BAL.DTOs.Accounts.GetAccount
+﻿@using DAL.Models;
+@model BAL.DTOs.Accounts.GetAccount
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h2>Details</h2>
 
-<div>
-    <h4>GetAccount</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Gender)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Gender)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DoB)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DoB)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.RoleName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.RoleName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Phone)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Phone)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CreatedDateTime)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CreatedDateTime)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+<!-- Single pro tab review Start-->
+<div class="single-pro-review-area mt-t-30 mg-b-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                <div class="profile-info-inner">
+                    <div class="profile-img">
+                        <img src="img/profile/1.jpg" alt="" />
+                    </div>
+                    <div class="profile-details-hr">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="address-hr">
+                                    <p><b>Họ và tên</b><br /> @Html.DisplayFor(model => model.Name)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr">
+                                    <p><b>Ngày sinh</b><br /> @Html.DisplayFor(model => model.DoB)</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                    <p><b>Giới tính</b><br /> @Html.DisplayFor(model => model.Gender)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr">
+                                    <p><b>Email</b><br /> @Html.DisplayFor(model => model.Email)</p>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-6">
+                                <div class="address-hr tb-sm-res-d-n dps-tb-ntn">
+                                    <p><b>Số điện thoại</b><br /> @Html.DisplayFor(model => model.Phone)</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="address-hr">
+                                    <p><b>Địa chỉ</b><br /> @Html.DisplayFor(model => model.Address)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <div class="product-payment-inner-st res-mg-t-30 analysis-progrebar-ctn">
+                    <div id="myTabContent" class="tab-content custom-product-edit st-prf-pro">
+                        @if (Model.RoleName == "User")
+                        {
+                            <div class="product-tab-list tab-pane fade active in" id="description">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="review-content-section">
+                                            <div class="row mg-b-15">
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <div class="skill-title">
+                                                                <h2>Skill Set</h2>
+                                                                <hr />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress-skill">
+                                                        <h2>Java</h2>
+                                                        <div class="progress progress-mini">
+                                                            <div style="width: 90%;" class="progress-bar progress-yellow"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress-skill">
+                                                        <h2>Php</h2>
+                                                        <div class="progress progress-mini">
+                                                            <div style="width: 80%;" class="progress-bar progress-green"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress-skill">
+                                                        <h2>Apps</h2>
+                                                        <div class="progress progress-mini">
+                                                            <div style="width: 70%;" class="progress-bar progress-blue"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="progress-skill">
+                                                        <h2>C#</h2>
+                                                        <div class="progress progress-mini">
+                                                            <div style="width: 60%;" class="progress-bar progress-red"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="address-hr biography">
+                                                        <p>
+                                                            <b>Full Name</b><br /> de justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt.Cras
+                                                            dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequa
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                        @if (Model.RoleName == "Consultant")
+                        {
+                            <div class="product-tab-list tab-pane fade active in" id="reviews">
+                                <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                        <div class="review-content-section">
+                                            <div class="chat-discussion" style="height: auto">
+                                                @foreach (Feedback feedback in ViewBag.Feedbacks)
+                                                {
+                                                    <div class="chat-message">
+                                                        <div class="message">
+                                                            <a class="message-author" href="#"> Michael Smith </a>
+                                                            <span class="message-date"> @Html.DisplayFor(modelItem => feedback.CreateDateTime) </span>
+                                                            <span class="message-content">
+                                                                @Html.DisplayFor(modelItem => feedback.Comment)
+                                                            </span>
+                                                            <div class="m-t-md mg-t-10">
+                                                                <div class="review-item-rating">
+                                                                    @for (int i = 0; i < feedback.Star; i++)
+                                                                    {
+                                                                        <i class="educate-icon educate-star"></i>
+                                                                    }
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

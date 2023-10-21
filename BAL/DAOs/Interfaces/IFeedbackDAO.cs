@@ -1,4 +1,5 @@
 ﻿using BAL.DTOs.Feedbacks;
+using DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace BAL.DAOs.Interfaces
         public void Create(CreateFeedback create);
         public void Update(int key, UpdateFeedback update);
         public void Delete(int key);
+        public List<Feedback> GetFeedbackAccount(int key);
     }
 }

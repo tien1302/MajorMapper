@@ -4,6 +4,7 @@ using BAL.DTOs.Feedbacks;
 using DAL.Models;
 using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,18 @@ namespace BAL.DAOs.Implementations
 {
     public class FeedbackDAO : IFeedbackDAO
     {
+        MajorMapperContext _dbContext = new MajorMapperContext();
         private FeedbackRepository _feedbackRepository;
         private BookingRepository _bookingRepository;
+        private AccountRepository _accountRepository;
         private IMapper _mapper;
 
-        public FeedbackDAO(IFeedbackRepository feedbackRepository, IBookingRepository bookingRepository, IMapper mapper)
+
+        public FeedbackDAO(IFeedbackRepository feedbackRepository, IBookingRepository bookingRepository, IAccountRepository accountRepository, IMapper mapper)
         {
             _feedbackRepository = (FeedbackRepository)feedbackRepository;
             _bookingRepository = (BookingRepository)bookingRepository;
+            _accountRepository = (AccountRepository)accountRepository;
             _mapper = mapper;
         }
 
@@ -92,6 +97,30 @@ namespace BAL.DAOs.Implementations
             }
         }
 
+        public List<Feedback> GetFeedbackAccount(int key)
+        {
+
+            try
+            {
+                List<Feedback> listFeedback = _feedbackRepository.Get().ToList();
+                Account account = _accountRepository.GetByID(key);
+                if (account == null)
+                {
+                    throw new Exception("Id does not exist in the system.");
+                }
+                List<Feedback> result =   (from f in listFeedback
+                                          join b in _dbContext.Bookings on f.BookingId equals b.Id
+                                          join s in _dbContext.Slots on b.SlotId equals s.Id
+                                          join a in _dbContext.Accounts on s.ConsultantId equals a.Id
+                                          where a.Id == key
+                                          select f).ToList();
+                return (result);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public List<GetFeedback> GetAll()
         {
             try

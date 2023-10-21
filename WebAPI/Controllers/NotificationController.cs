@@ -22,10 +22,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetNotification> notifications = this._DAO.GetAll();
-                return Ok(new
-                {
-                    Data = notifications
-                });
+                return Ok(notifications);
             }
             catch (Exception ex)
             {
@@ -42,10 +39,7 @@ namespace WebAPI.Controllers
             try
             {
                 GetNotification notification = _DAO.Get(id);
-                return Ok(new
-                {
-                    Data = notification
-                });
+                return Ok(notification);
             }
             catch (Exception ex)
             {

@@ -24,10 +24,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetPersonalityType> listPersonalityType = _personalityTypeDAO.GetAll();
-                return Ok(new
-                {
-                    Data = listPersonalityType
-                });
+                return Ok(listPersonalityType);
             }
             catch (Exception ex)
             {
@@ -44,10 +41,7 @@ namespace WebAPI.Controllers
             try
             {
                 GetPersonalityType personalityType = _personalityTypeDAO.Get(id);
-                return Ok(new
-                {
-                    Data = personalityType
-                });
+                return Ok(personalityType);
             }
             catch (Exception ex)
             {

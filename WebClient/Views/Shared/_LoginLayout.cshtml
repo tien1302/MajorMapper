@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebClient</title>
+
+    <!-- favicon
+      ============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.ico" asp-append-version="true">
+    <!-- Google Fonts
+        ============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" asp-append-version="true">
+    <!-- Bootstrap CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" asp-append-version="true">
+    <!-- owl.carousel CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/owl.carousel.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/owl.theme.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/owl.transitions.css" asp-append-version="true">
+    <!-- animate CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/animate.css" asp-append-version="true">
+    <!-- normalize CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/normalize.css" asp-append-version="true">
+    <!-- main CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/main.css" asp-append-version="true">
+    <!-- morrisjs CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/morrisjs/morris.css" asp-append-version="true">
+    <!-- mCustomScrollbar CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/scrollbar/jquery.mCustomScrollbar.min.css" asp-append-version="true">
+    <!-- metisMenu CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/metisMenu/metisMenu.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/metisMenu/metisMenu-vertical.css" asp-append-version="true">
+    <!-- calendar CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/calendar/fullcalendar.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/calendar/fullcalendar.print.min.css" asp-append-version="true">
+    <!-- forms CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/form/all-type-forms.css" asp-append-version="true">
+    <!-- style CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/style.css" asp-append-version="true">
+    <!-- responsive CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/responsive.css" asp-append-version="true">
+    <!-- modernizr JS
+        ============================================ -->
+    <script src="~/js/vendor/modernizr-2.8.3.min.js" asp-append-version="true"></script>
+   
+
+</head>
+<body>
+        <!-- Main -->
+        <main role="main">
+            @RenderBody()
+        </main>
+
+
+    <!-- jquery
+        ============================================ -->
+    <script src="~/js/vendor/jquery-1.12.4.min.js" asp-append-version="true"></script>
+    <!-- bootstrap JS
+        ============================================ -->
+    <script src="~/js/bootstrap.min.js" asp-append-version="true"></script>
+    <!-- wow JS
+        ============================================ -->
+    <script src="~/js/wow.min.js" asp-append-version="true"></script>
+    <!-- price-slider JS
+        ============================================ -->
+    <script src="~/js/jquery-price-slider.js" asp-append-version="true"></script>
+    <!-- meanmenu JS
+        ============================================ -->
+    <script src="~/js/jquery.meanmenu.js" asp-append-version="true"></script>
+    <!-- owl.carousel JS
+        ============================================ -->
+    <script src="~/js/owl.carousel.min.js" asp-append-version="true"></script>
+    <!-- sticky JS
+        ============================================ -->
+    <script src="~/js/jquery.sticky.js" asp-append-version="true"></script>
+    <!-- scrollUp JS
+        ============================================ -->
+    <script src="~/js/jquery.scrollUp.min.js" asp-append-version="true"></script>
+    <!-- mCustomScrollbar JS
+        ============================================ -->
+    <script src="~/js/scrollbar/jquery.mCustomScrollbar.concat.min.js" asp-append-version="true"></script>
+    <script src="~/js/scrollbar/mCustomScrollbar-active.js" asp-append-version="true"></script>
+    <!-- metisMenu JS
+        ============================================ -->
+    <script src="~/js/metisMenu/metisMenu.min.js" asp-append-version="true"></script>
+    <script src="~/js/metisMenu/metisMenu-active.js" asp-append-version="true"></script>
+    <!-- tab JS
+        ============================================ -->
+    <script src="~/js/tab.js" asp-append-version="true"></script>
+    <!-- plugins JS
+        ============================================ -->
+    <script src="~/js/plugins.js" asp-append-version="true"></script>
+    <!-- main JS
+        ============================================ -->
+    <script src="~/js/main.js" asp-append-version="true"></script>
+    <!-- icheck JS
+        ============================================ -->
+    <script src="~/js/icheck/icheck.min.js" asp-append-version="true"></script>
+    <script src="~/js/icheck/icheck-active.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

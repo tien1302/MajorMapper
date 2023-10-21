@@ -22,10 +22,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetPayment> listPayment = _paymentDAO.GetAll();
-                return Ok(new
-                {
-                    Data = listPayment
-                });
+                return Ok(listPayment);
             }
             catch (Exception ex)
             {
@@ -42,10 +39,7 @@ namespace WebAPI.Controllers
             try
             {
                 GetPayment payment = _paymentDAO.Get(id);
-                return Ok(new
-                {
-                    Data = payment
-                });
+                return Ok(payment);
             }
             catch (Exception ex)
             {

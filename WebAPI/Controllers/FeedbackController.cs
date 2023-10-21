@@ -1,5 +1,6 @@
 ﻿using BAL.DAOs.Interfaces;
 using BAL.DTOs.Feedbacks;
+using DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,10 +23,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetFeedback> list = _feedbackDAO.GetAll();
-                return Ok(new
-                {
-                    Data = list
-                });
+                return Ok(list);
             }
             catch (Exception ex)
             {
@@ -41,11 +39,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetFeedback feedback = _feedbackDAO.Get(id);
-                return Ok(new
-                {
-                    Data = feedback
-                });
+                List<Feedback> feedback = _feedbackDAO.GetFeedbackAccount(id);
+                return Ok(feedback);
             }
             catch (Exception ex)
             {

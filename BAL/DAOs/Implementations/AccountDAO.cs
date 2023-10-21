@@ -168,7 +168,44 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+        public GetAccount LoginGoogle(AuthenticationAccountGoogle authenAccount, JwtAuth jwtAuth)
+        {
+            try
+            {
+                Account existedAccount = this._Repo.Get(x => x.Email == authenAccount.Email ).SingleOrDefault();
+                if (existedAccount == null)
+                {
+                    throw new Exception("Email khong ton tai.");
+                }
+                GetAccount getAccount = this._mapper.Map<GetAccount>(existedAccount);
+                //GenerateToken
+                switch (existedAccount.Role)
+                {
+                    case 1:
+                        {
+                            getAccount.RoleName = "Admin";
+                            break;
+                        }
+                    case 2:
+                        {
+                            getAccount.RoleName = "Consultant";
+                            break;
+                        }
+                    case 3:
+                        {
+                            getAccount.RoleName = "User";
+                            break;
+                        }
+                }
 
+
+                return GenerateToken(getAccount, jwtAuth);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         private GetAccount GenerateToken(GetAccount getAccount, JwtAuth jwtAuth)
         {
             try

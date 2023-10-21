@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         }
         
         [HttpGet]
-        //[PermissionAuthorize("Admin")]
+        [PermissionAuthorize("Admin")]
         public IActionResult Get()
         {
             try
@@ -118,6 +118,26 @@ namespace WebAPI.Controllers
                     return BadRequest(ModelState);
                 }
                 GetAccount getAccount = this._DAO.Login(authenAccount, this._jwtAuthOptions.Value);
+                return Ok(getAccount);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
+        [HttpPost("LoginGoogle")]
+        public IActionResult Google([FromBody] AuthenticationAccountGoogle authenAccount)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                GetAccount getAccount = this._DAO.LoginGoogle(authenAccount, this._jwtAuthOptions.Value);
                 return Ok(getAccount);
             }
             catch (Exception ex)

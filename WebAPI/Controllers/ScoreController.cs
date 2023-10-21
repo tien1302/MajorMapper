@@ -22,10 +22,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetScore> list = _scoreDAO.GetAll();
-                return Ok(new
-                {
-                    Data = list
-                });
+                return Ok(list);
             }
             catch (Exception ex)
             {
@@ -42,10 +39,7 @@ namespace WebAPI.Controllers
             try
             {
                 GetScore score = _scoreDAO.Get(id);
-                return Ok(new
-                {
-                    Data = score
-                });
+                return Ok(score);
             }
             catch (Exception ex)
             {

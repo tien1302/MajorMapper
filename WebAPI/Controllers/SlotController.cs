@@ -22,10 +22,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetSlot> listSlot = _slotDAO.GetAll();
-                return Ok(new
-                {
-                    Data = listSlot
-                });
+                return Ok(listSlot);
             }
             catch (Exception ex)
             {
@@ -42,10 +39,7 @@ namespace WebAPI.Controllers
             try
             {
                 GetSlot slot = _slotDAO.Get(id);
-                return Ok(new
-                {
-                    Data = slot
-                });
+                return Ok(slot);
             }
             catch (Exception ex)
             {

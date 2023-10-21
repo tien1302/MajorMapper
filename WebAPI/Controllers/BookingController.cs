@@ -23,10 +23,7 @@ namespace WebAPI.Controllers
             try
             {
                 List<GetBooking> bookings = this._DAO.GetAll();
-                return Ok(new
-                {
-                    Data = bookings
-                });
+                return Ok(bookings);
             }
             catch (Exception ex)
             {
@@ -43,10 +40,7 @@ namespace WebAPI.Controllers
             try
             {
                 GetBooking booking = _DAO.Get(id);
-                return Ok(new
-                {
-                    Data = booking
-                });
+                return Ok(booking);
             }
             catch (Exception ex)
             {

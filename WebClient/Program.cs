@@ -4,6 +4,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -31,6 +35,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(

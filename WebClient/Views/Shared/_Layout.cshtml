@@ -5,13 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - WebClient</title>
 
-    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" asp-append-version="true">
-    <link href="https://cdn.datatables.net/rowreorder/1.4.1/css/rowReorder.dataTables.min.css" rel="stylesheet" asp-append-version="true">
-    <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css" rel="stylesheet" asp-append-version="true">
-    <link href="https://cdn.jsdelivr.net/npm/datatables.net-bs4@1.10.19/js/dataTables.bootstrap4.min.js" rel="stylesheet" asp-append-version="true">
-    <script defer src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js" asp-append-version="true"></script>
-    <script defer src="https://code.jquery.com/jquery-3.7.0.jss" asp-append-version="true"></script>
-    <script defer src="~/js/order-column.js" asp-append-version="true"></script>
     <!-- favicon
       ============================================ -->
     <link rel="shortcut icon" type="image/x-icon" href="~/img/favicon.ico" asp-append-version="true">
@@ -80,6 +73,9 @@
     <!-- responsive CSS
         ============================================ -->
     <link rel="stylesheet" href="~/css/responsive.css" asp-append-version="true">
+    <!-- summernote CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/summernote/summernote.css" asp-append-version="true">
     <!-- modernizr JS
         ============================================ -->
     <script src="~/js/vendor/modernizr-2.8.3.min.js" asp-append-version="true"></script>
@@ -102,6 +98,9 @@
                         </li>
                         <li>
                             <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
+                        </li>
+                        <li>
+                            <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
                         </li>
                     </ul>
                 </nav>
@@ -235,7 +234,7 @@
                                                             <a href="#"><span class="edu-icon edu-settings author-log-ic"></span>Settings</a>
                                                         </li>
                                                         <li>
-                                                            <a href="#"><span class="edu-icon edu-locked author-log-ic"></span>Log Out</a>
+                                                            <a asp-action="Logout" asp-controller="Home"><span class="edu-icon edu-locked author-log-ic"></span>Đăng xuất</a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -268,7 +267,7 @@
             <!-- Mobile Menu end -->
         </div>
         <!-- Main -->
-        <main role="main">
+        <main role="main" style="margin-top:20px;">
             @RenderBody()
         </main>
 
@@ -356,6 +355,10 @@
     <script src="~/js/form-validation/jquery.form.min.js"asp-append-version="true"></script>
     <script src="~/js/form-validation/jquery.validate.min.js"asp-append-version="true"></script>
     <script src="~/js/form-validation/form-active.js" asp-append-version="true"></script>
+    <!-- summernote JS
+        ============================================ -->
+    <script src="~/js/summernote/summernote.min.js" asp-append-version="true"></script>
+    <script src="~/js/summernote/summernote-active.js" asp-append-version="true"></script>
     <!-- tab JS
         ============================================ -->
     <script src="~/js/tab.js" asp-append-version="true"></script>

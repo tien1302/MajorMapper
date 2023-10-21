@@ -1,12 +1,9 @@
 ﻿using BAL.DTOs.Accounts;
 using DAL.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using Microsoft.AspNetCore.Authentication.Google;
 
 namespace WebClient.Controllers
 {
@@ -14,15 +11,24 @@ namespace WebClient.Controllers
     {
         private readonly HttpClient client;
         private string baseApiUrl = "";
+        private string testApiUrl = "";
+        private string previewApiUrl = "";
+        private string feedbackApiUrl = "";
         public AccountController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
             baseApiUrl = "http://localhost:1189/api/Account";
+            feedbackApiUrl = "http://localhost:1189/api/Feedback";
+            baseApiUrl = "http://localhost:1189/api/Account";
         }
         public async Task<IActionResult> Index()
         {
+            //Token
+            var accessToken = HttpContext.Session.GetString("JWToken");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            //Account
             HttpResponseMessage response = await client.GetAsync(baseApiUrl);
             string strData = await response.Content.ReadAsStringAsync();
 
@@ -36,14 +42,29 @@ namespace WebClient.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
+            //Token
+            var accessToken = HttpContext.Session.GetString("JWToken");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            //Account
+            HttpResponseMessage response = await client.GetAsync(baseApiUrl);
             var strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            GetAccount account = JsonSerializer.Deserialize<GetAccount>(strData,options);
+            List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
+            GetAccount account = list.Where(p => p.Id == id).First();
+            //Feedback
+            HttpResponseMessage feedbackResponse = await client.GetAsync($"{feedbackApiUrl}/{id}");
+            var feedbackData = await feedbackResponse.Content.ReadAsStringAsync();
+
+            var optionF = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            List<Feedback> listFeedback = JsonSerializer.Deserialize<List<Feedback>>(feedbackData, optionF);
+            ViewBag.Feedbacks = listFeedback;
             return View(account);
         }
 
@@ -124,22 +145,5 @@ namespace WebClient.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Route("google-login")]
-        public IActionResult GoogleLogin()
-        {
-            var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
-
-            return Challenge(properties, GoogleDefaults.AuthenticationScheme);
-        }
-
-        [Route("google-response")]
-        public async Task<IActionResult> GoogleResponse()
-        {
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            var claims = result.Principal.Identities.FirstOrDefault()
-                .Claims.Where(claim => claim.Type == "name")
-                .Select(claim => claim.Value);
-            return View("Home/Index", claims);
-        }
     }
 }
