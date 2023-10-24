@@ -10,8 +10,8 @@ namespace BAL.DTOs.Slots
     {
         public int ConsultantId { get; set; }
 
-        public DateTime StartDateTime { get; set; }
+        public DateTime Date {  get; set; } 
 
-        public DateTime EndDateTime { get; set; }
+        public DateTime StartDateTime { get; set; }
     }
 }

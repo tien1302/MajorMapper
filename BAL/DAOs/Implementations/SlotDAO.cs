@@ -6,9 +6,11 @@ using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BAL.DAOs.Implementations
 {
@@ -27,11 +29,14 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
+
                 Slot slot = new Slot()
                 {
                     ConsultantId = createSlot.ConsultantId,
-                    StartDateTime = createSlot.StartDateTime,
-                    EndDateTime = createSlot.EndDateTime,
+                    StartDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day,  createSlot.StartDateTime.Hour, createSlot.StartDateTime.Minute, createSlot.StartDateTime.Second),
+                    EndDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day, createSlot.StartDateTime.AddHours(1).Hour, createSlot.StartDateTime.Minute, createSlot.StartDateTime.Second),
+                    CreateDateTime = DateTime.Now,
+                    Status = "Not Booked",
                 };
                 _slotRepository.Insert(slot);
                 _slotRepository.Commit();
