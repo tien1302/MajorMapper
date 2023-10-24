@@ -87,8 +87,7 @@ namespace BAL.DAOs.Implementations
                     throw new Exception("Id does not exist in the system.");
                 }
 
-                GetScore result = listScore.FirstOrDefault(p => p.TestResultId == score.TestResultId 
-                                                    && p.PersonalityTypeId == score.PersonalityTypeId);
+                GetScore result = listScore.FirstOrDefault(p => p.TestResultId == score.TestResultId && p.PersonalityTypeId == score.PersonalityTypeId);
                 return _mapper.Map<GetScore>(result);
             }
             catch (Exception ex)

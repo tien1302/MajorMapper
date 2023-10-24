@@ -1,4 +1,5 @@
 ﻿using BAL.DTOs.Accounts;
+using BAL.DTOs.TestResults;
 using DAL.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace WebClient.Controllers
             client.DefaultRequestHeaders.Accept.Add(contentType);
             baseApiUrl = "http://localhost:1189/api/Account";
             feedbackApiUrl = "http://localhost:1189/api/Feedback";
-            baseApiUrl = "http://localhost:1189/api/Account";
+
         }
         public async Task<IActionResult> Index()
         {
@@ -65,6 +66,16 @@ namespace WebClient.Controllers
             };
             List<Feedback> listFeedback = JsonSerializer.Deserialize<List<Feedback>>(feedbackData, optionF);
             ViewBag.Feedbacks = listFeedback;
+            //TestResult
+            HttpResponseMessage testResultResponse = await client.GetAsync($"{baseApiUrl}/GetTestResult/{id}");
+            var testResultData = await testResultResponse.Content.ReadAsStringAsync();
+
+            var optionT = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            List<GetTestResult> listTestResult = JsonSerializer.Deserialize<List<GetTestResult>>(testResultData, optionT);
+            ViewBag.TestResults = listTestResult;
             return View(account);
         }
 

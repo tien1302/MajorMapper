@@ -230,7 +230,7 @@ namespace BAL.DAOs.Implementations
                 var tokenDescription = new SecurityTokenDescriptor
                 {
                     Subject = claims,
-                    Expires = DateTime.UtcNow.AddHours(1),
+                    Expires = DateTime.UtcNow.AddHours(4),
                     SigningCredentials = credentials,
                 };
 

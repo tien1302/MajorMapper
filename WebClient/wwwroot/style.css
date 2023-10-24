@@ -3848,16 +3848,22 @@ div#sparklinehome canvas {
 	color:#444;
 }
 .progress-green {
-    background-color: #006DF0;
+    background-color: #65b12d;
 }
 .progress-yellow {
-    background-color: #933EC5;
+    background-color: #f9c433;
 }
 .progress-blue {
-    background-color: #65b12d;
+    background-color: #006DF0;
 }
 .progress-red {
     background-color: #D80027;
+}
+.progress-orange {
+    background-color: #e86d24;
+}
+.progress-purple {
+    background-color: #7240be;
 }
 .blog-sig-details-dt.courses-info span {
     margin: 10px 50px 0;

@@ -104,6 +104,7 @@ namespace WebClient.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
+            HttpContext.SignOutAsync();
             return Redirect("~/Home/Index");
         }
 
