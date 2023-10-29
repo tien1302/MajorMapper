@@ -10,7 +10,7 @@ namespace BAL.DAOs.Interfaces
     public interface ISlotDAO
     {
         public List<GetSlot> GetAll();
-        public GetSlot Get(int key);
+        public List<GetSlot> Get(int key);
         public void Create(CreateSlot createSlot);
         public void Update(int key, UpdateSlot updateSlot);
         public void Delete(int key);

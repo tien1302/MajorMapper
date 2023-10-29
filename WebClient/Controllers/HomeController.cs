@@ -10,6 +10,7 @@ using System.Text.Json;
 using WebClient.Models;
 using DAL.Models;
 using BAL.DTOs.Authentications;
+using Microsoft.AspNetCore.Http;
 
 namespace WebClient.Controllers
 {
@@ -43,6 +44,7 @@ namespace WebClient.Controllers
             AccessTokenResponse tokenResponse = JsonSerializer.Deserialize<AccessTokenResponse>(token);
             string accessToken = tokenResponse.accessToken;
             HttpContext.Session.SetString("JWToken", accessToken);
+            HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
             string role = tokenResponse.roleName;
             if(role == "Admin")
             {
@@ -56,6 +58,7 @@ namespace WebClient.Controllers
         }
         public class AccessTokenResponse
         {
+            public int id {  get; set; }
             public string accessToken { get; set; }
             public string roleName { get; set; }
         }
@@ -89,6 +92,7 @@ namespace WebClient.Controllers
             AccessTokenResponse tokenResponse = JsonSerializer.Deserialize<AccessTokenResponse>(token);
             string accessToken = tokenResponse.accessToken;
             HttpContext.Session.SetString("JWToken", accessToken);
+            HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
             string role = tokenResponse.roleName;
             if (role == "Admin")
             {

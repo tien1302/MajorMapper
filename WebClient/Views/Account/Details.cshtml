@@ -84,6 +84,7 @@
                                                                 int value1 = @item.getScores.Where(q => q.PersonalityTypeId == 1).Select(s => s.Result).FirstOrDefault()*10;
                                                             }
                                                             <h2>Kỹ thuật</h2>
+                                                            <h2><span>@value1</span>%</h2>
                                                             <div class="progress progress-mini">
                                                                 <div style="width: @value1%;" class="progress-bar progress-red"></div>
                                                             </div>
@@ -92,7 +93,8 @@
                                                             @{
                                                                 int value2 = @item.getScores.Where(q => q.PersonalityTypeId == 2).Select(s => s.Result).FirstOrDefault() * 10;
                                                             }
-                                                            <h2>Nghiên cứu</h2>
+                                                            <h2>Nghiên cứu </h2>
+                                                            <h2><span>@value2</span>%</h2>
                                                             <div class="progress progress-mini">
                                                                 <div style="width: @value2%;" class="progress-bar progress-orange"></div>
                                                             </div>
@@ -102,6 +104,7 @@
                                                                 int value3 = @item.getScores.Where(q => q.PersonalityTypeId == 3).Select(s => s.Result).FirstOrDefault() * 10;
                                                             }
                                                             <h2>Nghệ thuật</h2>
+                                                            <h2><span>@value3</span>%</h2>
                                                             <div class="progress progress-mini">
                                                                 <div style="width: @value3%;" class="progress-bar progress-yellow"></div>
                                                             </div>
@@ -111,6 +114,7 @@
                                                                 int value4 = @item.getScores.Where(q => q.PersonalityTypeId == 5).Select(s => s.Result).FirstOrDefault() * 10;
                                                             }
                                                             <h2>Xã hội</h2>
+                                                            <h2><span>@value4</span>%</h2>
                                                             <div class="progress progress-mini">
                                                                 <div style="width: @value4%;" class="progress-bar progress-green"></div>
                                                             </div>
@@ -120,6 +124,7 @@
                                                                 int value5 = @item.getScores.Where(q => q.PersonalityTypeId == 6).Select(s => s.Result).FirstOrDefault() * 10;
                                                             }
                                                             <h2>Quản lý</h2>
+                                                            <h2><span>@value5</span>%</h2>
                                                             <div class="progress progress-mini">
                                                                 <div style="width: @value5%;" class="progress-bar progress-blue"></div>
                                                             </div>
@@ -129,6 +134,7 @@
                                                                 int value6 = @item.getScores.Where(q => q.PersonalityTypeId == 7).Select(s => s.Result).FirstOrDefault() * 10;
                                                             }
                                                             <h2>Nghiệp vụ</h2>
+                                                            <h2><span>@value6</span>%</h2>
                                                             <div class="progress progress-mini">
                                                                 <div style="width: @value6%;" class="progress-bar progress-purple"></div>
                                                             </div>

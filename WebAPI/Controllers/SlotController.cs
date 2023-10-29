@@ -38,7 +38,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetSlot slot = _slotDAO.Get(id);
+                List<GetSlot> slot = _slotDAO.Get(id);
                 return Ok(slot);
             }
             catch (Exception ex)

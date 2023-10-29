@@ -1,0 +1,51 @@
+﻿@using BAL.DTOs.Slots;
+@using DAL.Models;
+@model IEnumerable<BAL.DTOs.Slots.GetSlot>
+<script src="~/dist/vi.global.js"></script>
+<script src="~/dist/vi.global.min.js"></script>
+@{
+    ViewData["Title"] = "Index";
+    var slots = (IEnumerable<BAL.DTOs.Slots.GetSlot>)ViewData["Slots"];
+}
+<div class="calender-area mg-b-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="calender-inner"
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+       
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+            },
+            buttonText: {
+                today: 'hôm nay',
+                month: 'tháng',
+                week: 'tuần',
+                day: 'ngày'
+            },
+            locale: 'vi',
+            navLinks: true, // can click day/week names to navigate views
+            businessHours: true, // display business hours
+            editable: true,
+            selectable: true,
+            events: '@Url.Action("FindSlot")'
+        });
+
+        calendar.render();
+    });
+
+</script>

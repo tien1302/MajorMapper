@@ -30,7 +30,27 @@ namespace WebClient.Controllers
                 PropertyNameCaseInsensitive = true
             };
             List<GetSlot> list = JsonSerializer.Deserialize <List<GetSlot>>(strData, options);
-            return View(list);
+            ViewData["Slots"] = list;
+            return View();
+        }
+        public async Task<ActionResult> FindSlot()
+        {
+            var id = HttpContext.Session.GetInt32("AccountId");
+            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
+            string strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            List<GetSlot> list = JsonSerializer.Deserialize<List<GetSlot>>(strData, options);
+            var slots = list.Select(s => new
+            {
+                id = s.Id,
+                start = s.StartDateTime,
+                end = s.EndDateTime
+            }).ToList();
+            return new JsonResult(slots);
         }
 
         public async Task<ActionResult> Details(int id)
@@ -48,6 +68,7 @@ namespace WebClient.Controllers
 
         public ActionResult Create()
         {
+            int accountId = (int)HttpContext.Session.GetInt32("AccountId");
             return View();
         }
 
@@ -70,7 +91,7 @@ namespace WebClient.Controllers
                 }
             }
             ViewBag.Message = "Error!";
-            return View(p);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<ActionResult> Update(int id)

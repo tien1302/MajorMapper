@@ -1,4 +1,5 @@
-$(function() {
+﻿
+$(function () {
 
 	var todayDate = moment().startOf('day');
 	var YM = todayDate.format('YYYY-MM');
@@ -10,11 +11,16 @@ $(function() {
 		header: {
 			left: 'prev,next today',
 			center: 'title',
-			right: 'month,agendaWeek,agendaDay,listWeek'
+			right: 'month,agendaWeek,agendaDay'
 		},
+		monthNames: ['Tháng Một', 'Tháng Hai', 'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu', 'Tháng Bảy', 'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai'],
+		monthNamesShort: ['Tháng Một', 'Tháng Hai', 'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu', 'Tháng Bảy', 'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai'],
+		dayNames: ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thư Năm', 'Thứ Sáu', 'Thứ Bảy'],
+		dayNamesShort: ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thư Năm', 'Thứ Sáu', 'Thứ Bảy'],
 		editable: true,
 		eventLimit: true, // allow "more" link when too many events
 		navLinks: true,
+		
 		backgroundColor: '#1f2e86',   
 		eventTextColor: '#1f2e86',
 		textColor: '#378006',
@@ -31,72 +37,6 @@ $(function() {
 
     },
 		events: [
-			{
-				title: 'All Day Event',
-				start: YM + '-01',
-				color: '#006DF0'
-			},
-			{
-				title: 'Long Event',
-				start: YM + '-07',
-				end: YM + '-10',
-				color: '#933EC5'
-			},
-			{
-				id: 999,
-				title: 'Repeating Event',
-				start: YM + '-09T16:00:00',
-				color: '#65b12d'
-			},
-			{
-				id: 999,
-				title: 'Repeating Event',
-				start: YM + '-16T16:00:00',
-				color: '#D80027'
-			},
-			{
-				title: 'Conference',
-				start: YESTERDAY,
-				end: TOMORROW,
-				color: '#f3c30b'
-			},
-			{
-				title: 'Meeting',
-				start: TODAY + 'T10:30:00',
-				end: TODAY + 'T12:30:00',
-				color: '#1f2e86'
-			},
-			{
-				title: 'Lunch',
-				start: TODAY + 'T12:00:00',
-				color: '#0D4CFF'
-			},
-			{
-				title: 'Meeting',
-				start: TODAY + 'T14:30:00',
-				color: '#1f2e86'
-			},
-			{
-				title: 'Happy Hour',
-				start: TODAY + 'T17:30:00',
-				color: '#AA00FF'
-			},
-			{
-				title: 'Dinner',
-				start: TODAY + 'T20:00:00',
-				color: '#00BCD4'
-			},
-			{
-				title: 'Birthday Party',
-				start: TOMORROW + 'T07:00:00',
-				color: '#FF5722'
-			},
-			{
-				title: 'Click for Google',
-				url: 'http://google.com/',
-				start: YM + '-28',
-				color: '#323232'
-			}
 		]
 	});
 });
