@@ -115,9 +115,9 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("Major");
 
-            entity.Property(e => e.CreateDateTime).HasColumnType("date");
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(50);
-            entity.Property(e => e.UpdateDateTime).HasColumnType("date");
+            entity.Property(e => e.UpdateDateTime).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Notification>(entity =>
@@ -125,7 +125,7 @@ public partial class MajorMapperContext : DbContext
             entity.ToTable("Notification");
 
             entity.Property(e => e.Time)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("time");
             entity.Property(e => e.Title)
                 .HasMaxLength(50)
@@ -191,9 +191,8 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("Question");
 
-            entity.Property(e => e.AssetsName).HasMaxLength(1);
+            entity.Property(e => e.AssetsName).HasMaxLength(250);
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(1);
         });
 
         modelBuilder.Entity<ReviewTest>(entity =>

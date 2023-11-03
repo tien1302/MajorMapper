@@ -46,6 +46,7 @@ namespace BAL.DAOs.Implementations
                     Name = createMajor.Name,
                     Description = createMajor.Description,
                     CreateDateTime = DateTime.Now,
+                    UpdateDateTime = DateTime.Now,
                 };
                 _majorRepository.Insert(major);
                 _majorRepository.Commit();

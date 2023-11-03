@@ -31,6 +31,7 @@ namespace BAL.DAOs.Implementations
                 {
                     Name = createPersonalityType.Name,
                     CreateDateTime = DateTime.Now,
+                    UpdateDateTime = DateTime.Now,
                 };
                 _personalityTypeRepository.Insert(personalityType);
                 _personalityTypeRepository.Commit();
