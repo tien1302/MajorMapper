@@ -191,7 +191,6 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("Question");
 
-            entity.Property(e => e.AssetsName).HasMaxLength(250);
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
         });
 
