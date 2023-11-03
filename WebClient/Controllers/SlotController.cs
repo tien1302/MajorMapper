@@ -22,7 +22,8 @@ namespace WebClient.Controllers
 
         public async Task<ActionResult> Index()
         {
-            HttpResponseMessage response = await client.GetAsync(baseApiUrl);
+            var id = HttpContext.Session.GetInt32("AccountId");
+            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
             string strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
@@ -32,25 +33,6 @@ namespace WebClient.Controllers
             List<GetSlot> list = JsonSerializer.Deserialize <List<GetSlot>>(strData, options);
             ViewData["Slots"] = list;
             return View();
-        }
-        public async Task<ActionResult> FindSlot()
-        {
-            var id = HttpContext.Session.GetInt32("AccountId");
-            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
-            string strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            List<GetSlot> list = JsonSerializer.Deserialize<List<GetSlot>>(strData, options);
-            var slots = list.Select(s => new
-            {
-                id = s.Id,
-                start = s.StartDateTime,
-                end = s.EndDateTime
-            }).ToList();
-            return new JsonResult(slots);
         }
 
         public async Task<ActionResult> Details(int id)

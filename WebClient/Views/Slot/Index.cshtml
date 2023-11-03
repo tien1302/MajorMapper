@@ -5,7 +5,6 @@
 <script src="~/dist/vi.global.min.js"></script>
 @{
     ViewData["Title"] = "Index";
-    var slots = (IEnumerable<BAL.DTOs.Slots.GetSlot>)ViewData["Slots"];
 }
 <div class="calender-area mg-b-15">
     <div class="container-fluid">
@@ -22,7 +21,15 @@
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
-       
+        var Data1 = [];
+        var array = @Html.Raw(Json.Serialize(ViewData["Slots"] as List<GetSlot>));
+        for (var i = 0; i < array.length; i++) {
+            Data1.push({
+                'id': array[i].id,
+                'start': array[i].startDateTime,
+                'end': array[i].endDateTime
+            });
+        }
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -42,7 +49,7 @@
             businessHours: true, // display business hours
             editable: true,
             selectable: true,
-            events: '@Url.Action("FindSlot")'
+            events: Data1
         });
 
         calendar.render();
