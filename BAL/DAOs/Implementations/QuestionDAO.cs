@@ -29,7 +29,6 @@ namespace BAL.DAOs.Implementations
             {
                 Question question = new Question()
                 {
-                    AssetsName = create.AssetsName,
                     Type = create.Type,
                     Description = create.Description,
                     CreateDateTime = DateTime.Now,
@@ -105,7 +104,6 @@ namespace BAL.DAOs.Implementations
                     throw new Exception("Question Id does not exist in the system.");
                 }
 
-                existedQuestion.AssetsName = update.AssetsName;
                 existedQuestion.Type = update.Type;
                 existedQuestion.Description = update.Description;
                 _questionRepository.Update(existedQuestion);

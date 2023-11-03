@@ -12,8 +12,6 @@ namespace BAL.DTOs.Questions
         [Key]
         public int Id { get; set; }
 
-        public string AssetsName { get; set; }
-
         public int Type { get; set; }
 
         public DateTime CreateDateTime { get; set; }
