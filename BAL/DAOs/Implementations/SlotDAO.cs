@@ -29,7 +29,6 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-
                 Slot slot = new Slot()
                 {
                     ConsultantId = createSlot.ConsultantId,
