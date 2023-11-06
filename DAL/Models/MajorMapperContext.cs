@@ -32,8 +32,6 @@ public partial class MajorMapperContext : DbContext
 
     public virtual DbSet<Question> Questions { get; set; }
 
-    public virtual DbSet<ReviewTest> ReviewTests { get; set; }
-
     public virtual DbSet<Role> Roles { get; set; }
 
     public virtual DbSet<Score> Scores { get; set; }
@@ -192,20 +190,8 @@ public partial class MajorMapperContext : DbContext
             entity.ToTable("Question");
 
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
-        });
-
-        modelBuilder.Entity<ReviewTest>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK_ReviewAnalysis");
-
-            entity.ToTable("ReviewTest");
-
-            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
-
-            entity.HasOne(d => d.TestResult).WithMany(p => p.ReviewTests)
-                .HasForeignKey(d => d.TestResultId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_ReviewAnalysis_TestResult");
+            entity.Property(e => e.MethodName).HasMaxLength(100);
+            entity.Property(e => e.Status).HasMaxLength(50);
         });
 
         modelBuilder.Entity<Role>(entity =>
