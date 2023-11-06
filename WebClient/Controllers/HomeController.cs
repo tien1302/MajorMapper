@@ -61,7 +61,7 @@ namespace WebClient.Controllers
                     return Redirect("~/Question/Index");
                 }
             }
-            ViewBag.Message = token;
+            ViewBag.Message = token.Replace("\"", "");
             return View("Index");
         }
         public class AccessTokenResponse
