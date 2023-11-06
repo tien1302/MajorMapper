@@ -4,17 +4,84 @@
     ViewData["Title"] = "Home Page";
     Layout = "_LoginLayout";
 }
+
+<style>
+    body {
+        background-color: lightblue;
+    }
+    *, *:before, *:after {
+        box-sizing: border-box;
+    }
+
+    .g-sign-in-button {
+        margin: 10px;
+        display: inline-block;
+        width: 240px;
+        height: 50px;
+        background-color: #4285f4;
+        color: #fff;
+        border-radius: 1px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+        transition: background-color .218s, border-color .218s, box-shadow .218s;
+    }
+
+        .g-sign-in-button:hover {
+            cursor: pointer;
+            -webkit-box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
+        }
+
+        .g-sign-in-button:active {
+            background-color: #3367D6;
+            transition: background-color 0.2s;
+        }
+
+        .g-sign-in-button .content-wrapper {
+            height: 100%;
+            width: 100%;
+            border: 1px solid transparent;
+        }
+
+        .g-sign-in-button img {
+            width: 18px;
+            height: 18px;
+        }
+
+        .g-sign-in-button .logo-wrapper {
+            padding: 15px;
+            background: #fff;
+            width: 48px;
+            height: 100%;
+            border-radius: 1px;
+            display: inline-block;
+        }
+
+        .g-sign-in-button .text-container {
+            font-family: Roboto,arial,sans-serif;
+            font-weight: 500;
+            letter-spacing: .21px;
+            font-size: 16px;
+            line-height: 48px;
+            vertical-align: top;
+            border: none;
+            display: inline-block;
+            text-align: center;
+            width: 180px;
+        }
+
+</style>
 <div class="error-pagewrap">
     <div class="error-page-int">
         <div class="text-center m-b-md custom-login">
-            <h3>PLEASE LOGIN TO APP</h3>
-            <p>This is the best app ever!</p>
+            <h3>Đăng nhập</h3>
         </div>
         <div class="content-error">
             <div class="hpanel">
                 <div class="panel-body">
                     <form asp-action="Login" id="loginForm">
-                        <p class=" text-danger">@ViewBag.Message</p>
+                            <div class="text-danger">
+                                <p style="color: #FF0000;">@ViewBag.Message</p>
+                            </div>
                         <div class="form-group">
                             <label asp-for="Email" class="control-label">Email</label>
                             <input asp-for="Email" type="text" placeholder="example@gmail.com" title="Vui lòng nhập email" class="form-control" required="">
@@ -25,19 +92,23 @@
                             <input asp-for="Password" type="password" placeholder="******" title="Vui lòng nhập mật khẩu" class="form-control" required="">
                             <span asp-validation-for="Password" class="help-block small"></span>
                         </div>
-                        <div class="checkbox login-checkbox">
-                            <label>
-                                <input type="checkbox" class="i-checks"> Remember me
-                            </label>
+                        <button style="width: 58%; height:48px; margin-left:auto; margin-right:auto; font-size:16px;" type="submit" value="Login" class="btn btn-success btn-block loginbtn">Đăng nhập</button>
+                        <a asp-action="GoogleLogin" style="background: none; display: flex; justify-content: center;">
+                        <div class='g-sign-in-button' >
+                            <div class=content-wrapper>
+                                <div class='logo-wrapper'>
+                                    <img src='https://developers.google.com/identity/images/g-logo.png'>
+                                </div>
+                                <span class='text-container'>
+                                    <span>Đăng nhập bằng Google</span>
+                                </span>
+                            </div>
                         </div>
-                        <button type="submit" value="Login" class="btn btn-success btn-block loginbtn">Đăng nhập</button>
-                        <a asp-action="GoogleLogin" class="btn btn-default btn-block">GoogleLogin</a>
+                        </a>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="text-center login-footer">
-            <p>Copyright © 2018. All rights reserved. Template by <a href="https://colorlib.com/wp/templates/">Colorlib</a></p>
-        </div>
+
     </div>
 </div>

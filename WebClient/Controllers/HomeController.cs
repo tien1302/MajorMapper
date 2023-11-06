@@ -44,22 +44,19 @@ namespace WebClient.Controllers
             if (response.IsSuccessStatusCode)
             {
                 AccessTokenResponse tokenResponse = JsonSerializer.Deserialize<AccessTokenResponse>(token);
-                if (tokenResponse != null)
+                string accessToken = tokenResponse.accessToken;
+                HttpContext.Session.SetString("JWToken", accessToken);
+                HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
+                string role = tokenResponse.roleName;
+                if (role == "Admin")
                 {
-                    string accessToken = tokenResponse.accessToken;
-                    HttpContext.Session.SetString("JWToken", accessToken);
-                    HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
-                    string role = tokenResponse.roleName;
-                    if (role == "Admin")
-                    {
-                        return Redirect("~/Account/Index");
-                    }
-                    if (role == "Consultant")
-                    {
-                        return Redirect("~/Major/Index");
-                    }
-                    return Redirect("~/Question/Index");
+                    return Redirect("~/Account/Index");
                 }
+                if (role == "Consultant")
+                {
+                    return Redirect("~/Major/Index");
+                }
+                return Redirect("~/Question/Index");
             }
             ViewBag.Message = token.Replace("\"", "");
             return View("Index");
@@ -96,21 +93,26 @@ namespace WebClient.Controllers
             var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync("http://localhost:1189/api/Account/LoginGoogle", contentData);
             //Token
-            string token = await response.Content.ReadAsStringAsync();
-            AccessTokenResponse tokenResponse = JsonSerializer.Deserialize<AccessTokenResponse>(token);
-            string accessToken = tokenResponse.accessToken;
-            HttpContext.Session.SetString("JWToken", accessToken);
-            HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
-            string role = tokenResponse.roleName;
-            if (role == "Admin")
+            var token = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
             {
-                return Redirect("~/Account/Index");
+                AccessTokenResponse tokenResponse = JsonSerializer.Deserialize<AccessTokenResponse>(token);
+                string accessToken = tokenResponse.accessToken;
+                HttpContext.Session.SetString("JWToken", accessToken);
+                HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
+                string role = tokenResponse.roleName;
+                if (role == "Admin")
+                {
+                    return Redirect("~/Account/Index");
+                }
+                if (role == "Consultant")
+                {
+                    return Redirect("~/Major/Index");
+                }
+                return Redirect("~/Question/Index");
             }
-            if (role == "Consultant")
-            {
-                return Redirect("~/Major/Index");
-            }
-            return Redirect("~/Question/Index");
+            ViewBag.Message = token.Replace("\"", "");
+            return View("Index");
         }
 
         public IActionResult Logout()

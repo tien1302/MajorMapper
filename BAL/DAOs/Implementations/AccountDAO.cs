@@ -142,7 +142,7 @@ namespace BAL.DAOs.Implementations
                                              .SingleOrDefault();
                 if (existedAccount == null)
                 {
-                    throw new Exception("Email or Password is in valid.");
+                    throw new Exception("Email hoặc mật khẩu không đúng. Vui lòng nhập lại.");
                 }
                 GetAccount getAccount = this._mapper.Map<GetAccount>(existedAccount);
                 //GenerateToken
@@ -180,7 +180,7 @@ namespace BAL.DAOs.Implementations
                 Account existedAccount = this._Repo.Get(x => x.Email == authenAccount.Email ).SingleOrDefault();
                 if (existedAccount == null)
                 {
-                    throw new Exception("Email khong ton tai.");
+                    throw new Exception("Email không tồn tại.");
                 }
                 GetAccount getAccount = this._mapper.Map<GetAccount>(existedAccount);
                 //GenerateToken

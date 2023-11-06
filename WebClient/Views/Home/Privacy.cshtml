@@ -2,41 +2,15 @@
 
 @{
     ViewData["Title"] = "Create";
+    Layout = "";
 }
-
-
-
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-}
-<!-- datapicker JS
-       ============================================ -->
-<script src="~/js/datapicker/bootstrap-datepicker.js" asp-append-version="true"></script>
-<script src="~/js/datapicker/datepicker-active.js" asp-append-version="true"></script>
-<!-- input-mask JS
-        ============================================ -->
-<script src="~/js/input-mask/jasny-bootstrap.min.js" asp-append-version="true"></script>
-<!-- chosen JS
-    ============================================ -->
-<script src="~/js/chosen/chosen.jquery.js" asp-append-version="true"></script>
-<script src="~/js/chosen/chosen-active.js" asp-append-version="true"></script>
-<!-- select2 JS
-    ============================================ -->
-<script src="~/js/select2/select2.full.min.js" asp-append-version="true"></script>
-<script src="~/js/select2/select2-active.js" asp-append-version="true"></script>
-<!-- ionRangeSlider JS
-    ============================================ -->
-<script src="~/js/ionRangeSlider/ion.rangeSlider.min.js" asp-append-version="true"></script>
-<script src="~/js/ionRangeSlider/ion.rangeSlider.active.js" asp-append-version="true"></script>
-<!-- rangle-slider JS
-    ============================================ -->
-<script src="~/js/rangle-slider/jquery-ui-1.10.4.custom.min.js" asp-append-version="true"></script>
-<script src="~/js/rangle-slider/jquery-ui-touch-punch.min.js" asp-append-version="true"></script>
-<script src="~/js/rangle-slider/rangle-active.js" asp-append-version="true"></script>
-<!-- knob JS
-    ============================================ -->
-<script src="~/js/knob/jquery.knob.js" asp-append-version="true"></script>
-<script src="~/js/knob/knob-active.js" asp-append-version="true"></script>
+<div class='g-sign-in-button'>
+    <div class=content-wrapper>
+        <div class='logo-wrapper'>
+            <img src='https://developers.google.com/identity/images/g-logo.png'>
+        </div>
+        <span class='text-container'>
+            <span>Sign in with Google</span>
+        </span>
+    </div>
+</div>
