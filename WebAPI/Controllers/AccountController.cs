@@ -140,10 +140,9 @@ namespace WebAPI.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new
-                {
-                    Message = ex.Message
-                });
+                return BadRequest(
+                    ex.Message
+                );
             }
         }
         [HttpPost("LoginGoogle")]

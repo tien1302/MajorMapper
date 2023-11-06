@@ -102,7 +102,6 @@ namespace WebClient.Controllers
                     ViewBag.Message = "Error while calling WebAPI!";
                 }
             }
-            ViewBag.Message = "Error!";
             return RedirectToAction(nameof(Index));
         }
 
