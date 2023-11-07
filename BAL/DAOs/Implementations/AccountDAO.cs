@@ -67,6 +67,11 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
+                if (!create.ConfirmPassword.Equals(create.Password))
+                {
+                    throw new Exception("Xác nhận mật khẩu không đúng");
+                }
+
                 Account account = new Account()
                 {
                     Name = create.Name,
