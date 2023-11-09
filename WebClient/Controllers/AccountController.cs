@@ -3,6 +3,8 @@ using BAL.DTOs.TestResults;
 using DAL.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -26,19 +28,26 @@ namespace WebClient.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            //Token
-            var accessToken = HttpContext.Session.GetString("JWToken");
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-            //Account
-            HttpResponseMessage response = await client.GetAsync(baseApiUrl);
-            string strData = await response.Content.ReadAsStringAsync();
 
-            var options = new JsonSerializerOptions
+            try
             {
-                PropertyNameCaseInsensitive = true
-            };
-            List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
-            return View(list);
+                var accessToken = HttpContext.Session.GetString("JWToken");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                //Account
+                HttpResponseMessage response = await client.GetAsync(baseApiUrl);
+                string strData = await response.Content.ReadAsStringAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
+                return View(list);
+            }
+            catch (Exception ex)
+            {
+                return Redirect("~/Home/Index");
+            }
         }
 
         public async Task<IActionResult> Details(int id)
@@ -88,21 +97,14 @@ namespace WebClient.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateAccount p)
         {
-            if (ModelState.IsValid)
+            string strData = JsonSerializer.Serialize(p);
+            var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
+            if (response.IsSuccessStatusCode)
             {
-                string strData = JsonSerializer.Serialize(p);
-                var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
-                if (response.IsSuccessStatusCode)
-                {
-                    ViewBag.Message = "Insert successfully!";
-                }
-                else
-                {
-                    ViewBag.Message = "Error while calling WebAPI!";
-                }
+                return RedirectToAction(nameof(Index));
             }
-            return RedirectToAction(nameof(Index));
+            return View("Create");
         }
 
         public async Task<IActionResult> Update(int id)

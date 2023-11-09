@@ -19,14 +19,14 @@ namespace BAL.DTOs.Accounts
         public string Password { get; set; } = null!;
 
         public string? Gender { get; set; }
-
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DoB { get; set; }
 
         public string RoleName { get; set; }
 
         public string? Address { get; set; }
 
-        public int? Phone { get; set; }
+        public string? Phone { get; set; }
 
         public string Status { get; set; } = null!;
 

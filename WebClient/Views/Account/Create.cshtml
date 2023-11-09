@@ -3,7 +3,8 @@
 @{
     ViewData["Title"] = "Tạo tài khoản";
 }
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <!-- Single pro tab review Start-->
 <div class="single-pro-review-area mt-t-30 mg-b-15">
     <div class="container-fluid">
@@ -17,57 +18,90 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="review-content-section">
                                         <form asp-action="Create" id="add-department" class="add-department">
-                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                           <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                             <div class="form-group">
                                                 <label asp-for="Name" class="control-label">Họ và tên</label>
-                                                <input asp-for="Name" class="form-control" />
+                                                <input asp-for="Name" class="form-control" required title="Không được để trống" />
                                                 <span asp-validation-for="Name" class="text-danger"></span>
                                             </div>
+
                                             <div class="form-group">
                                                 <label asp-for="Email" class="control-label"></label>
-                                                <input asp-for="Email" class="form-control" />
+                                                <input asp-for="Email" type="email" class="form-control" required title="Không được để trống" />
                                                 <span asp-validation-for="Email" class="text-danger"></span>
                                             </div>
+
                                             <div class="form-group">
                                                 <label asp-for="Password" class="control-label">Mật khẩu</label>
-                                                <input asp-for="Password" class="form-control" />
+                                                <input asp-for="Password" type="password" class="form-control" required title="Không được để trống" />
                                                 <span asp-validation-for="Password" class="text-danger"></span>
                                             </div>
+
+                                            <div class="form-group">
+                                                <label asp-for="ConfirmPassword" class="control-label">Xác nhận mật khẩu</label>
+                                                <input asp-for="ConfirmPassword" type="password" class="form-control" required title="Không được để trống" />
+                                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                            </div>
+
                                             <div class="form-group">
                                                 <label asp-for="Gender" class="control-label">Giới tính</label>
-                                                <input asp-for="Gender" class="form-control" />
+                                                <select asp-for="Gender" class="form-control" required title="Không được để trống">
+                                                    <option selected="" disabled="">Chọn giới tính</option>
+                                                    <option value="Nam">Nam</option>
+                                                    <option value="Nữ">Nữ</option>
+                                                </select>
                                                 <span asp-validation-for="Gender" class="text-danger"></span>
                                             </div>
+
                                             <div class="form-group">
                                                 <label asp-for="DoB" class="control-label">Ngày sinh</label>
-                                                <input asp-for="DoB" class="form-control" />
+                                                <input asp-for="DoB" class="form-control" type="date" required title="Không được để trống" />
                                                 <span asp-validation-for="DoB" class="text-danger"></span>
                                             </div>
+
+                                            <input asp-for="Role" type="hidden" class="form-control" value="2" />
+
                                             <div class="form-group">
-                                                <label asp-for="Role" class="control-label">Vai trò</label>
-                                                <input asp-for="Role" class="form-control" />
-                                                <span asp-validation-for="Role" class="text-danger"></span>
+                                                <label asp-for="Address" class="control-label" >Địa chỉ</label>
+                                                <input id="detailaddress" placeholder="Địa chỉ cụ thể" class="form-control" required title="Không được để trống" />
+                                                
+                                                <div class="row">
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                        <div class="form-group">
+                                                            <select id="city" class="form-control">
+                                                                <option value="" selected>Chọn tỉnh thành</option>
+                                                            </select>
+                                                        </div>
+                                                    
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                        <div class="form-group">
+                                                            <select id="district" class="form-control">
+                                                                <option value="" selected>Chọn quận huyện</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                                        <div class="form-group">
+                                                            <select id="ward" class="form-control">
+                                                                <option value="" selected>Chọn phường xã</option>
+                                                            </select>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <input asp-for="Address" type="hidden" class="form-control" />
+
                                             </div>
-                                            <div class="form-group">
-                                                <label asp-for="Address" class="control-label">Địa chỉ</label>
-                                                <input asp-for="Address" class="form-control" />
-                                                <span asp-validation-for="Address" class="text-danger"></span>
-                                            </div>
+
                                             <div class="form-group">
                                                 <label asp-for="Phone" class="control-label">Số điện thoại</label>
-                                                <input asp-for="Phone" class="form-control" />
+                                                <input asp-for="Phone" type="number" class="form-control" required title="Không được để trống" />
                                                 <span asp-validation-for="Phone" class="text-danger"></span>
                                             </div>
-                                            <div class="form-group">
-                                                <label asp-for="Status" class="control-label">Trạng thái</label>
-                                                <input asp-for="Status" class="form-control" />
-                                                <span asp-validation-for="Status" class="text-danger"></span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label asp-for="CreatedDateTime" class="control-label"></label>
-                                                <input asp-for="CreatedDateTime" class="form-control" />
-                                                <span asp-validation-for="CreatedDateTime" class="text-danger"></span>
-                                            </div>
+                                            
                                             <div class="form-group">
                                                 <button type="submit" value="Create" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
                                                 <a asp-action="Index">Quay lại</a>
@@ -88,3 +122,56 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+    const host = "https://provinces.open-api.vn/api/";
+    var callAPI = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data, "city");
+            });
+    }
+    callAPI('https://provinces.open-api.vn/api/?depth=1');
+    var callApiDistrict = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data.districts, "district");
+            });
+    }
+    var callApiWard = (api) => {
+        return axios.get(api)
+            .then((response) => {
+                renderData(response.data.wards, "ward");
+            });
+    }
+
+    var renderData = (array, select) => {
+        let row = ' <option disable value="">Chọn</option>';
+        array.forEach(element => {
+            row += `<option data-id="${element.code}" value="${element.name}">${element.name}</option>`
+        });
+        document.querySelector("#" + select).innerHTML = row
+    }
+
+    $("#city").change(() => {
+        callApiDistrict(host + "p/" + $("#city").find(':selected').data('id') + "?depth=2");
+        setAddress();
+    });
+    $("#district").change(() => {
+        callApiWard(host + "d/" + $("#district").find(':selected').data('id') + "?depth=2");
+        setAddress();
+    });
+    $("#ward").change(() => {
+        setAddress();
+    })
+
+    function setAddress() {
+        let city = $("#city option:selected").text();
+        let district = $("#district option:selected").text();
+        let ward = $("#ward option:selected").text();
+        let address = document.querySelector("#detailaddress").value;
+        let combinedValue = address + ', ' + ward + ", " + district + ", " + city;
+        document.querySelector("#Address").value = combinedValue;
+
+    }
+
+</script>

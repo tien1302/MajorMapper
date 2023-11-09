@@ -55,7 +55,6 @@ public partial class MajorMapperContext : DbContext
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DBStore"));
         }
     }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
@@ -69,6 +68,7 @@ public partial class MajorMapperContext : DbContext
             entity.Property(e => e.Gender).HasMaxLength(50);
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Password).HasMaxLength(50);
+            entity.Property(e => e.Phone).HasMaxLength(11);
             entity.Property(e => e.Status).HasMaxLength(20);
 
             entity.HasOne(d => d.RoleNavigation).WithMany(p => p.Accounts)
@@ -97,7 +97,7 @@ public partial class MajorMapperContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__feedback__3214EC07F4DEEA96");
+            entity.HasKey(e => e.Id).HasName("PK__Feedback__3214EC07EA6FE72D");
 
             entity.ToTable("Feedback");
 

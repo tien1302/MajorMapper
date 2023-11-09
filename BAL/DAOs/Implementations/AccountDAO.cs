@@ -54,7 +54,7 @@ namespace BAL.DAOs.Implementations
                 Account account = this._Repo.GetByID(key);
                 if (account == null)
                 {
-                    throw new Exception("Account Id does not exist in the system.");
+                    throw new Exception("Account Id không tồn tại.");
                 }
                 return this._mapper.Map<GetAccount>(account);
             }
@@ -67,10 +67,6 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                if (!create.ConfirmPassword.Equals(create.Password))
-                {
-                    throw new Exception("Xác nhận mật khẩu không đúng");
-                }
 
                 Account account = new Account()
                 {
@@ -82,7 +78,7 @@ namespace BAL.DAOs.Implementations
                     Role = create.Role,
                     Address = create.Address,
                     Phone = create.Phone,
-                    Status = create.Status,
+                    Status = "Hoạt động",
                     CreateDateTime = DateTime.Now
                 };
                 this._Repo.Insert(account);
@@ -100,15 +96,13 @@ namespace BAL.DAOs.Implementations
                 Account existedAccount = this._Repo.GetByID(key);
                 if (existedAccount == null)
                 {
-                    throw new Exception("AccountId does not exist in the system.");
+                    throw new Exception("Account Id không tồn tại.");
                 }           
                 
                 existedAccount.Name = update.Name;
                 existedAccount.Email = update.Email;
-                existedAccount.Password = update.Password;
                 existedAccount.Gender = update.Gender;
                 existedAccount.DoB = update.DoB;
-                existedAccount.Role = update.Role;
                 existedAccount.Address = update.Address;
                 existedAccount.Phone = update.Phone;
                 existedAccount.Status = update.Status;
@@ -128,7 +122,7 @@ namespace BAL.DAOs.Implementations
                 Account existedAccount = this._Repo.GetByID(key);
                 if (existedAccount == null)
                 {
-                    throw new Exception("AccountId does not exist in the system.");
+                    throw new Exception("Account Id không tồn tại.");
                 }
                 this._Repo.Delete(key);
                 this._Repo.Commit();
@@ -260,7 +254,7 @@ namespace BAL.DAOs.Implementations
                 Account account = _Repo.GetByID(key);
                 if (account == null)
                 {
-                    throw new Exception("Id does not exist in the system.");
+                    throw new Exception("Account Id không tồn tại.");
                 }
                 List<GetTestResult> result = listTestResult.Where(t => t.UserId == key).ToList();
                 return (result);
