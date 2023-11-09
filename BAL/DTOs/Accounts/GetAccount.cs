@@ -30,7 +30,7 @@ namespace BAL.DTOs.Accounts
 
         public string Status { get; set; } = null!;
 
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreateDateTime { get; set; }
 
         public string AccessToken { get; set; }
     }
