@@ -15,5 +15,8 @@ namespace BAL.DTOs.Slots
         public DateTime StartDateTime { get; set; }
 
         public DateTime EndDateTime { get; set; }
+        public string Status { get; set; } = null!;
+
+        public DateTime CreateDateTime { get; set; }
     }
 }

@@ -1,11 +1,84 @@
 ﻿@using BAL.DTOs.Slots;
 @using DAL.Models;
-@model IEnumerable<BAL.DTOs.Slots.GetSlot>
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+@model BAL.DTOs.Slots.CreateSlot
 <script src="~/dist/vi.global.js"></script>
 <script src="~/dist/vi.global.min.js"></script>
 @{
     ViewData["Title"] = "Index";
 }
+<div class="single-pro-review-area mt-t-30 mg-b-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="product-payment-inner-st">
+                    <h1>Thêm lịch</h1>
+                    <div id="myTabContent" class="tab-content custom-product-edit">
+                        <div class="product-tab-list tab-pane fade active in" id="reviews">
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="review-content-section">
+
+                                        <form asp-action="Index" id="add-department" class="add-department">
+                                            <div class="text-danger">
+                                                <p style="color: #FF0000;">@ViewBag.Message</p>
+                                            </div>
+                                            <input asp-for="ConsultantId" type="hidden" class="form-control" value="@Accessor.HttpContext.Session.GetInt32("AccountId")" />
+                                            <div class="form-group">
+                                                <label asp-for="Date" class="control-label">Ngày/Tháng/Năm</label>
+                                                <input type="date" asp-for="Date" class="form-control" required title="Không được để trống" />
+                                                <span asp-validation-for="Date" class="text-danger"></span>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label asp-for="StartDateTime" class="control-label">Slot</label>
+                                                <select asp-for="StartDateTime" class="form-control" required title="Không được để trống">
+                                                    <option selected="" disabled="">Chọn slot</option>
+                                                    <option value="7:00">Slot 1: 7:00</option>
+                                                    <option value="8:00">Slot 2: 8:00</option>
+                                                    <option value="9:00">Slot 3: 9:00</option>
+                                                    <option value="10:00">Slot 4: 10:00</option>
+                                                    <option value="11:00">Slot 5: 11:00</option>
+                                                    <option value="12:00">Slot 6: 12:00</option>
+                                                    <option value="13:00">Slot 7: 13:00</option>
+                                                    <option value="14:00">Slot 8: 14:00</option>
+                                                    <option value="15:00">Slot 9: 15:00</option>
+                                                    <option value="16:00">Slot 10: 16:00</option>
+                                                    <option value="17:00">Slot 11: 17:00</option>
+                                                    <option value="18:00">Slot 12: 18:00</option>
+                                                    <option value="19:00">Slot 13: 19:00</option>
+                                                    <option value="20:00">Slot 14: 20:00</option>
+                                                </select>
+                                                <span asp-validation-for="StartDateTime" class="text-danger"></span>
+                                            </div>
+                                           @*  <div class="form-group">
+                                                <label asp-for="StartDateTime" class="control-label">Lặp lại</label>
+                                                <select asp-for="StartDateTime" class="form-control">
+                                                    <option selected="" disabled="">Không lặp lại</option>
+                                                    <option value="everyday">Hằng ngày</option>
+                                                    <option value="everyday">Hằng ngày</option>
+                                                    <option value="weekly">Hằng tuần</option>
+                                                    <option value="monthly">Hàng tháng</option>
+                                                </select>
+                                                <span asp-validation-for="StartDateTime" class="text-danger"></span>
+                                            </div> *@
+                                            <div class="form-group">
+                                                <button type="submit" value="Index" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
+                                                <a asp-action="Index">Quay lại</a>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="calender-area mg-b-15">
     <div class="container-fluid">
         <div class="row">
@@ -19,7 +92,6 @@
 </div>
 
 <script>
-
     document.addEventListener('DOMContentLoaded', function () {
         var Data1 = [];
         var array = @Html.Raw(Json.Serialize(ViewData["Slots"] as List<GetSlot>));
@@ -33,10 +105,12 @@
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+                right: 'timeGridWeek,'
             },
             buttonText: {
                 today: 'hôm nay',
@@ -44,11 +118,27 @@
                 week: 'tuần',
                 day: 'ngày'
             },
+
             locale: 'vi',
             navLinks: true, // can click day/week names to navigate views
             businessHours: true, // display business hours
             editable: true,
             selectable: true,
+            selectMirror: true,
+            eventClick: function (arg) {
+                
+                if (confirm('Are you sure you want to delete this event?')) {
+                    var id = arg.event.id;
+                    $.ajax({
+                        url: "/Slot/Delete",
+                        type: "POST",
+                        data: { id: id },
+                        success: function () {
+                            arg.event.remove();
+                        }
+                    })
+                }
+            },
             events: Data1
         });
 

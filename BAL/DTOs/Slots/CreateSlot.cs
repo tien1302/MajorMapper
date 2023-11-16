@@ -13,5 +13,6 @@ namespace BAL.DTOs.Slots
         public DateTime Date {  get; set; } 
 
         public DateTime StartDateTime { get; set; }
+        //public string Recurring { get; set; }
     }
 }

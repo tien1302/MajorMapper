@@ -18,8 +18,8 @@ namespace BAL.DTOs.Majors
 
         public List<string> PersonalityTypeName { get; set; }
 
-        public DateTime CreatedDateTime { get; set; }
+        public DateTime CreateDateTime { get; set; }
 
-        public DateTime UpdatedDateTime { get; set; }
+        public DateTime UpdateDateTime { get; set; }
     }
 }

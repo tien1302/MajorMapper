@@ -29,11 +29,18 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
+                DateTime startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day, createSlot.StartDateTime.Hour, createSlot.StartDateTime.Minute, createSlot.StartDateTime.Second);
+
+                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get().ToList());
+                if (listSlot.Any(slot => slot.StartDateTime == startDateTime && slot.ConsultantId == createSlot.ConsultantId))
+                {
+                    throw new Exception("Slot đã tồn tại.");
+                }
                 Slot slot = new Slot()
                 {
                     ConsultantId = createSlot.ConsultantId,
-                    StartDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day,  createSlot.StartDateTime.Hour, createSlot.StartDateTime.Minute, createSlot.StartDateTime.Second),
-                    EndDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day, createSlot.StartDateTime.AddHours(1).Hour, createSlot.StartDateTime.Minute, createSlot.StartDateTime.Second),
+                    StartDateTime = startDateTime,
+                    EndDateTime = startDateTime.AddHours(1),
                     CreateDateTime = DateTime.Now,
                     Status = "Not Booked",
                 };

@@ -1,4 +1,5 @@
 ﻿using BAL.DTOs.Bookings;
+using BAL.DTOs.Slots;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,26 +12,30 @@ namespace WebClient.Controllers
     {
         private readonly HttpClient client;
         private string baseApiUrl = "";
+        private string slotApiUrl = "";
 
         public BookingController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            baseApiUrl = baseApiUrl = "http://localhost:1189/api/Booking";
+            baseApiUrl = "http://localhost:1189/api/Booking";
+            slotApiUrl = "http://localhost:1189/api/Slot";
         }
 
         public async Task<ActionResult> Index()
         {
-            HttpResponseMessage response = await client.GetAsync(baseApiUrl);
+           
+            HttpResponseMessage response = await client.GetAsync($"{slotApiUrl}");
             string strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<GetBooking> list = JsonSerializer.Deserialize <List<GetBooking>>(strData, options);
-            return View(list);
+            List<GetSlot> list = JsonSerializer.Deserialize<List<GetSlot>>(strData, options);
+            ViewData["Slots"] = list;
+            return View();
         }
 
         public async Task<ActionResult> Details(int id)

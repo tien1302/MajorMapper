@@ -1,0 +1,60 @@
+﻿@using BAL.DTOs.Slots;
+@using DAL.Models;
+@model IEnumerable<BAL.DTOs.Slots.GetSlot>
+<script src="~/dist/vi.global.js"></script>
+<script src="~/dist/vi.global.min.js"></script>
+@{
+    ViewData["Title"] = "Index";
+}
+<div class="calender-area mg-b-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="calender-inner"
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var Data1 = [];
+        var array = @Html.Raw(Json.Serialize(ViewData["Slots"] as List<GetSlot>));
+        for (var i = 0; i < array.length; i++) {
+            Data1.push({
+                'id': array[i].id,
+                'start': array[i].startDateTime,
+                'end': array[i].endDateTime,
+                'url': `/Booking/Create/${array[i].id}`,
+            });
+        }
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'timeGridWeek'
+            },
+            buttonText: {
+                today: 'hôm nay',
+                month: 'tháng',
+                week: 'tuần',
+                day: 'ngày'
+            },
+
+            locale: 'vi',
+            navLinks: true, // can click day/week names to navigate views
+            businessHours: true, // display business hours
+            selectMirror: true,
+            
+            events: Data1
+        });
+
+        calendar.render();
+    });
+
+</script>

@@ -9,8 +9,8 @@ namespace BAL.DTOs.Majors
 {
     public class CreateMajor
     {
-        [Required(ErrorMessage = "Major Name is required.")]
-        [MaxLength(200, ErrorMessage = "Major Name is required less than or equals 200 characters.")]
+
+        [MaxLength(100, ErrorMessage = "Tên không vượt quá 100 ký tự.")]
         public string Name { get; set; } = null!;
 
         public string Description { get; set; } = null!;
