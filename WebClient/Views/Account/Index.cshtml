@@ -29,7 +29,7 @@
                                             Họ và tên
                                         </th>
                                         <th data-field="email" data-sortable="true">
-                                            @Html.DisplayNameFor(model => model.Email)
+                                            @Html.DisplayNameFor(model => model.email)
                                         </th>
                                         <th data-field="gender" data-sortable="true">
                                             Giới tính
@@ -61,37 +61,37 @@
                                         <tr>
                                            
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Name)
+                                                @Html.DisplayFor(modelItem => item.name)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Email)
+                                                @Html.DisplayFor(modelItem => item.email)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Gender)
+                                                @Html.DisplayFor(modelItem => item.gender)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.DoB)
+                                                @Html.DisplayFor(modelItem => item.doB)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.RoleName)
+                                                @Html.DisplayFor(modelItem => item.roleName)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Address)
+                                                @Html.DisplayFor(modelItem => item.address)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Phone)
+                                                @Html.DisplayFor(modelItem => item.phone)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Status)
+                                                @Html.DisplayFor(modelItem => item.status)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.CreateDateTime)
+                                                @Html.DisplayFor(modelItem => item.createDateTime)
                                             </td>
                                             <td>
-                                                <a href="@Url.Action("Details", new {id=item.Id})" title="Thông tin" class="btn btn-default">
+                                                <a href="@Url.Action("Details", new {id=item.id})" title="Thông tin" class="btn btn-default">
                                                     <i class="fa fa-info" aria-hidden="true"></i>
                                                 </a>
-                                                <a href="@Url.Action("Update", new {id=item.Id})" title="Sửa" class="btn btn-default">
+                                                <a href="@Url.Action("Update", new {id=item.id})" title="Sửa" class="btn btn-default">
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
                                                 <a class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#PrimaryModalalert" title="Xóa">
@@ -106,11 +106,11 @@
                                                     <div class="modal-body">
                                                         <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
                                                         <h2>Xác nhận xóa</h2>
-                                                        <p>Xác nhận xóa tài khoản @Html.DisplayFor(modelItem => item.Name)</p>
+                                                        <p>Xác nhận xóa tài khoản @Html.DisplayFor(modelItem => item.name)</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
-                                                        <a href="@Url.Action("Delete", new {id=item.Id})">Xác nhận</a>
+                                                        <a href="@Url.Action("Delete", new {id=item.id})">Xác nhận</a>
                                                     </div>
                                                 </div>
                                             </div>

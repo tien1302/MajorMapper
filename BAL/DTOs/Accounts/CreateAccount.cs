@@ -11,6 +11,8 @@ namespace BAL.DTOs.Accounts
     public class CreateAccount
     {
         [MaxLength(100, ErrorMessage = "Tên không vượt quá 100 ký tự.")]
+
+        [MinLength(5, ErrorMessage = "Tên không ít hơn 5 ký tự.")]
         [NameValidation(ErrorMessage = "Chữ cái đầu tiên của mỗi từ phải viết hoa.")]
         public string Name { get; set; } = null!;
 

@@ -149,17 +149,17 @@ namespace BAL.DAOs.Implementations
                 {
                     case 1:
                         {
-                            getAccount.RoleName = "Admin";
+                            getAccount.roleName = "Admin";
                             break;
                         }
                     case 2:
                         {
-                            getAccount.RoleName = "Consultant";
+                            getAccount.roleName = "Consultant";
                             break;
                         }
                     case 3:
                         {
-                            getAccount.RoleName = "User";
+                            getAccount.roleName = "User";
                             break;
                         }
                 }
@@ -187,17 +187,17 @@ namespace BAL.DAOs.Implementations
                 {
                     case 1:
                         {
-                            getAccount.RoleName = "Admin";
+                            getAccount.roleName = "Admin";
                             break;
                         }
                     case 2:
                         {
-                            getAccount.RoleName = "Consultant";
-                            break;
+                            getAccount.roleName = "Consultant";
+                            break;  
                         }
                     case 3:
                         {
-                            getAccount.RoleName = "User";
+                            getAccount.roleName = "User";
                             break;
                         }
                 }
@@ -219,10 +219,10 @@ namespace BAL.DAOs.Implementations
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
                 var claims = new ClaimsIdentity(new[] {
-                 new Claim(JwtRegisteredClaimNames.Sub, getAccount.Id.ToString()),
-                 new Claim(JwtRegisteredClaimNames.Email, getAccount.Email),
-                 new Claim(JwtRegisteredClaimNames.Name, getAccount.Name),
-                 new Claim("Role", getAccount.RoleName),
+                 new Claim(JwtRegisteredClaimNames.Sub, getAccount.id.ToString()),
+                 new Claim(JwtRegisteredClaimNames.Email, getAccount.email),
+                 new Claim(JwtRegisteredClaimNames.Name, getAccount.name),
+                 new Claim("Role", getAccount.roleName),
                  new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
              });
 
@@ -236,7 +236,7 @@ namespace BAL.DAOs.Implementations
                 var token = jwtTokenHandler.CreateToken(tokenDescription);
                 string accessToken = jwtTokenHandler.WriteToken(token);
 
-                getAccount.AccessToken = accessToken;
+                getAccount.accessToken = accessToken;
 
                 return getAccount;
             }

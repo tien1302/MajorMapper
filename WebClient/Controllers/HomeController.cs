@@ -43,10 +43,11 @@ namespace WebClient.Controllers
             var token = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                AccessTokenResponse tokenResponse = JsonSerializer.Deserialize<AccessTokenResponse>(token);
-                string accessToken = tokenResponse.accessToken;
-                HttpContext.Session.SetString("JWToken", accessToken);
+                GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
                 HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
+                HttpContext.Session.SetString("Name", tokenResponse.name);
+                HttpContext.Session.SetString("JWToken", tokenResponse.accessToken);
+                
                 string role = tokenResponse.roleName;
                 if (role == "Admin")
                 {
@@ -61,13 +62,6 @@ namespace WebClient.Controllers
             ViewBag.Message = token.Replace("\"", "");
             return View("Index");
         }
-        public class AccessTokenResponse
-        {
-            public int id {  get; set; }
-            public string accessToken { get; set; }
-            public string roleName { get; set; }
-        }
-
 
         [Route("google-login")]
         public IActionResult GoogleLogin()
@@ -96,10 +90,10 @@ namespace WebClient.Controllers
             var token = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                AccessTokenResponse tokenResponse = JsonSerializer.Deserialize<AccessTokenResponse>(token);
-                string accessToken = tokenResponse.accessToken;
-                HttpContext.Session.SetString("JWToken", accessToken);
+                GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
+                HttpContext.Session.SetString("JWToken", tokenResponse.accessToken);
                 HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
+                HttpContext.Session.SetString("Name", tokenResponse.name);
                 string role = tokenResponse.roleName;
                 if (role == "Admin")
                 {

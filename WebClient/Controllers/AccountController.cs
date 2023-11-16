@@ -64,7 +64,7 @@ namespace WebClient.Controllers
                 PropertyNameCaseInsensitive = true
             };
             List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
-            GetAccount account = list.Where(p => p.Id == id).First();
+            GetAccount account = list.Where(p => p.id == id).First();
             //Feedback
             HttpResponseMessage feedbackResponse = await client.GetAsync($"{feedbackApiUrl}/{id}");
             var feedbackData = await feedbackResponse.Content.ReadAsStringAsync();
