@@ -99,7 +99,6 @@ builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<ISlotRepository, SlotRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-builder.Services.AddScoped<IReviewTestRepository, ReviewTestRepository>();
 builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
 builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
@@ -115,7 +114,6 @@ builder.Services.AddScoped<INotificationDAO, NotificationDAO>();
 builder.Services.AddScoped<ISlotDAO, SlotDAO>();
 builder.Services.AddScoped<IPaymentDAO, PaymentDAO>();
 builder.Services.AddScoped<IFeedbackDAO, FeedbackDAO>();
-builder.Services.AddScoped<IReviewTestDAO, ReviewTestDAO>();
 builder.Services.AddScoped<ITestResultDAO, TestResultDAO>();
 builder.Services.AddScoped<IScoreDAO, ScoreDAO>();
 builder.Services.AddScoped<IQuestionDAO, QuestionDAO>();
@@ -131,7 +129,6 @@ builder.Services.AddAutoMapper(typeof(AccountProfile),
                                typeof(SlotProfile),
                                typeof(PaymentProfile),
                                typeof(FeedbackProfile),
-                               typeof(ReviewTestProfile),
                                typeof(TestResultProfile),
                                typeof(ScoreProfile),
                                typeof(QuestionProfile),
