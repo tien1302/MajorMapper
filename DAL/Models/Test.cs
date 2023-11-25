@@ -9,7 +9,9 @@ public partial class Test
 
     public int UserId { get; set; }
 
-    public bool Status { get; set; }
+    public bool StatusGame { get; set; }
+
+    public bool StatusPayment { get; set; }
 
     public DateTime CreateDateTime { get; set; }
 

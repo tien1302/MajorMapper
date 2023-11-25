@@ -24,6 +24,8 @@ public partial class MajorMapperContext : DbContext
 
     public virtual DbSet<Major> Majors { get; set; }
 
+    public virtual DbSet<Method> Methods { get; set; }
+
     public virtual DbSet<Notification> Notifications { get; set; }
 
     public virtual DbSet<Payment> Payments { get; set; }
@@ -119,6 +121,17 @@ public partial class MajorMapperContext : DbContext
             entity.Property(e => e.UpdateDateTime).HasColumnType("datetime");
         });
 
+        modelBuilder.Entity<Method>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PK__Method__3214EC07AD803979");
+
+            entity.ToTable("Method");
+
+            entity.Property(e => e.Id).ValueGeneratedNever();
+            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
+            entity.Property(e => e.Name).HasMaxLength(50);
+        });
+
         modelBuilder.Entity<Notification>(entity =>
         {
             entity.ToTable("Notification");
@@ -141,8 +154,10 @@ public partial class MajorMapperContext : DbContext
 
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Description).HasMaxLength(1);
+            entity.Property(e => e.OrderId).HasMaxLength(50);
             entity.Property(e => e.OrderType).HasMaxLength(1);
             entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.TransactionId).HasMaxLength(50);
 
             entity.HasOne(d => d.Relatied).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.RelatiedId)
@@ -168,6 +183,11 @@ public partial class MajorMapperContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.UpdateDateTime).HasColumnType("datetime");
 
+            entity.HasOne(d => d.Method).WithMany(p => p.PersonalityTypes)
+                .HasForeignKey(d => d.MethodId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_PersonalityType_Method");
+
             entity.HasMany(d => d.Majors).WithMany(p => p.PersonalityTypes)
                 .UsingEntity<Dictionary<string, object>>(
                     "PersonalityTypeMajor",
@@ -191,8 +211,12 @@ public partial class MajorMapperContext : DbContext
             entity.ToTable("Question");
 
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
-            entity.Property(e => e.MethodName).HasMaxLength(100);
             entity.Property(e => e.Status).HasMaxLength(50);
+
+            entity.HasOne(d => d.PersonalityType).WithMany(p => p.Questions)
+                .HasForeignKey(d => d.PersonalityTypeId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Question_PersonalityType");
         });
 
         modelBuilder.Entity<Role>(entity =>
@@ -252,11 +276,6 @@ public partial class MajorMapperContext : DbContext
 
             entity.ToTable("Test_Question");
 
-            entity.HasOne(d => d.PersonalityType).WithMany(p => p.TestQuestions)
-                .HasForeignKey(d => d.PersonalityTypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Test_Question_PersonalityType");
-
             entity.HasOne(d => d.Question).WithMany(p => p.TestQuestions)
                 .HasForeignKey(d => d.QuestionId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -273,6 +292,7 @@ public partial class MajorMapperContext : DbContext
             entity.ToTable("TestResult");
 
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
+            entity.Property(e => e.MethodName).HasMaxLength(50);
 
             entity.HasOne(d => d.Test).WithMany(p => p.TestResults)
                 .HasForeignKey(d => d.TestId)

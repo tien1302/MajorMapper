@@ -9,6 +9,8 @@ public partial class TestResult
 
     public int TestId { get; set; }
 
+    public string MethodName { get; set; } = null!;
+
     public DateTime CreateDateTime { get; set; }
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();

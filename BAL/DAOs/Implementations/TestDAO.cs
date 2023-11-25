@@ -38,7 +38,7 @@ namespace BAL.DAOs.Implementations
                 Test test = new Test()
                 {
                     UserId = create.UserId,
-                    Status = create.Status,
+                    StatusGame = create.Status,
                     CreateDateTime = DateTime.Now,
                 };
                 _testRepository.Insert(test);
@@ -119,7 +119,7 @@ namespace BAL.DAOs.Implementations
                 }
 
                 existedTest.UserId = update.UserId;
-                existedTest.Status = update.Status;
+                existedTest.StatusGame = update.Status;
                 _testRepository.Update(existedTest);
                 _testRepository.Commit();
             }

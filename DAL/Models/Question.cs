@@ -7,7 +7,7 @@ public partial class Question
 {
     public int Id { get; set; }
 
-    public string MethodName { get; set; } = null!;
+    public int PersonalityTypeId { get; set; }
 
     public int Type { get; set; }
 
@@ -16,6 +16,8 @@ public partial class Question
     public DateTime CreateDateTime { get; set; }
 
     public string Status { get; set; } = null!;
+
+    public virtual PersonalityType PersonalityType { get; set; } = null!;
 
     public virtual ICollection<TestQuestion> TestQuestions { get; set; } = new List<TestQuestion>();
 }
