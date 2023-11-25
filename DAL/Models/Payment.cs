@@ -13,9 +13,9 @@ public partial class Payment
 
     public int RelatiedId { get; set; }
 
-    public int OrderId { get; set; }
+    public string OrderId { get; set; } = null!;
 
-    public int TransactionId { get; set; }
+    public string TransactionId { get; set; } = null!;
 
     public int Amount { get; set; }
 

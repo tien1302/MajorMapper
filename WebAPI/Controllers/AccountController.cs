@@ -145,24 +145,5 @@ namespace WebAPI.Controllers
                 );
             }
         }
-        [HttpPost("LoginGoogle")]
-        public IActionResult Google([FromBody] AuthenticationAccountGoogle authenAccount)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                GetAccount getAccount = this._DAO.LoginGoogle(authenAccount, this._jwtAuthOptions.Value);
-                return Ok(getAccount);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(
-                    ex.Message
-                );
-            }
-        }
     }
 }
