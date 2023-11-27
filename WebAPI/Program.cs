@@ -97,6 +97,7 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IBookingRepository, BookingRepository>();
 builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<ISlotRepository, SlotRepository>();
+builder.Services.AddScoped<IMethodRepository, MethodRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
@@ -112,6 +113,7 @@ builder.Services.AddScoped<IPersonalityTypeDAO, PersonalityTypeDAO>();
 builder.Services.AddScoped<IBookingDAO, BookingDAO>();
 builder.Services.AddScoped<INotificationDAO, NotificationDAO>();
 builder.Services.AddScoped<ISlotDAO, SlotDAO>();
+builder.Services.AddScoped<IMethodDAO, MethodDAO>();
 builder.Services.AddScoped<IPaymentDAO, PaymentDAO>();
 builder.Services.AddScoped<IFeedbackDAO, FeedbackDAO>();
 builder.Services.AddScoped<ITestResultDAO, TestResultDAO>();
@@ -133,6 +135,7 @@ builder.Services.AddAutoMapper(typeof(AccountProfile),
                                typeof(ScoreProfile),
                                typeof(QuestionProfile),
                                typeof(TestProfile),
+                               typeof(MethodProfile),
                                typeof(TestQuestionProfile));
 var app = builder.Build();
 app.UseSwagger();

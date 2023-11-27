@@ -1,5 +1,4 @@
-﻿using BAL.DTOs.Accounts;
-using BAL.DTOs.PersonalityTypes;
+﻿using BAL.DTOs.PersonalityTypes;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -16,7 +15,7 @@ namespace WebClient.Controllers
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            baseApiUrl = baseApiUrl = "http://localhost:1189/api/PersonalityType";
+            baseApiUrl = "http://localhost:1189/api/PersonalityType";
         }
 
         public async Task<IActionResult> Index()

@@ -12,6 +12,5 @@ namespace BAL.DTOs.Methods
 
         public string Description { get; set; } = null!;
 
-        public DateTime CreateDateTime { get; set; }
     }
 }
