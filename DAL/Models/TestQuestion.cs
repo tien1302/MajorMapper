@@ -11,6 +11,8 @@ public partial class TestQuestion
 
     public bool Status { get; set; }
 
+    public string? TestData { get; set; }
+
     public virtual Question Question { get; set; } = null!;
 
     public virtual Test Test { get; set; } = null!;

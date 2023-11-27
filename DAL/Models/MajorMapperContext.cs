@@ -57,6 +57,7 @@ public partial class MajorMapperContext : DbContext
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DBStore"));
         }
     }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>

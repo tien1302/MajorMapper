@@ -13,5 +13,6 @@ namespace BAL.DTOs.PersonalityTypes
         public int Id { get; set; }
 
         public string Name { get; set; }
+        public string MethodName { get; set; }
     }
 }
