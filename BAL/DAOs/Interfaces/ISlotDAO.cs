@@ -11,8 +11,10 @@ namespace BAL.DAOs.Interfaces
     {
         public List<GetSlot> GetAll();
         public List<GetSlot> Get(int key);
+        public GetSlot GetById(int key);
         public void Create(CreateSlot createSlot);
         public void Update(int key, UpdateSlot updateSlot);
         public void Delete(int key);
+        
     }
 }

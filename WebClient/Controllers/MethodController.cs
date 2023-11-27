@@ -1,21 +1,21 @@
-﻿using BAL.DTOs.PersonalityTypes;
+﻿using BAL.DTOs.Methods;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace WebClient.Controllers
 {
-    public class PersonalityTypeController : Controller
+    public class MethodController : Controller
     {
         private readonly HttpClient client;
         private string baseApiUrl = "";
 
-        public PersonalityTypeController()
+        public MethodController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            baseApiUrl = "http://localhost:1189/api/PersonalityType";
+            baseApiUrl = "http://localhost:1189/api/Method";
         }
 
         public async Task<IActionResult> Index()
@@ -27,7 +27,7 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<GetPersonalityType> list = JsonSerializer.Deserialize<List<GetPersonalityType>>(strData, options);
+            List<GetMethod> list = JsonSerializer.Deserialize<List<GetMethod>>(strData, options);
             return View(list);
         }
         public async Task<ActionResult> Create()
@@ -37,7 +37,7 @@ namespace WebClient.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CreatePersonalityType p)
+        public async Task<IActionResult> Create(CreateMethod p)
         {
             string strData = JsonSerializer.Serialize(p);
             var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
@@ -48,6 +48,7 @@ namespace WebClient.Controllers
             }
             return View("Create");
         }
+
         public async Task<IActionResult> Update(int id)
         {
             HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
@@ -57,19 +58,19 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            UpdatePersonalityType personalityType = JsonSerializer.Deserialize<UpdatePersonalityType>(strData, options);
-            return View(personalityType);
+            UpdateMethod method = JsonSerializer.Deserialize<UpdateMethod>(strData, options);
+            return View(method);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(int id, UpdatePersonalityType p)
+        public async Task<ActionResult> Update([FromRoute] int id, UpdateMethod p)
         {
             if (ModelState.IsValid)
             {
                 string strData = JsonSerializer.Serialize(p);
                 var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
+                HttpResponseMessage response = await client.PutAsJsonAsync($"{baseApiUrl}/{id}", contentData);
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Insert successfully!";
@@ -86,7 +87,7 @@ namespace WebClient.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
-            HttpResponseMessage response = await client.DeleteAsync($"{baseApiUrl}/{id}");
+            HttpResponseMessage response = await client.DeleteAsync(baseApiUrl + "/" + id);
             if (response.IsSuccessStatusCode)
             {
                 TempData["Message"] = "Delete successfully!";

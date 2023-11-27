@@ -1,0 +1,84 @@
+﻿@model IEnumerable<BAL.DTOs.PersonalityTypes.GetPersonalityType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<!-- Static Table Start -->
+<div class="data-table-area mg-b-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="sparkline13-list">
+                    <div class="sparkline13-hd">
+                        <div class="main-sparkline13-hd">
+                            <h1>Danh sách Tính cách</h1>
+                        </div>
+                    </div>
+                    <div class="sparkline13-graph">
+                        <div class="datatable-dashv1-list custom-datatable-overright">
+                            <div id="toolbar">
+                                <a class="btn btn-primary waves-effect waves-light" href="/PersonalityType/Create">Tạo tính cách</a>
+                            </div>
+                            <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true"
+                                   data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
+                                <thead>
+                                    <tr>
+
+                                        <th data-field="name" data-sortable="true">
+                                            Tên
+                                        </th>
+                                       
+                                        <th data-field="date" data-sortable="true">
+                                            method
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Id)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("Update", new {id=item.Id})" title="Sửa" class="btn btn-default">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a>
+                                                <a class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#PrimaryModalalert" title="Xóa">
+                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <!-- delete modal -->
+                                        <div id="PrimaryModalalert" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                                        <h2>Xác nhận xóa</h2>
+                                                        <p>Xác nhận xóa tính cách @Html.DisplayFor(modelItem => item.Name)</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
+                                                        <a href="@Url.Action("Delete", new {id=item.Id})">Xác nhận</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Static Table End -->

@@ -1,5 +1,5 @@
 ﻿using BAL.DAOs.Interfaces;
-using BAL.DTOs.Slots;
+using BAL.DTOs.Methods;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,13 +7,13 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SlotController : ControllerBase
+    public class MethodController : ControllerBase
     {
-        private ISlotDAO _slotDAO;
+        private IMethodDAO _methodDAO;
 
-        public SlotController(ISlotDAO slotDAO)
+        public MethodController(IMethodDAO methodDAO)
         {
-            _slotDAO = slotDAO;
+            _methodDAO = methodDAO;
         }
 
         [HttpGet]
@@ -21,8 +21,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetSlot> listSlot = _slotDAO.GetAll();
-                return Ok(listSlot);
+                List<GetMethod> list = _methodDAO.GetAll();
+                return Ok(list);
             }
             catch (Exception ex)
             {
@@ -38,8 +38,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetSlot> slot = _slotDAO.Get(id);
-                return Ok(slot);
+                GetMethod method = _methodDAO.Get(id);
+                return Ok(method);
             }
             catch (Exception ex)
             {
@@ -49,24 +49,9 @@ namespace WebAPI.Controllers
                 });
             }
         }
-        [HttpGet("GetById/{id}")]
-        public IActionResult GetById(int id)
-        {
-            try
-            {
-                GetSlot slot = _slotDAO.GetById(id);
-                return Ok(slot);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    Message = ex.Message
-                });
-            }
-        }
+
         [HttpPost]
-        public IActionResult Post([FromBody] CreateSlot createSlot)
+        public IActionResult Post([FromBody] CreateMethod create)
         {
             try
             {
@@ -74,7 +59,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _slotDAO.Create(createSlot);
+                _methodDAO.Create(create);
                 return Ok();
             }
             catch (Exception ex)
@@ -84,7 +69,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UpdateSlot updateSlot)
+        public IActionResult Put(int id, [FromBody] UpdateMethod update)
         {
             try
             {
@@ -92,7 +77,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _slotDAO.Update(id, updateSlot);
+                _methodDAO.Update(id, update);
                 return Ok();
             }
             catch (Exception ex)
@@ -106,7 +91,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _slotDAO.Delete(id);
+                _methodDAO.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

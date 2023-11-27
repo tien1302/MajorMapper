@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BAL.DAOs.Interfaces;
+using BAL.DTOs.Majors;
 using BAL.DTOs.Slots;
 using DAL.Models;
 using DAL.Repositories.Implementations;
@@ -85,7 +86,25 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+        public GetSlot GetById(int key)
+        {
+            try
+            {
+                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get().ToList());
 
+                Slot slot = _slotRepository.GetByID(key);
+                if (slot == null)
+                {
+                    throw new Exception("Id does not exist in the system.");
+                }
+                GetSlot result = listSlot.FirstOrDefault(p => p.Id == slot.Id);
+                return _mapper.Map<GetSlot>(result);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public List<GetSlot> GetAll()
         {
             try

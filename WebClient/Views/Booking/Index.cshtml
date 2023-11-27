@@ -1,21 +1,42 @@
 ﻿@using BAL.DTOs.Slots;
 @using DAL.Models;
 @model IEnumerable<BAL.DTOs.Slots.GetSlot>
-<script src="~/dist/vi.global.js"></script>
-<script src="~/dist/vi.global.min.js"></script>
 @{
     ViewData["Title"] = "Index";
+    Layout = "";
 }
-<div class="calender-area mg-b-15">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="calender-inner"
-                    <div id='calendar'></div>
-                </div>
-            </div>
-        </div>
-    </div>
+<script src='~/dist/index.global.js'></script>
+<script src="~/dist/vi.global.js"></script>
+<script src="~/dist/vi.global.min.js"></script>
+<style>
+
+    html, body {
+        overflow: hidden; /* don't do scrollbars */
+        font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+        font-size: 14px;
+    }
+
+    #calendar-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .fc-header-toolbar {
+        /*
+        the calendar will be butting up against the edges,
+        but let's scoot in the header's buttons
+        */
+        padding-top: 1em;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+</style>
+<div id='calendar-container'>
+    <div id='calendar'></div>
 </div>
 <script>
 
@@ -23,21 +44,35 @@
         var Data1 = [];
         var array = @Html.Raw(Json.Serialize(ViewData["Slots"] as List<GetSlot>));
         for (var i = 0; i < array.length; i++) {
-            Data1.push({
-                'id': array[i].id,
-                'start': array[i].startDateTime,
-                'end': array[i].endDateTime,
-                'url': `/Booking/Create/${array[i].id}`,
-            });
+            var isStartDateTimeExists = false;
+            for (var j = 0; j < Data1.length; j++) {
+                if (Data1[j].start === array[i].startDateTime) {
+                    isStartDateTimeExists = true;
+                    break;
+                }
+            }
+            if (!isStartDateTimeExists) {
+                Data1.push({
+                    'id': array[i].id,
+                    'start': array[i].startDateTime,
+                    'end': array[i].endDateTime,
+                    'url': `/Booking/Create?slotId=${array[i].id}`,
+                });
+            }
         }
         var calendarEl = document.getElementById('calendar');
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'timeGridWeek',
+            height: '100%',
+            expandRows: true,
+            slotMinTime: '08:00:00',
+            slotMaxTime: '21:00:00',
+            slotDuration: '01:00',
             headerToolbar: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'timeGridWeek'
+                right: ''
             },
             buttonText: {
                 today: 'hôm nay',
@@ -48,7 +83,6 @@
 
             locale: 'vi',
             navLinks: true, // can click day/week names to navigate views
-            businessHours: true, // display business hours
             selectMirror: true,
             
             events: Data1

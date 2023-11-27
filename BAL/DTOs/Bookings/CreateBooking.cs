@@ -11,7 +11,5 @@ namespace BAL.DTOs.Bookings
         public int UserId { get; set; }
 
         public int SlotId { get; set; }
-
-        public string Status { get; set; } = null!;
     }
 }

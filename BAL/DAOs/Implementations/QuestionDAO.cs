@@ -29,7 +29,7 @@ namespace BAL.DAOs.Implementations
             {
                 Question question = new Question()
                 {
-                    Type = create.Type,
+                    PersonalityTypeId = create.PersonalityTypeId,
                     Description = create.Description,
                     CreateDateTime = DateTime.Now,
                 };
@@ -104,7 +104,7 @@ namespace BAL.DAOs.Implementations
                     throw new Exception("Question Id does not exist in the system.");
                 }
 
-                existedQuestion.Type = update.Type;
+                existedQuestion.PersonalityTypeId = update.PersonalityTypeId;
                 existedQuestion.Description = update.Description;
                 _questionRepository.Update(existedQuestion);
                 _questionRepository.Commit();

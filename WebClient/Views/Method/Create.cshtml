@@ -1,5 +1,4 @@
-﻿@model BAL.DTOs.Questions.CreateQuestion
-
+﻿@model BAL.DTOs.Methods.CreateMethod
 @{
     ViewData["Title"] = "Create";
 }
@@ -10,7 +9,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-payment-inner-st">
-                    <h1>Tạo câu hỏi</h1>
+                    <h1>Tạo Method</h1>
                     <div id="myTabContent" class="tab-content custom-product-edit">
                         <div class="product-tab-list tab-pane fade active in" id="reviews">
                             <div class="row">
@@ -19,24 +18,16 @@
                                         <form asp-action="Create" id="add-department" class="add-department">
                                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                             <div class="form-group">
-                                                <label asp-for="PersonalityTypeId" class="control-label">Loại Tính cách</label>
-                                                <select asp-for="PersonalityTypeId" asp-items="@ViewBag.ListPerson" class="form-select">
-                                                    <option disabled selected>--Chọn tính cách--</option>
-                                                </select>
-                                                <span asp-validation-for="PersonalityTypeId" class="text-danger"></span>
+                                                <label asp-for="Name" class="control-label">Tên</label>
+                                                <input asp-for="Name" class="form-control" />
+                                                <span asp-validation-for="Name" class="text-danger"></span>
                                             </div>
                                             <div class="form-group">
                                                 <label asp-for="Description" class="control-label">Mô tả</label>
                                                 <textarea asp-for="Description" class="form-control"></textarea>
                                                 <span asp-validation-for="Description" class="text-danger"></span>
                                             </div>
-                                           @*  <div class="form-group">
-                                                <div class="tinymce-single">
-                                                    <label asp-for="Description" class="control-label">Mô tả</label>
-                                                    <span asp-validation-for="Description" class="text-danger"></span>
-                                                    <input id="summernote1" asp-for="Description" class="form-control" />
-                                                </div>
-                                            </div> *@
+                                            
                                             <div class="form-group">
                                                 <button type="submit" value="Create" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
                                                 <a asp-action="Index">Quay lại</a>

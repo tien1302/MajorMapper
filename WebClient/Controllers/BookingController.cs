@@ -1,5 +1,7 @@
-﻿using BAL.DTOs.Bookings;
+﻿using BAL.DTOs.Accounts;
+using BAL.DTOs.Bookings;
 using BAL.DTOs.Slots;
+using DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -51,8 +53,18 @@ namespace WebClient.Controllers
             return View(booking);
         }
 
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            string slotId = Request.Query["slotId"];
+            HttpResponseMessage response = await client.GetAsync($"{slotApiUrl}/GetById/{slotId}");
+            var strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            GetSlot slot = JsonSerializer.Deserialize<GetSlot>(strData, options);
+            ViewData["SlotBooking"] = slot;
             return View();
         }
 
@@ -126,6 +138,11 @@ namespace WebClient.Controllers
                 TempData["Message"] = "Error while calling WebAPI!";
             }
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Success()
+        {
+            return View();
         }
     }
 }

@@ -36,7 +36,6 @@ namespace BAL.DAOs.Implementations
             {
                 var checkTestId = _testRepository.GetByID(create.TestId);
                 var checkQuestionId = _questionRepository.GetByID(create.QuestionId);
-                var checkPersonalityTypeId = _personalityTypeRepository.GetByID(create.PersonalityTypeId);
                 if (checkTestId == null)
                 {
                     throw new Exception("Test Id does not exist in the system.");
@@ -45,17 +44,12 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Question Id does not exist in the system.");
                 }
-                if (checkPersonalityTypeId == null)
-                {
-                    throw new Exception("Personality Type Id does not exist in the system.");
-                }
+               
 
                 TestQuestion testQuestion = new TestQuestion()
                 {
                     TestId = create.TestId,
                     QuestionId = create.QuestionId,
-                    PersonalityTypeId = create.PersonalityTypeId,
-                    Score = create.Score,
                     Status = create.Status,
                 };
                 _testQuestionRepository.Insert(testQuestion);
@@ -126,7 +120,6 @@ namespace BAL.DAOs.Implementations
             {
                 var checkTestId = _testRepository.GetByID(update.TestId);
                 var checkQuestionId = _questionRepository.GetByID(update.QuestionId);
-                var checkPersonalityTypeId = _personalityTypeRepository.GetByID(update.PersonalityTypeId);
                 if (checkTestId == null)
                 {
                     throw new Exception("Test Id does not exist in the system.");
@@ -134,10 +127,6 @@ namespace BAL.DAOs.Implementations
                 if (checkQuestionId == null)
                 {
                     throw new Exception("Question Id does not exist in the system.");
-                }
-                if (checkPersonalityTypeId == null)
-                {
-                    throw new Exception("Personality Type Id does not exist in the system.");
                 }
 
                 TestQuestion existedTestQuestion = _testQuestionRepository.GetByID(key);
@@ -148,8 +137,6 @@ namespace BAL.DAOs.Implementations
 
                 existedTestQuestion.TestId = update.TestId;
                 existedTestQuestion.QuestionId = update.QuestionId;
-                existedTestQuestion.PersonalityTypeId = update.PersonalityTypeId;
-                existedTestQuestion.Score = update.Score;
                 existedTestQuestion.Status = update.Status;
                 _testQuestionRepository.Update(existedTestQuestion);
                 _testQuestionRepository.Commit();
