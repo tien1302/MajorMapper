@@ -10,6 +10,8 @@ namespace BAL.DTOs.Tests
     {
         public int UserId { get; set; }
 
-        public bool Status { get; set; }
+        public bool StatusGame { get; set; }
+
+        public bool StatusPayment { get; set; }
     }
 }
