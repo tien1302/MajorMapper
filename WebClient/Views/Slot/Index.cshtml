@@ -106,8 +106,9 @@
 
         var calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'timeGridWeek',
+            expandRows: true,
             slotMinTime: '08:00:00',
-            slotMaxTime: '20:00:00',
+            slotMaxTime: '21:00:00',
             slotDuration: '01:00',
             headerToolbar: {
                 left: 'prev,next today',
@@ -122,7 +123,6 @@
 
             locale: 'vi',
             navLinks: true, // can click day/week names to navigate views
-            businessHours: true, // display business hours
             editable: true,
             selectable: true,
             selectMirror: true,

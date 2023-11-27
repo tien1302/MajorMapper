@@ -8,7 +8,7 @@ namespace BAL.DTOs.Questions
 {
     public class UpdateQuestion
     {
-        public int Type { get; set; }
+        public int PersonalityTypeId { get; set; }
 
         public string Description { get; set; }
     }

@@ -9,7 +9,6 @@ public partial class Question
 
     public int PersonalityTypeId { get; set; }
 
-    public int Type { get; set; }
 
     public string Description { get; set; } = null!;
 

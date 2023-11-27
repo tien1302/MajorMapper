@@ -49,7 +49,22 @@ namespace WebAPI.Controllers
                 });
             }
         }
-
+        [HttpGet("GetById/{id}")]
+        public IActionResult GetById(int id)
+        {
+            try
+            {
+                GetSlot slot = _slotDAO.GetById(id);
+                return Ok(slot);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
         [HttpPost]
         public IActionResult Post([FromBody] CreateSlot createSlot)
         {

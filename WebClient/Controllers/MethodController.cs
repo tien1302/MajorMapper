@@ -1,76 +1,42 @@
-﻿using BAL.DTOs.Accounts;
-using BAL.DTOs.Bookings;
-using BAL.DTOs.Slots;
-using DAL.Models;
-using Microsoft.AspNetCore.Http;
+﻿using BAL.DTOs.Majors;
+using BAL.DTOs.Methods;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
 namespace WebClient.Controllers
 {
-    public class BookingController : Controller
+    public class MethodController : Controller
     {
         private readonly HttpClient client;
         private string baseApiUrl = "";
-        private string slotApiUrl = "";
-
-        public BookingController()
+        public MethodController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            baseApiUrl = "http://localhost:1189/api/Booking";
-            slotApiUrl = "http://localhost:1189/api/Slot";
+            baseApiUrl = "http://localhost:1189/api/Method";
         }
-
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
-           
-            HttpResponseMessage response = await client.GetAsync($"{slotApiUrl}");
+            HttpResponseMessage response = await client.GetAsync(baseApiUrl);
             string strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<GetSlot> list = JsonSerializer.Deserialize<List<GetSlot>>(strData, options);
-            ViewData["Slots"] = list;
-            return View();
+            List<GetMethod> list = JsonSerializer.Deserialize<List<GetMethod>>(strData, options);
+            return View(list);
         }
-
-        public async Task<ActionResult> Details(int id)
-        {
-            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
-            var strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            GetBooking booking = JsonSerializer.Deserialize<GetBooking>(strData, options);
-            return View(booking);
-        }
-
         public async Task<ActionResult> Create()
         {
-            string slotId = Request.Query["slotId"];
-            HttpResponseMessage response = await client.GetAsync($"{slotApiUrl}/GetById/{slotId}");
-            var strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            GetSlot slot = JsonSerializer.Deserialize<GetSlot>(strData, options);
-            ViewData["SlotBooking"] = slot;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateBooking p)
+        public async Task<IActionResult> Create(CreateMethod p)
         {
             if (ModelState.IsValid)
             {
@@ -87,10 +53,10 @@ namespace WebClient.Controllers
                 }
             }
             ViewBag.Message = "Error!";
-            return View(p);
+            return RedirectToAction(nameof(Index));
         }
 
-        public async Task<ActionResult> Update(int id)
+        public async Task<IActionResult> Update(int id)
         {
             HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
             var strData = await response.Content.ReadAsStringAsync();
@@ -99,19 +65,19 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            UpdateBooking booking = JsonSerializer.Deserialize<UpdateBooking>(strData, options);
-            return View(booking);
+            UpdateMethod method = JsonSerializer.Deserialize<UpdateMethod>(strData, options);
+            return View(method);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(int id, UpdateBooking p)
+        public async Task<ActionResult> Update([FromRoute] int id, UpdateMethod p)
         {
             if (ModelState.IsValid)
             {
                 string strData = JsonSerializer.Serialize(p);
                 var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
+                HttpResponseMessage response = await client.PutAsJsonAsync($"{baseApiUrl}/{id}", contentData);
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Insert successfully!";
@@ -138,11 +104,6 @@ namespace WebClient.Controllers
                 TempData["Message"] = "Error while calling WebAPI!";
             }
             return RedirectToAction(nameof(Index));
-        }
-
-        public IActionResult Success()
-        {
-            return View();
         }
     }
 }

@@ -15,7 +15,6 @@ namespace WebClient.Controllers
         private readonly HttpClient client;
         private string baseApiUrl = "";
         private string testApiUrl = "";
-        private string previewApiUrl = "";
         private string feedbackApiUrl = "";
         public AccountController()
         {
