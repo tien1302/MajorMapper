@@ -30,6 +30,7 @@ namespace BAL.DAOs.Implementations
                 PersonalityType personalityType = new PersonalityType()
                 {
                     Name = createPersonalityType.Name,
+                    MethodId = createPersonalityType.Method,
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
                 };
@@ -85,7 +86,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetPersonalityType> listPersonalityType = _mapper.Map<List<GetPersonalityType>>(_personalityTypeRepository.Get().ToList());
+                List<GetPersonalityType> listPersonalityType = _mapper.Map<List<GetPersonalityType>>(_personalityTypeRepository.Get(includeProperties: "Method").ToList());
                 return listPersonalityType;
             }
             catch (Exception ex)
@@ -105,6 +106,7 @@ namespace BAL.DAOs.Implementations
                 }
 
                 existedPersonalityType.Name = updatePersonalityType.Name;
+                existedPersonalityType.MethodId = updatePersonalityType.Method;
                 existedPersonalityType.UpdateDateTime = DateTime.Now;
                 _personalityTypeRepository.Update(existedPersonalityType);
                 _personalityTypeRepository.Commit();

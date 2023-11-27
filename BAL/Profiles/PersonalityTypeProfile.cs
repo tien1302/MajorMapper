@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using BAL.DTOs.Majors;
 using BAL.DTOs.PersonalityTypes;
 using DAL.Models;
 using System;
@@ -14,7 +13,7 @@ namespace BAL.Profiles
     {
         public PersonalityTypeProfile() 
         {
-            CreateMap<PersonalityType, GetPersonalityType>().ReverseMap();
+            CreateMap<PersonalityType, GetPersonalityType>().ForMember(dept => dept.MethodName, opts => opts.MapFrom(src => src.Method.Name)).ReverseMap();
         }
     }
 }

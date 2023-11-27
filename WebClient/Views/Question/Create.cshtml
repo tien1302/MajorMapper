@@ -20,7 +20,7 @@
                                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                             <div class="form-group">
                                                 <label asp-for="PersonalityTypeId" class="control-label">Loại Tính cách</label>
-                                                <select asp-for="PersonalityTypeId" asp-items="@ViewBag.ListPerson" class="form-select">
+                                                <select asp-for="PersonalityTypeId" asp-items="@ViewBag.ListPerson" class="form-control" required title="Không được để trống">
                                                     <option disabled selected>--Chọn tính cách--</option>
                                                 </select>
                                                 <span asp-validation-for="PersonalityTypeId" class="text-danger"></span>
