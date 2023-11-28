@@ -1,5 +1,7 @@
-﻿using BAL.DTOs.PersonalityTypes;
+﻿using BAL.DTOs.Methods;
+using BAL.DTOs.PersonalityTypes;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -9,6 +11,7 @@ namespace WebClient.Controllers
     {
         private readonly HttpClient client;
         private string baseApiUrl = "";
+        private string methodApiUrl = "";
 
         public PersonalityTypeController()
         {
@@ -16,6 +19,7 @@ namespace WebClient.Controllers
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
             baseApiUrl = "http://localhost:1189/api/PersonalityType";
+            methodApiUrl = "http://localhost:1189/api/Method";
         }
 
         public async Task<IActionResult> Index()
@@ -32,6 +36,22 @@ namespace WebClient.Controllers
         }
         public async Task<ActionResult> Create()
         {
+            HttpResponseMessage response = await client.GetAsync(methodApiUrl);
+            string strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            List<GetMethod> list = JsonSerializer.Deserialize<List<GetMethod>>(strData, options);
+            if (list != null)
+
+                ViewBag.ListMethod = list.Select(
+                    i => new SelectListItem
+                    {
+                        Text = i.Name,
+                        Value = i.Id.ToString()
+                    });
             return View();
         }
 
@@ -39,6 +59,24 @@ namespace WebClient.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreatePersonalityType p)
         {
+            //method
+            HttpResponseMessage responsep = await client.GetAsync(methodApiUrl);
+            string strDatap = await responsep.Content.ReadAsStringAsync();
+
+            var optionsp = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            List<GetMethod> list = JsonSerializer.Deserialize<List<GetMethod>>(strDatap, optionsp);
+            if (list != null)
+
+                ViewBag.ListMethod = list.Select(
+                    i => new SelectListItem
+                    {
+                        Text = i.Name,
+                        Value = i.Id.ToString()
+                    });
+            //person
             string strData = JsonSerializer.Serialize(p);
             var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
