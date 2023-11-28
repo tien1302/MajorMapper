@@ -143,7 +143,7 @@ namespace BAL.DAOs.Implementations
             }
         }
 
-        public void Update(int key, UpdateSlot updateSlot)
+        public void Update(int key)
         {
             try
             {
@@ -153,8 +153,7 @@ namespace BAL.DAOs.Implementations
                     throw new Exception("Id does not exist in the system.");
                 }
 
-                existedSlot.StartDateTime = updateSlot.StartDateTime;
-                existedSlot.EndDateTime = updateSlot.EndDateTime;
+                existedSlot.Status = "Booking";
                 _slotRepository.Update(existedSlot);
                 _slotRepository.Commit();
             }

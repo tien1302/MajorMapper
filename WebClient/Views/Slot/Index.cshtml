@@ -52,16 +52,16 @@
                                                 </select>
                                                 <span asp-validation-for="StartDateTime" class="text-danger"></span>
                                             </div>
-                                           @*  <div class="form-group">
-                                                <label asp-for="StartDateTime" class="control-label">Lặp lại</label>
-                                                <select asp-for="StartDateTime" class="form-control">
-                                                    <option selected="" disabled="">Không lặp lại</option>
-                                                    <option value="everyday">Hằng ngày</option>
-                                                    <option value="everyday">Hằng ngày</option>
-                                                    <option value="weekly">Hằng tuần</option>
-                                                    <option value="monthly">Hàng tháng</option>
-                                                </select>
-                                                <span asp-validation-for="StartDateTime" class="text-danger"></span>
+                                            @*  <div class="form-group">
+                                            <label asp-for="StartDateTime" class="control-label">Lặp lại</label>
+                                            <select asp-for="StartDateTime" class="form-control">
+                                            <option selected="" disabled="">Không lặp lại</option>
+                                            <option value="everyday">Hằng ngày</option>
+                                            <option value="everyday">Hằng ngày</option>
+                                            <option value="weekly">Hằng tuần</option>
+                                            <option value="monthly">Hàng tháng</option>
+                                            </select>
+                                            <span asp-validation-for="StartDateTime" class="text-danger"></span>
                                             </div> *@
                                             <div class="form-group">
                                                 <button type="submit" value="Index" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
@@ -96,11 +96,31 @@
         var Data1 = [];
         var array = @Html.Raw(Json.Serialize(ViewData["Slots"] as List<GetSlot>));
         for (var i = 0; i < array.length; i++) {
-            Data1.push({
-                'id': array[i].id,
-                'start': array[i].startDateTime,
-                'end': array[i].endDateTime
-            });
+            if (array[i].status == "Finish") {
+                Data1.push({
+                    'id': array[i].id,
+                    'title': 'Hoàn thành',
+                    'start': array[i].startDateTime,
+                    'end': array[i].endDateTime,
+                    'color': '#a8a7a7'
+                });
+            } else if (array[i].status == "Booking") {
+                Data1.push({
+                    'id': array[i].id,
+                    'title': 'Đã được đặt',
+                    'start': array[i].startDateTime,
+                    'end': array[i].endDateTime,
+                    'color': '#FF5722'
+                });
+            } else {
+                Data1.push({
+                    'id': array[i].id,
+                    'title': 'Chưa đặt',
+                    'start': array[i].startDateTime,
+                    'end': array[i].endDateTime
+                });
+            }
+
         }
         var calendarEl = document.getElementById('calendar');
 
@@ -127,17 +147,22 @@
             selectable: true,
             selectMirror: true,
             eventClick: function (arg) {
-                
-                if (confirm('Are you sure you want to delete this event?')) {
-                    var id = arg.event.id;
-                    $.ajax({
-                        url: "/Slot/Delete",
-                        type: "POST",
-                        data: { id: id },
-                        success: function () {
-                            arg.event.remove();
-                        }
-                    })
+                var tilte = arg.event.title;
+                if (tilte == 'Đã được đặt') {
+                    window.open("/slot/call");
+                } 
+                else if (tilte == 'Chưa đặt') {
+                    if (confirm('Are you sure you want to delete this event?')) {
+                        var id = arg.event.id;
+                        $.ajax({
+                            url: "/Slot/Delete",
+                            type: "POST",
+                            data: { id: id },
+                            success: function () {
+                                arg.event.remove();
+                            }
+                        })
+                    }
                 }
             },
             events: Data1

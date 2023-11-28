@@ -26,9 +26,9 @@
 
     .fc-header-toolbar {
         /*
-        the calendar will be butting up against the edges,
-        but let's scoot in the header's buttons
-        */
+            the calendar will be butting up against the edges,
+            but let's scoot in the header's buttons
+            */
         padding-top: 1em;
         padding-left: 1em;
         padding-right: 1em;
@@ -44,20 +44,23 @@
         var Data1 = [];
         var array = @Html.Raw(Json.Serialize(ViewData["Slots"] as List<GetSlot>));
         for (var i = 0; i < array.length; i++) {
-            var isStartDateTimeExists = false;
-            for (var j = 0; j < Data1.length; j++) {
-                if (Data1[j].start === array[i].startDateTime) {
-                    isStartDateTimeExists = true;
-                    break;
+            if (array[i].status == "Not Booked") {
+
+                var isStartDateTimeExists = false;
+                for (var j = 0; j < Data1.length; j++) {
+                    if (Data1[j].start === array[i].startDateTime) {
+                        isStartDateTimeExists = true;
+                        break;
+                    }
                 }
-            }
-            if (!isStartDateTimeExists) {
-                Data1.push({
-                    'id': array[i].id,
-                    'start': array[i].startDateTime,
-                    'end': array[i].endDateTime,
-                    'url': `/Booking/Create?slotId=${array[i].id}`,
-                });
+                if (!isStartDateTimeExists) {
+                    Data1.push({
+                        'id': array[i].id,
+                        'start': array[i].startDateTime,
+                        'end': array[i].endDateTime,
+                        'url': `/Booking/Create?slotId=${array[i].id}`,
+                    });
+                }
             }
         }
         var calendarEl = document.getElementById('calendar');
@@ -84,7 +87,7 @@
             locale: 'vi',
             navLinks: true, // can click day/week names to navigate views
             selectMirror: true,
-            
+
             events: Data1
         });
 

@@ -65,6 +65,8 @@ namespace WebClient.Controllers
             };
             GetSlot slot = JsonSerializer.Deserialize<GetSlot>(strData, options);
             ViewData["SlotBooking"] = slot;
+
+
             return View();
         }
 
@@ -80,13 +82,18 @@ namespace WebClient.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     ViewBag.Message = "Insert successfully!";
+                    string strDatas = JsonSerializer.Serialize(p.SlotId);
+                    var contentDatas = new StringContent(strDatas, System.Text.Encoding.UTF8, "application/json");
+                    HttpResponseMessage responses = await client.PutAsync($"{slotApiUrl}/{p.SlotId}", contentDatas);
                 }
                 else
                 {
                     ViewBag.Message = "Error while calling WebAPI!";
                 }
+
             }
             ViewBag.Message = "Error!";
+
             return View("Success");
         }
 

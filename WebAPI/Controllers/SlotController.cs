@@ -85,7 +85,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UpdateSlot updateSlot)
+        public IActionResult Put(int id)
         {
             try
             {
@@ -93,7 +93,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _slotDAO.Update(id, updateSlot);
+                _slotDAO.Update(id);
                 return Ok();
             }
             catch (Exception ex)

@@ -8,10 +8,6 @@ namespace BAL.DTOs.Slots
 {
     public class UpdateSlot
     {
-        public DateTime StartDateTime { get; set; }
-
-        public DateTime EndDateTime { get; set; }
-
         public string Status { get; set; }
     }
 }
