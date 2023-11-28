@@ -1,8 +1,8 @@
-﻿const APP_ID = "32f662b1d5cf4a50bbf47cd0ba9bfcd5"
-const TOKEN = "007eJxTYKiQ0Z3C2Xpv0qMTbzffPaCkpR+ycK/O4blbZ1pMf2ynd36uAoOxUZqZmVGSYYppcppJoqlBUlKaiXlyikFSomVSWnKKqWVsampDICODVXUJCyMDBIL4LAy5iZl5DAwAr/cgjg=="
-const CHANNEL = "main"
+﻿var APP_ID = "32f662b1d5cf4a50bbf47cd0ba9bfcd5"
+var TOKEN = "007eJxTYMh7IHnTdvZ544zIfRvMdZwOi2tylCy1//nr38LU7zLtx20UGIyN0szMjJIMU0yT00wSTQ2SktJMzJNTDJISLZPSklNMD6ampjYEMjKk/fzExMgAgSA+C0NuYmYeAwMAj+ohXg=="
+var CHANNEL = "main"
 
-const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' })
+var client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' })
 
 let localTracks = []
 let remoteUsers = {}

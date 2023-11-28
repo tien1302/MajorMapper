@@ -1,4 +1,4 @@
-﻿<link href="~/agora/Call.css" rel="stylesheet" media='screen' type='text/css' asp-append-version="true"  />
+﻿<link href="~/agora/Call.css" rel="stylesheet" media='screen' type='text/css' asp-append-version="true" />
 @{
     ViewData["Title"] = "Create";
     Layout = null;
@@ -16,5 +16,40 @@
         <button id="camera-btn">Camera on</button>
     </div>
 </div>
-<script src="~/agora/Call.js" asp-append-version="true"></script>
-<script src="~/agora/AgoraRTC_N-4.19.3.js" asp-append-version="true"></script>
+@* <script src="~/agora/Call.js" asp-append-version="true"></script> *@
+@* <script src="~/agora/agorartc_n-4.7.3.js" asp-append-version="true"></script> *@
+<script src="~/agora/agorartc_n-4.19.3.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    const APP_ID = "32f662b1d5cf4a50bbf47cd0ba9bfcd5"
+    const TOKEN = "007eJxTYDDZ0sLcp+Ov9eCn35nbGrKfWFtZ5a6YrZ1nc1PioM3yK1IKDMZGaWZmRkmGKabJaSaJpgZJSWkm5skpBkmJlklpySmmZkWpqQ2BjAyTK2axMDJAIIjPwpCbmJnHwAAA+i8euQ=="
+    const CHANNEL = "main"
+
+    const client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' })
+
+    let localTracks = []
+    let remoteUsers = {}
+
+    let joinAndDisplayLocalStream = async () => {
+
+        let UID = await client.join(APP_ID, CHANNEL, TOKEN, null)
+
+        localTracks = await AgoraRTC.createMicrophoneAndCameraTracks()
+
+        let player = `<div class="video-container" id="user-container-${UID}">
+                            <div class="video-player" id="user-${UID}"></div>
+                      </div>`
+        document.getElementById('video-streams').insertAdjacentHTML('beforeend', player)
+
+        localTracks[1].play(`user-${UID}`)
+
+        await client.publish([localTracks[0], localTracks[1]])
+    }
+
+    let joinStream = async () => {
+        await joinAndDisplayLocalStream()
+        document.getElementById('join-btn').style.display = 'none'
+        document.getElementById('stream-controls').style.display = 'flex'
+    }
+
+    document.getElementById('join-btn').addEventListener('click', joinStream)
+</script>
