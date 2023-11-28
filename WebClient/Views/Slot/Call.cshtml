@@ -1,0 +1,20 @@
+﻿<link href="~/agora/Call.css" rel="stylesheet" media='screen' type='text/css' asp-append-version="true"  />
+@{
+    ViewData["Title"] = "Create";
+    Layout = null;
+}
+
+
+<button id="join-btn">Join Stream</button>
+
+<div id="stream-wrapper">
+    <div id="video-streams"></div>
+
+    <div id="stream-controls">
+        <button id="leave-btn">Leave Stream</button>
+        <button id="mic-btn">Mic On</button>
+        <button id="camera-btn">Camera on</button>
+    </div>
+</div>
+<script src="~/agora/Call.js" asp-append-version="true"></script>
+<script src="~/agora/AgoraRTC_N-4.19.3.js" asp-append-version="true"></script>

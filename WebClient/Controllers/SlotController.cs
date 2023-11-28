@@ -36,25 +36,6 @@ namespace WebClient.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Details(int id)
-        {
-            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
-            var strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            GetSlot slot = JsonSerializer.Deserialize<GetSlot>(strData, options);
-            return View(slot);
-        }
-
-        public ActionResult Create()
-        {
-            int accountId = (int)HttpContext.Session.GetInt32("AccountId");
-            return View();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(CreateSlot p)
@@ -81,42 +62,6 @@ namespace WebClient.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Update(int id)
-        {
-            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
-            var strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            UpdateSlot slot = JsonSerializer.Deserialize<UpdateSlot>(strData, options);
-            return View(slot);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Update(int id, UpdateSlot p)
-        {
-            if (ModelState.IsValid)
-            {
-                string strData = JsonSerializer.Serialize(p);
-                var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
-                if (response.IsSuccessStatusCode)
-                {
-                    ViewBag.Message = "Insert successfully!";
-                }
-                else
-                {
-                    ViewBag.Message = "Error while calling WebAPI!";
-                }
-            }
-            else
-                ViewBag.Message = "Error!";
-            return RedirectToAction(nameof(Index));
-        }
-
         public async Task<IActionResult> Delete(int? id)
         {
             HttpResponseMessage response = await client.DeleteAsync(baseApiUrl + "/" + id);
@@ -130,5 +75,11 @@ namespace WebClient.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-    }
+
+		public IActionResult Call()
+		{
+			return View();
+		}
+
+	}
 }

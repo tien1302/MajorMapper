@@ -87,7 +87,7 @@ namespace WebClient.Controllers
                 }
             }
             ViewBag.Message = "Error!";
-            return View(p);
+            return View("Success");
         }
 
         public async Task<ActionResult> Update(int id)

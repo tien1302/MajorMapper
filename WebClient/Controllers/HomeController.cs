@@ -57,7 +57,7 @@ namespace WebClient.Controllers
                 {
                     return Redirect("~/Major/Index");
                 }
-                return Redirect("~/Question/Index");
+                return Redirect("~/Booking/Index");
             }
             ViewBag.Message = token.Replace("\"", "");
             return View("Index");
@@ -103,7 +103,7 @@ namespace WebClient.Controllers
                 {
                     return Redirect("~/Major/Index");
                 }
-                return Redirect("~/Question/Index");
+                return Redirect("~/Booking/Index");
             }
             ViewBag.Message = token.Replace("\"", "");
             return View("Index");
