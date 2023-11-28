@@ -50,6 +50,7 @@ namespace BAL.DAOs.Implementations
                 {
                     TestId = create.TestId,
                     QuestionId = create.QuestionId,
+                    GameData = create.GameData,
                     Status = create.Status,
                 };
                 _testQuestionRepository.Insert(testQuestion);
@@ -137,6 +138,7 @@ namespace BAL.DAOs.Implementations
 
                 existedTestQuestion.TestId = update.TestId;
                 existedTestQuestion.QuestionId = update.QuestionId;
+                existedTestQuestion.GameData = update.GameData;
                 existedTestQuestion.Status = update.Status;
                 _testQuestionRepository.Update(existedTestQuestion);
                 _testQuestionRepository.Commit();

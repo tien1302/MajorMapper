@@ -52,17 +52,6 @@
                                                 </select>
                                                 <span asp-validation-for="StartDateTime" class="text-danger"></span>
                                             </div>
-                                            @*  <div class="form-group">
-                                            <label asp-for="StartDateTime" class="control-label">Lặp lại</label>
-                                            <select asp-for="StartDateTime" class="form-control">
-                                            <option selected="" disabled="">Không lặp lại</option>
-                                            <option value="everyday">Hằng ngày</option>
-                                            <option value="everyday">Hằng ngày</option>
-                                            <option value="weekly">Hằng tuần</option>
-                                            <option value="monthly">Hàng tháng</option>
-                                            </select>
-                                            <span asp-validation-for="StartDateTime" class="text-danger"></span>
-                                            </div> *@
                                             <div class="form-group">
                                                 <button type="submit" value="Index" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
                                                 <a asp-action="Index">Quay lại</a>
@@ -143,8 +132,6 @@
 
             locale: 'vi',
             navLinks: true, // can click day/week names to navigate views
-            editable: true,
-            selectable: true,
             selectMirror: true,
             eventClick: function (arg) {
                 var tilte = arg.event.title;

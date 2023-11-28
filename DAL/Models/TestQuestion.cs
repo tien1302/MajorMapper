@@ -9,9 +9,9 @@ public partial class TestQuestion
 
     public int QuestionId { get; set; }
 
-    public bool Status { get; set; }
+    public string? GameData { get; set; }
 
-    public string? TestData { get; set; }
+    public bool Status { get; set; }
 
     public virtual Question Question { get; set; } = null!;
 

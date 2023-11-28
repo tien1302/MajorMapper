@@ -100,7 +100,7 @@ public partial class MajorMapperContext : DbContext
 
         modelBuilder.Entity<Feedback>(entity =>
         {
-            entity.HasKey(e => e.Id).HasName("PK__Feedback__3214EC07DD726C27");
+            entity.HasKey(e => e.Id).HasName("PK__feedback__3214EC07F4DEEA96");
 
             entity.ToTable("Feedback");
 
@@ -127,6 +127,7 @@ public partial class MajorMapperContext : DbContext
 
             entity.ToTable("Method");
 
+            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(50);
         });
