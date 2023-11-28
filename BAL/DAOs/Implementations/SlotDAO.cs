@@ -86,6 +86,31 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<GetSlot> CheckStatus(int key)
+        {
+            try
+            {
+                string formattedTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
+                DateTime check = DateTime.Parse(formattedTime);
+                List<Slot> list = _slotRepository.Get().Where(s => s.ConsultantId == key && s.EndDateTime <= check && s.Status == "Not Book").ToList();
+                if (list.Count > 0)
+                {
+                    foreach (var item in list)
+                    {
+                        item.Status = "Finish";
+                        _slotRepository.Update(item);
+                        _slotRepository.Commit();
+                    }
+                }
+                return _mapper.Map<List<GetSlot>>(list);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public GetSlot GetById(int key)
         {
             try
