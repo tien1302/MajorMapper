@@ -152,7 +152,7 @@
                     window.open("/slot/call");
                 } 
                 else if (tilte == 'Chưa đặt') {
-                    if (confirm('Are you sure you want to delete this event?')) {
+                    if (confirm('Bạn có đồng ý xóa slot này không?')) {
                         var id = arg.event.id;
                         $.ajax({
                             url: "/Slot/Delete",

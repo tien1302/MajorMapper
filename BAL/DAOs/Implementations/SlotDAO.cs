@@ -93,14 +93,17 @@ namespace BAL.DAOs.Implementations
             {
                 string formattedTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
                 DateTime check = DateTime.Parse(formattedTime);
-                List<Slot> list = _slotRepository.Get().Where(s => s.ConsultantId == key && s.EndDateTime <= check && s.Status == "Not Book").ToList();
+                List<Slot> list = _slotRepository.Get().Where(s => s.ConsultantId == key && s.EndDateTime <= check ).ToList();
                 if (list.Count > 0)
                 {
                     foreach (var item in list)
                     {
-                        item.Status = "Finish";
-                        _slotRepository.Update(item);
-                        _slotRepository.Commit();
+                        if(item.Status != "Finish")
+                        {
+                            item.Status = "Finish";
+                            _slotRepository.Update(item);
+                            _slotRepository.Commit();
+                        }
                     }
                 }
                 return _mapper.Map<List<GetSlot>>(list);
