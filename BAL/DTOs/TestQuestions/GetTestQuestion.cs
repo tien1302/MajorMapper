@@ -13,6 +13,8 @@ namespace BAL.DTOs.TestQuestions
 
         public int QuestionId { get; set; }
 
+        public string GameData { get; set; }
+
         public bool Status { get; set; }
     }
 }
