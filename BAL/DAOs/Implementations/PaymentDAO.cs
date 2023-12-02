@@ -76,6 +76,7 @@ namespace BAL.DAOs.Implementations
 
             return paymentUrl;
         }
+
         public CreatePayment PaymentExecute(IQueryCollection collections)
         {
             var pay = new VnPayLibrary();
