@@ -11,9 +11,9 @@ namespace BAL.Profiles
 {
     public class QuestionProfile : Profile
     {
-        public QuestionProfile() 
-        { 
-            CreateMap<Question, GetQuestion>().ReverseMap();
+        public QuestionProfile()
+        {
+            CreateMap<Question, GetQuestion>().ForMember(dept => dept.PersonalityTypeName, opts => opts.MapFrom(src => src.PersonalityType.Name)).ReverseMap();
         }
     }
 }

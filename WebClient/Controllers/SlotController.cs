@@ -1,10 +1,14 @@
-﻿using BAL.DTOs.Slots;
+﻿using AgoraIO.Media;
+using BAL.DTOs.Slots;
+using DAL.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.MSIdentity.Shared;
 using NuGet.Common;
 using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace WebClient.Controllers
 {
@@ -81,5 +85,31 @@ namespace WebClient.Controllers
 			return View();
 		}
 
-	}
+        public IActionResult Lobby()
+        {
+            return View();
+        }
+        
+        public async Task<ActionResult> GetToken(string channel)
+        {
+            string appId = "32f662b1d5cf4a50bbf47cd0ba9bfcd5";
+            string appCertificate = "b1f5ac0e01f04a58a3fb5f6c43b903c4";
+            uint uid = (uint)new Random().Next(1, 230);
+            uint expirationTimeInSeconds = 3600 * 24;
+            uint currentTimeStamp = (uint)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            uint privilegeExpiredTs = currentTimeStamp + expirationTimeInSeconds;
+            RtcTokenBuilder.Role role = RtcTokenBuilder.Role.RolePublisher;
+
+            RtcTokenBuilder tokenBuilder = new RtcTokenBuilder();
+            string token = RtcTokenBuilder.buildTokenWithUID(appId, appCertificate, channel, uid, role, privilegeExpiredTs);
+
+            return new JsonResult(token);
+        }
+
+        public IActionResult Room()
+        {
+            return View();
+        }
+
+    }
 }

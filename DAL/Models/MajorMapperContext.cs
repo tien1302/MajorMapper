@@ -127,7 +127,6 @@ public partial class MajorMapperContext : DbContext
 
             entity.ToTable("Method");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(50);
         });

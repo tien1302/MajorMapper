@@ -26,7 +26,7 @@
                                     <tr>
 
                                         <th data-field="type" data-sortable="true">
-                                            Loại câu hỏi
+                                            Loại tính cách
                                         </th>
                                         <th data-field="des" data-sortable="true">
                                             Mô tả
@@ -42,7 +42,7 @@
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Type)
+                                                @Html.DisplayFor(modelItem => item.PersonalityTypeName)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Description)
@@ -50,6 +50,12 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.CreateDateTime)
                                             </td>
+                                            <td>
+                                                <a href="@Url.Action("Update", new {id=item.Id})" title="Sửa" class="btn btn-default">
+                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                            
                                         </tr>
                                     }
                                 </tbody>

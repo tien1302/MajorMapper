@@ -30,8 +30,10 @@ namespace BAL.DAOs.Implementations
                 Question question = new Question()
                 {
                     PersonalityTypeId = create.PersonalityTypeId,
+                    Type = 1,
                     Description = create.Description,
                     CreateDateTime = DateTime.Now,
+                    Status = "1"
                 };
                 _questionRepository.Insert(question);
                 _questionRepository.Commit();
@@ -85,7 +87,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get().ToList());
+                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get(includeProperties: "PersonalityType").ToList());
                 return listQuestion;
             }
             catch (Exception ex)

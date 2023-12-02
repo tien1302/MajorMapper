@@ -55,7 +55,7 @@ namespace WebClient.Controllers
                 }
                 if (role == "Consultant")
                 {
-                    return Redirect("~/Major/Index");
+                    return Redirect("~/Question/Index");
                 }
                 return Redirect("~/Booking/Index");
             }
@@ -101,7 +101,7 @@ namespace WebClient.Controllers
                 }
                 if (role == "Consultant")
                 {
-                    return Redirect("~/Major/Index");
+                    return Redirect("~/Question/Index");
                 }
                 return Redirect("~/Booking/Index");
             }

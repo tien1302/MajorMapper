@@ -13,7 +13,8 @@ namespace BAL.DTOs.Questions
         public int Id { get; set; }
 
         public int Type { get; set; }
-
+        public int PersonalityTypeId { get; set; }
+        public string PersonalityTypeName { get; set; }
         public DateTime CreateDateTime { get; set; }
 
         public string Description { get; set; }

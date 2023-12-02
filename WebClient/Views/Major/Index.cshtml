@@ -23,6 +23,9 @@
                                    data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
+                                        <th data-field="person" data-sortable="true">
+                                            Loại tính cách
+                                        </th>
                                         <th data-field="name" data-sortable="true">
                                             Tên ngành nghề
                                         </th>
@@ -42,6 +45,9 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PersonalityTypeName)
+                                            </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)
                                             </td>
