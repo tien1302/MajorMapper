@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="AgoraDynamicKey" Version="1.0.0" />
+    <PackageReference Include="Crc32.NET" Version="1.2.0" />
     <PackageReference Include="jQuery" Version="3.7.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.12" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />

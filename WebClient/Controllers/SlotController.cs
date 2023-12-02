@@ -95,12 +95,11 @@ namespace WebClient.Controllers
             string appId = "32f662b1d5cf4a50bbf47cd0ba9bfcd5";
             string appCertificate = "b1f5ac0e01f04a58a3fb5f6c43b903c4";
             uint uid = (uint)new Random().Next(1, 230);
-            uint expirationTimeInSeconds = 3600 * 24;
+            uint expirationTimeInSeconds = 3600;
             uint currentTimeStamp = (uint)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
             uint privilegeExpiredTs = currentTimeStamp + expirationTimeInSeconds;
             RtcTokenBuilder.Role role = RtcTokenBuilder.Role.RolePublisher;
 
-            RtcTokenBuilder tokenBuilder = new RtcTokenBuilder();
             string token = RtcTokenBuilder.buildTokenWithUID(appId, appCertificate, channel, uid, role, privilegeExpiredTs);
 
             return new JsonResult(token);
