@@ -72,6 +72,7 @@ namespace BAL.DAOs.Implementations
             }
         }
 
+        // Hàm lấy list slot theo consultantId
         public List<GetSlot> Get(int key)
         {
             try
@@ -80,6 +81,20 @@ namespace BAL.DAOs.Implementations
             
                 List<GetSlot> result = listSlot.Where(p => p.ConsultantId == key).ToList();
                 return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        // Hàm lấy list slot trống theo consultantId cho mobile
+        public List<GetSlot> GetSlotActive(int key)
+        {
+            try
+            {
+                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get(filter: p => p.ConsultantId == key && p.Status == "Not Booked").ToList());
+                return listSlot;
             }
             catch (Exception ex)
             {
@@ -114,7 +129,8 @@ namespace BAL.DAOs.Implementations
             }
         }
 
-        public GetSlot GetById(int key)
+        // Hàm lấy slot theo SlotId
+        public GetSlot GetBySlotId(int key)
         {
             try
             {
@@ -133,6 +149,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
         public List<GetSlot> GetAll()
         {
             try

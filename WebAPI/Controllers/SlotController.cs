@@ -33,6 +33,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        // Hàm lấy list slot theo consultantId
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -50,12 +51,32 @@ namespace WebAPI.Controllers
                 });
             }
         }
+
+        // Hàm lấy list slot trống theo consultantId cho mobile
+        [HttpGet("GetSlotActive/{id}")]
+        public IActionResult GetSlotActive(int id)
+        {
+            try
+            {
+                List<GetSlot> slot = _slotDAO.GetSlotActive(id);
+                return Ok(slot);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
+
+        // Hàm lấy slot theo SlotId
         [HttpGet("GetById/{id}")]
         public IActionResult GetById(int id)
         {
             try
             {
-                GetSlot slot = _slotDAO.GetById(id);
+                GetSlot slot = _slotDAO.GetBySlotId(id);
                 return Ok(slot);
             }
             catch (Exception ex)
