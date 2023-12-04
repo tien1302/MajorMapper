@@ -1,4 +1,8 @@
-﻿<link href="~/agora/Call.css" rel="stylesheet" media='screen' type='text/css' asp-append-version="true" />
+﻿@using BAL.DTOs.Bookings;
+@using DAL.Models;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor Accessor
+<link href="~/agora/Call.css" rel="stylesheet" media='screen' type='text/css' asp-append-version="true" />
 
 @{
     ViewData["Title"] = "Create";
@@ -9,28 +13,19 @@
 
 <section id="form-container">
 
-    <img id="logo" src="{% static 'images/chat-icon.png' %}" />
+    <img id="logo" src="~/img/logo/logo.png" />
 
     <div id="welcome-message">
         <h1>Welcome to MyChat</h1>
-        <p>A group video calling platform made just for you!</p>
     </div>
 
     <form id="form">
         <div class="field-wrapper">
 
+            <input type="hidden" name="room" value="@((ViewData["Booking"] as GetBooking)?.UserId)" />
+            <input type="hidden" name="name" value="@Accessor.HttpContext.Session.GetString("Name")" />
             <div class="form-field">
-                <label>Room:</label>
-                <input name="room" placeholder="Enter a room name..." style="text-transform:uppercase" />
-            </div>
-
-            <div class="form-field">
-                <label>Name:</label>
-                <input name="name" placeholder="Enter your name..." style="text-transform:uppercase" />
-            </div>
-
-            <div class="form-field">
-                <input type="submit" value="Join Stream" />
+                <input type="submit" value="Tham gia" />
             </div>
         </div>
     </form>
@@ -42,10 +37,10 @@
 
     let handleSubmit = async (e) => {
         e.preventDefault()
-        let room = e.target.room.value.toUpperCase()
+        let room = e.target.room.value
         let name = e.target.name.value
 
-        let response = await fetch(`/get_token/?channel=${room}`)
+        let response = await fetch(`/Slot/gettoken/?channel=${room}`)
         let data = await response.json()
 
         let UID = data.uid
@@ -56,7 +51,7 @@
         sessionStorage.setItem('room', room)
         sessionStorage.setItem('name', name)
 
-        window.open('/room/', '_self')
+        window.open('/Slot/Room/', '_self')
     }
 
 

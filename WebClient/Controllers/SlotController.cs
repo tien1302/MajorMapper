@@ -1,4 +1,5 @@
 ﻿using AgoraIO.Media;
+using BAL.DTOs.Bookings;
 using BAL.DTOs.Slots;
 using DAL.Models;
 using Microsoft.AspNetCore.Http;
@@ -16,13 +17,15 @@ namespace WebClient.Controllers
     {
         private readonly HttpClient client;
         private string baseApiUrl = "";
+        private string bookingApiUrl = "";
 
         public SlotController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
-            baseApiUrl = baseApiUrl = "http://localhost:1189/api/Slot";
+            baseApiUrl = "http://localhost:1189/api/Slot";
+            bookingApiUrl = "http://localhost:1189/api/Booking";
         }
 
         public async Task<ActionResult> Index()
@@ -85,8 +88,18 @@ namespace WebClient.Controllers
 			return View();
 		}
 
-        public IActionResult Lobby()
+        public async Task<IActionResult> Lobby()
         {
+            string bookingId = Request.Query["bookingId"];
+            HttpResponseMessage response = await client.GetAsync($"{bookingApiUrl}/{bookingId}");
+            var strData = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            GetBooking booking = JsonSerializer.Deserialize<GetBooking>(strData, options);
+            ViewData["Booking"] = booking;
             return View();
         }
         
@@ -102,7 +115,8 @@ namespace WebClient.Controllers
 
             string token = RtcTokenBuilder.buildTokenWithUID(appId, appCertificate, channel, uid, role, privilegeExpiredTs);
 
-            return new JsonResult(token);
+
+            return Json(new { token = token, uid = uid });
         }
 
         public IActionResult Room()

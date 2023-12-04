@@ -135,8 +135,10 @@
             selectMirror: true,
             eventClick: function (arg) {
                 var tilte = arg.event.title;
+                var id = arg.event.id;
                 if (tilte == 'Đã được đặt') {
-                    window.open("/slot/call");
+                   
+                    window.open(`/slot/lobby?bookingId=${id}`);
                 } 
                 else if (tilte == 'Chưa đặt') {
                     if (confirm('Bạn có đồng ý xóa slot này không?')) {
