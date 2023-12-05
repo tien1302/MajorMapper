@@ -11,7 +11,7 @@ namespace BAL.DAOs.Interfaces
     {
         public List<GetBooking> GetAll();
         public GetBooking Get(int key);
-        public void Create(CreateBooking create);
+        public GetBooking Create(CreateBooking create);
         public void Update(int key, UpdateBooking update);
         public void Delete(int key);
     }

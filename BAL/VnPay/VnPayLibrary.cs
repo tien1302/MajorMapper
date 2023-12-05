@@ -55,7 +55,6 @@ namespace BAL.VnPay
                 Amount = amount,
                 Description = description,
             };
-            
             return create;
         }
         public string GetIpAddress(HttpContext context)

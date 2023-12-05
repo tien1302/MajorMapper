@@ -82,5 +82,19 @@ namespace WebAPI.Controllers
             }
         }
 
+        //public IActionResult CreatePaymentUrl(CreatePayment model)
+        //{
+        //    var url = _paymentDAO.CreatePaymentUrl(model, HttpContext);
+
+        //    return Redirect(url);
+        //}
+
+        //public IActionResult PaymentCallback()
+        //{
+        //    var response = _paymentDAO.PaymentExecute(Request.Query);
+
+        //    return Json(response);
+        //}
+
     }
 }
