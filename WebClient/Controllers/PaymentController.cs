@@ -28,9 +28,13 @@ namespace WebClient.Controllers
 
         public IActionResult CreatePaymentUrl(CreatePayment model)
         {
-            if (TempData["BookingData"] is string bookingData)
+            if (ViewData["BookingData"] is string bookingData)
             {
-                var booking = JsonSerializer.Deserialize<GetBooking>(bookingData);
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                var booking = JsonSerializer.Deserialize<GetBooking>(bookingData, options);
                 // Use 'booking' data as needed in the PaymentController
                 model = new CreatePayment
                 {

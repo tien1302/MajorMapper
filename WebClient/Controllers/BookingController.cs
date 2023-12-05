@@ -88,7 +88,11 @@ namespace WebClient.Controllers
 
                     var responseBody = await response.Content.ReadAsStringAsync();
                     // Deserialize the response body to get the ID
-                    dynamic responseObject = JsonSerializer.Deserialize<GetBooking>(responseBody);
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    GetBooking responseObject = JsonSerializer.Deserialize<GetBooking>(responseBody, options);
                     if (responseObject != null)
                     {
                         // Assuming the ID is in a property called "Id" in the response JSON
@@ -103,7 +107,8 @@ namespace WebClient.Controllers
                             PropertyNameCaseInsensitive = true
                         };
                         GetBooking booking = JsonSerializer.Deserialize<GetBooking>(strData1, options1);
-                        TempData["BookingData"] = JsonSerializer.Serialize(p);
+
+                        ViewData["BookingData"] = booking;
 
                     }
 
