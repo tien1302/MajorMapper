@@ -85,16 +85,38 @@ namespace WebClient.Controllers
                     string strDatas = JsonSerializer.Serialize(p.SlotId);
                     var contentDatas = new StringContent(strDatas, System.Text.Encoding.UTF8, "application/json");
                     HttpResponseMessage responses = await client.PutAsync($"{slotApiUrl}/{p.SlotId}", contentDatas);
+
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    // Deserialize the response body to get the ID
+                    dynamic responseObject = JsonSerializer.Deserialize<GetBooking>(responseBody);
+                    if (responseObject != null)
+                    {
+                        // Assuming the ID is in a property called "Id" in the response JSON
+                        var id = responseObject.Id;
+                        // Use the ID as needed
+
+                        HttpResponseMessage response1 = await client.GetAsync($"{baseApiUrl}/{id}");
+                        var strData1 = await response1.Content.ReadAsStringAsync();
+
+                        var options1 = new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        };
+                        GetBooking booking = JsonSerializer.Deserialize<GetBooking>(strData1, options1);
+                        TempData["BookingData"] = JsonSerializer.Serialize(p);
+
+                    }
+
+                    return RedirectToAction("CreatePaymentUrl", "Payment");
                 }
                 else
                 {
                     ViewBag.Message = "Error while calling WebAPI!";
                 }
-
             }
             ViewBag.Message = "Error!";
 
-            return View("Success");
+            return Redirect("~/Payment/CreatePaymentUrl");
         }
 
         public async Task<ActionResult> Update(int id)

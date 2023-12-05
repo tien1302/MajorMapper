@@ -51,7 +51,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
-        public void Create(CreateBooking create)
+        public GetBooking Create(CreateBooking create)
         {
             try
             {
@@ -64,6 +64,8 @@ namespace BAL.DAOs.Implementations
                 };
                 this._Repo.Insert(booking);
                 this._Repo.Commit();
+
+                return this._mapper.Map<GetBooking>(booking);
             }
             catch (Exception ex)
             {

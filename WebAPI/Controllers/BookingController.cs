@@ -60,8 +60,8 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _DAO.Create(create);
-                return Ok();
+                GetBooking booking = _DAO.Create(create);
+                return Ok(booking);
             }
             catch (Exception ex)
             {
