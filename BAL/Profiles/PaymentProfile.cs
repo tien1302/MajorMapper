@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using BAL.DTOs.Slots;
+using BAL.DTOs.Payments;
 using DAL.Models;
 using System;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace BAL.Profiles
     {
         public PaymentProfile()
         {
-            CreateMap<Slot, GetSlot>().ReverseMap();
+            CreateMap<Payment, GetPayment>().ReverseMap();
         }
     }
 }

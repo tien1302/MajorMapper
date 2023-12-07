@@ -72,7 +72,6 @@ public partial class MajorMapperContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.Phone).HasMaxLength(11);
-            entity.Property(e => e.Status).HasMaxLength(20);
 
             entity.HasOne(d => d.RoleNavigation).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.Role)
@@ -127,6 +126,7 @@ public partial class MajorMapperContext : DbContext
 
             entity.ToTable("Method");
 
+            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(50);
         });
@@ -152,20 +152,16 @@ public partial class MajorMapperContext : DbContext
             entity.ToTable("Payment");
 
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
-            entity.Property(e => e.Description).HasMaxLength(1);
             entity.Property(e => e.OrderId).HasMaxLength(50);
-            entity.Property(e => e.OrderType).HasMaxLength(1);
-            entity.Property(e => e.Status).HasMaxLength(50);
+            entity.Property(e => e.OrderType).HasMaxLength(50);
             entity.Property(e => e.TransactionId).HasMaxLength(50);
 
-            entity.HasOne(d => d.Relatied).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.RelatiedId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+            entity.HasOne(d => d.Booking).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.BookingId)
                 .HasConstraintName("FK_Payment_Booking");
 
-            entity.HasOne(d => d.RelatiedNavigation).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.RelatiedId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+            entity.HasOne(d => d.TestResult).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.TestResultId)
                 .HasConstraintName("FK_Payment_TestResult");
 
             entity.HasOne(d => d.User).WithMany(p => p.Payments)

@@ -82,19 +82,38 @@ namespace WebAPI.Controllers
             }
         }
 
-        //public IActionResult CreatePaymentUrl(CreatePayment model)
-        //{
-        //    var url = _paymentDAO.CreatePaymentUrl(model, HttpContext);
+        [HttpPost("CreatePaymentUrl")]
+        public IActionResult CreatePaymentUrl([FromBody] CreatePayment model)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var url = _paymentDAO.CreatePaymentUrl(model, HttpContext);
 
-        //    return Redirect(url);
-        //}
+                return Ok(url);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-        //public IActionResult PaymentCallback()
-        //{
-        //    var response = _paymentDAO.PaymentExecute(Request.Query);
+        [HttpPost("PaymentCallback")]
+        public IActionResult PaymentCallback([FromBody] CreatePayment model)
+        {
+            try 
+            {
+                var response = _paymentDAO.PaymentExecute(model);
 
-        //    return Json(response);
-        //}
-
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

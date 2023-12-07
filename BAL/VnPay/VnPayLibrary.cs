@@ -18,45 +18,17 @@ namespace BAL.VnPay
         private readonly SortedList<string, string> _requestData = new SortedList<string, string>(new VnPayCompare());
         private readonly SortedList<string, string> _responseData = new SortedList<string, string>(new VnPayCompare());
 
-        public CreatePayment GetFullResponseData(IQueryCollection collection, string hashSecret)
+        public CreatePayment GetFullResponseData(CreatePayment model, string hashSecret)
         {
-            var vnPay = new VnPayLibrary();
+            //var vnPay = new VnPayLibrary();
+            //var checkSignature =
+            //    vnPay.ValidateSignature(model.SecureHash, hashSecret); //check Signature
 
-            foreach (var (key, value) in collection)
-            {
-                if (!string.IsNullOrEmpty(key) && key.StartsWith("vnp_"))
-                {
-                    vnPay.AddResponseData(key, value);
-                }
-            }
-
-            var userId = Convert.ToInt32(vnPay.GetResponseData("userId"));
-            var relatiedId = Convert.ToInt32(vnPay.GetResponseData("relatiedId"));
-            var orderType = vnPay.GetResponseData("orderType");
-            var orderId = vnPay.GetResponseData("vnp_TxnRef");
-            var transactionId = vnPay.GetResponseData("vnp_TransactionNo");
-            var vnpSecureHash =
-                collection.FirstOrDefault(k => k.Key == "vnp_SecureHash").Value; //hash của dữ liệu trả về
-            var description = vnPay.GetResponseData("vnp_OrderInfo");
-            var amount = Convert.ToInt32(vnPay.GetResponseData("vnp_Amount"));
-
-            var checkSignature =
-                vnPay.ValidateSignature(vnpSecureHash, hashSecret); //check Signature
-
-            if (!checkSignature)
-                return null;
-            CreatePayment create = new CreatePayment()
-            {
-                UserId = userId,
-                OrderType = orderType,
-                RelatiedId = relatiedId,
-                OrderId = orderId.ToString(),
-                TransactionId = transactionId,
-                Amount = amount,
-                Description = description,
-            };
-            return create;
+            //if (!checkSignature)
+            //    return null;
+            return model;
         }
+
         public string GetIpAddress(HttpContext context)
         {
             var ipAddress = string.Empty;
@@ -109,7 +81,7 @@ namespace BAL.VnPay
         {
             var data = new StringBuilder();
 
-            foreach (var (key, value) in _requestData.Where(kv => !string.IsNullOrEmpty(kv.Value)))
+            foreach (var (key, value) in _requestData.Where(kv => kv.Key != "vnp_UserId" && kv.Key != "vnp_RelatiedId" && !string.IsNullOrEmpty(kv.Value)))
             {
                 data.Append(WebUtility.UrlEncode(key) + "=" + WebUtility.UrlEncode(value) + "&");
             }

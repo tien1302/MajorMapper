@@ -108,11 +108,8 @@ namespace WebClient.Controllers
                         };
                         GetBooking booking = JsonSerializer.Deserialize<GetBooking>(strData1, options1);
 
-                        ViewData["BookingData"] = booking;
-
+                        return RedirectToAction("CreatePaymentUrl", "Payment", booking);
                     }
-
-                    return RedirectToAction("CreatePaymentUrl", "Payment");
                 }
                 else
                 {

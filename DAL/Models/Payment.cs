@@ -11,7 +11,9 @@ public partial class Payment
 
     public string OrderType { get; set; } = null!;
 
-    public int RelatiedId { get; set; }
+    public int? BookingId { get; set; }
+
+    public int? TestResultId { get; set; }
 
     public string OrderId { get; set; } = null!;
 
@@ -21,13 +23,11 @@ public partial class Payment
 
     public string Description { get; set; } = null!;
 
-    public string Status { get; set; } = null!;
-
     public DateTime CreateDateTime { get; set; }
 
-    public virtual Booking Relatied { get; set; } = null!;
+    public virtual Booking? Booking { get; set; }
 
-    public virtual TestResult RelatiedNavigation { get; set; } = null!;
+    public virtual TestResult? TestResult { get; set; }
 
     public virtual Account User { get; set; } = null!;
 }

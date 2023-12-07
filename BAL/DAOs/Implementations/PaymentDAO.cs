@@ -19,7 +19,7 @@ namespace BAL.DAOs.Implementations
     {
         private PaymentRepository _paymentRepository;
         private IMapper _mapper;
-        private readonly IConfiguration _configuration;
+        private IConfiguration _configuration;
 
         public PaymentDAO(IPaymentRepository paymentRepository, IMapper mapper, IConfiguration configuration)
         {
@@ -36,6 +36,7 @@ namespace BAL.DAOs.Implementations
                 {
                     UserId = createPayment.UserId,
                     OrderType = createPayment.OrderType,
+                    BookingId = createPayment.BookingId,
                     OrderId = createPayment.OrderId,
                     TransactionId = createPayment.TransactionId,
                     Amount = createPayment.Amount,
@@ -60,14 +61,15 @@ namespace BAL.DAOs.Implementations
             pay.AddRequestData("vnp_Version", _configuration["Vnpay:Version"]);
             pay.AddRequestData("vnp_Command", _configuration["Vnpay:Command"]);
             pay.AddRequestData("vnp_TmnCode", _configuration["Vnpay:TmnCode"]);
-            pay.AddRequestData("userId", create.UserId.ToString());
-            pay.AddRequestData("relatiedId", create.RelatiedId.ToString());
+            pay.AddRequestData("vnp_UserId", create.UserId.ToString());
+            pay.AddRequestData("vnp_RelatiedId", create.BookingId.ToString());
             pay.AddRequestData("vnp_Amount", (create.Amount * 100).ToString());
+            pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss"));
             pay.AddRequestData("vnp_CurrCode", _configuration["Vnpay:CurrCode"]);
             pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
             pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Locale"]);
-            pay.AddRequestData("vnp_OrderInfo", $"{create.Description}");
-            pay.AddRequestData("orderType", create.OrderType);
+            pay.AddRequestData("vnp_OrderInfo", create.Description);
+            pay.AddRequestData("vnp_OrderType", create.OrderType);
             pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
             pay.AddRequestData("vnp_TxnRef", tick);
 
@@ -77,10 +79,10 @@ namespace BAL.DAOs.Implementations
             return paymentUrl;
         }
 
-        public CreatePayment PaymentExecute(IQueryCollection collections)
+        public CreatePayment PaymentExecute(CreatePayment model)
         {
             var pay = new VnPayLibrary();
-            var response = pay.GetFullResponseData(collections, _configuration["Vnpay:HashSecret"]);
+            var response = pay.GetFullResponseData(model, _configuration["Vnpay:HashSecret"]);
             if(response != null)
                 Create(response);
             return response;
