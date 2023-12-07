@@ -78,7 +78,7 @@ namespace BAL.DAOs.Implementations
                     Role = create.Role,
                     Address = create.Address,
                     Phone = create.Phone,
-                    Status = "Hoạt động",
+                    Status = true,
                     CreateDateTime = DateTime.Now
                 };
                 this._Repo.Insert(account);

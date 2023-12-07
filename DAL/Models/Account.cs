@@ -23,7 +23,7 @@ public partial class Account
 
     public string? Phone { get; set; }
 
-    public string Status { get; set; } = null!;
+    public bool Status { get; set; }
 
     public DateTime CreateDateTime { get; set; }
 

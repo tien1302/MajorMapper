@@ -14,9 +14,13 @@ namespace BAL.DTOs.Payments
 
         public string OrderType { get; set; }
 
-        public int OrderId { get; set; }
+        public int? BookingId { get; set; }
 
-        public int TransactionId { get; set; }
+        public int? TestResultId { get; set; }
+
+        public string OrderId { get; set; }
+
+        public string TransactionId { get; set; }
 
         public int Amount { get; set; }
 

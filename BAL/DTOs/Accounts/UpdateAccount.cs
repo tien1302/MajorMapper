@@ -24,6 +24,6 @@ namespace BAL.DTOs.Accounts
         [PhoneAtribute(ErrorMessage = "Số điện thoại không hợp lệ.")]
         public string? Phone { get; set; }
 
-        public string Status { get; set; } = null!;
+        public bool Status { get; set; } 
     }
 }
