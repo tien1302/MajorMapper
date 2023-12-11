@@ -38,7 +38,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetAccount> accounts = this._mapper.Map<List<GetAccount>>(this._Repo.Get(filter: a => a.Status == true, includeProperties: "RoleNavigation").ToList());
+                List<GetAccount> accounts = this._mapper.Map<List<GetAccount>>(this._Repo.Get(filter: a => a.Status == true && a.Email != "admin@gmail.com", includeProperties: "RoleNavigation").ToList());
                 return accounts;
             }
             catch (Exception ex)
@@ -200,7 +200,7 @@ namespace BAL.DAOs.Implementations
                         }
                     case 3:
                         {
-                            getAccount.roleName = "User";
+                            getAccount.roleName = "Player";
                             break;
                         }
                 }

@@ -18,12 +18,14 @@ namespace BAL.DAOs.Implementations
     public class PaymentDAO : IPaymentDAO
     {
         private PaymentRepository _paymentRepository;
+        private BookingRepository _bookingRepository;
         private IMapper _mapper;
         private IConfiguration _configuration;
 
-        public PaymentDAO(IPaymentRepository paymentRepository, IMapper mapper, IConfiguration configuration)
+        public PaymentDAO(IPaymentRepository paymentRepository, IBookingRepository bookingRepository, IMapper mapper, IConfiguration configuration)
         {
             _paymentRepository = (PaymentRepository)paymentRepository;
+            _bookingRepository = (BookingRepository)bookingRepository;
             _mapper = mapper;
             _configuration = configuration;
         }
@@ -83,8 +85,17 @@ namespace BAL.DAOs.Implementations
         {
             var pay = new VnPayLibrary();
             var response = pay.GetFullResponseData(model, _configuration["Vnpay:HashSecret"]);
-            if(response != null)
+            if (response != null)
+            {
                 Create(response);
+                Booking booking = _bookingRepository.GetByID(response.BookingId);
+                if (booking != null)
+                {
+                    booking.Status = "Finish";
+                    _bookingRepository.Update(booking);
+                    _bookingRepository.Commit();
+                }
+            }
             return response;
         }
 
