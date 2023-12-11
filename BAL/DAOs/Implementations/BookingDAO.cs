@@ -59,7 +59,7 @@ namespace BAL.DAOs.Implementations
                 {
                     UserId = create.UserId,
                     SlotId = create.SlotId,
-                    Status = "Đã đặt",
+                    Status = "Progressing",
                     CreateDateTime = DateTime.Now
                 };
                 this._Repo.Insert(booking);

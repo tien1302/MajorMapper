@@ -38,7 +38,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetAccount> accounts = this._mapper.Map<List<GetAccount>>(this._Repo.Get(includeProperties: "RoleNavigation").ToList());
+                List<GetAccount> accounts = this._mapper.Map<List<GetAccount>>(this._Repo.Get(filter: a => a.Status == true, includeProperties: "RoleNavigation").ToList());
                 return accounts;
             }
             catch (Exception ex)
@@ -63,6 +63,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
         public void Create(CreateAccount create)
         {
             try
@@ -89,6 +90,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
         public void Update(int key, UpdateAccount update)
         {
             try
@@ -124,7 +126,8 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Account Id không tồn tại.");
                 }
-                this._Repo.Delete(key);
+                existedAccount.Status = false;
+                this._Repo.Update(existedAccount);
                 this._Repo.Commit();
             }
             catch (Exception ex)
