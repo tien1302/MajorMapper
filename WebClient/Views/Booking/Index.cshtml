@@ -44,7 +44,7 @@
         var Data1 = [];
         var array = @Html.Raw(Json.Serialize(ViewData["Slots"] as List<GetSlot>));
         for (var i = 0; i < array.length; i++) {
-            if (array[i].status == "Not Booked") {
+            if (array[i].status == "Available") {
 
                 var isStartDateTimeExists = false;
                 for (var j = 0; j < Data1.length; j++) {

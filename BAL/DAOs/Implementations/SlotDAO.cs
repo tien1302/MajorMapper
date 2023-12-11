@@ -43,7 +43,7 @@ namespace BAL.DAOs.Implementations
                     StartDateTime = startDateTime,
                     EndDateTime = startDateTime.AddHours(1),
                     CreateDateTime = DateTime.Now,
-                    Status = "Not Booked",
+                    Status = "Available",
                 };
                 _slotRepository.Insert(slot);
                 _slotRepository.Commit();
