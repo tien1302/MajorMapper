@@ -15,7 +15,5 @@ public partial class Notification
 
     public DateTime Time { get; set; }
 
-    public bool IsRead { get; set; }
-
     public virtual Booking? Booking { get; set; }
 }

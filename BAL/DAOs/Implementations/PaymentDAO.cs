@@ -36,8 +36,7 @@ namespace BAL.DAOs.Implementations
             {
                 Payment payment = new Payment()
                 {
-                    UserId = createPayment.UserId,
-                    OrderType = createPayment.OrderType,
+                    PlayerId = createPayment.PlayerId,
                     BookingId = createPayment.BookingId,
                     OrderId = createPayment.OrderId,
                     TransactionId = createPayment.TransactionId,
@@ -63,7 +62,7 @@ namespace BAL.DAOs.Implementations
             pay.AddRequestData("vnp_Version", _configuration["Vnpay:Version"]);
             pay.AddRequestData("vnp_Command", _configuration["Vnpay:Command"]);
             pay.AddRequestData("vnp_TmnCode", _configuration["Vnpay:TmnCode"]);
-            pay.AddRequestData("vnp_UserId", create.UserId.ToString());
+            pay.AddRequestData("vnp_UserId", create.PlayerId.ToString());
             pay.AddRequestData("vnp_RelatiedId", create.BookingId.ToString());
             pay.AddRequestData("vnp_Amount", (create.Amount * 100).ToString());
             pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss"));
@@ -71,7 +70,6 @@ namespace BAL.DAOs.Implementations
             pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
             pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Locale"]);
             pay.AddRequestData("vnp_OrderInfo", create.Description);
-            pay.AddRequestData("vnp_OrderType", create.OrderType);
             pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
             pay.AddRequestData("vnp_TxnRef", tick);
 

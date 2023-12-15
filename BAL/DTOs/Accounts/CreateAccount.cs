@@ -27,7 +27,7 @@ namespace BAL.DTOs.Accounts
         [ComparationImportDateValidation(ErrorMessage = "Ngày sinh không vượt quá hiện tại.")]
         public DateTime? DoB { get; set; }
 
-        public int Role { get; set; }
+        public int RoleId { get; set; }
         [MaxLength(200, ErrorMessage = "Địa chỉ không vượt quá 100 ký tự.")]
         public string? Address { get; set; }
         [PhoneAtribute(ErrorMessage = "Số điện thoại không hợp lệ.")]

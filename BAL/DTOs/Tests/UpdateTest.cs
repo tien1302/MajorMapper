@@ -8,7 +8,7 @@ namespace BAL.DTOs.Tests
 {
     public class UpdateTest
     {
-        public int UserId { get; set; }
+        public int PlayerId { get; set; }
 
         public bool StatusGame { get; set; }
 

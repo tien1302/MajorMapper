@@ -30,8 +30,7 @@ namespace WebClient.Controllers
         {
             CreatePayment model = new CreatePayment()
             {
-                UserId = p.UserId,
-                OrderType = "Booking",
+                PlayerId = p.UserId,
                 BookingId = p.Id,
                 Amount = 50000,
                 Description = "Thanh toán booking",
