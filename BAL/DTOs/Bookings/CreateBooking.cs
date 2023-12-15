@@ -8,7 +8,7 @@ namespace BAL.DTOs.Bookings
 {
     public class CreateBooking
     {
-        public int UserId { get; set; }
+        public int PlayerId { get; set; }
 
         public int SlotId { get; set; }
     }

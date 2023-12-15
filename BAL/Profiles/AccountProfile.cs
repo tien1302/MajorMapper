@@ -14,7 +14,7 @@ namespace BAL.Profiles
     {
         public AccountProfile()
         {
-            CreateMap<Account, GetAccount>().ForMember(dept => dept.roleName, opts => opts.MapFrom(src => src.RoleNavigation.RoleName)).ReverseMap();
+            CreateMap<Account, GetAccount>().ForMember(dept => dept.roleName, opts => opts.MapFrom(src => src.Role.RoleName)).ReverseMap();
         }
     }
 }

@@ -21,7 +21,7 @@
                                     <div class="review-content-section">
                                         <form asp-action="Create" id="add-department" class="add-department">
                                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                            <input asp-for="UserId" type="hidden" class="form-control" value="@Accessor.HttpContext.Session.GetInt32("AccountId")" />
+                                            <input asp-for="PlayerId" type="hidden" class="form-control" value="@Accessor.HttpContext.Session.GetInt32("AccountId")" />
                                             <input asp-for="SlotId" type="hidden" class="form-control" value="@((ViewData["SlotBooking"] as GetSlot)?.Id)" />
                                             <div class="form-group">
                                                 <label class="control-label">Slot</label>

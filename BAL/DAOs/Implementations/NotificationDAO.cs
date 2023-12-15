@@ -61,7 +61,6 @@ namespace BAL.DAOs.Implementations
                     NotificationContent = create.NotificationContent,
                     Title = create.Title,
                     Time = create.Time,
-                    IsRead = create.IsRead,
                 };
                 this._Repo.Insert(notification);
                 this._Repo.Commit();
@@ -85,7 +84,6 @@ namespace BAL.DAOs.Implementations
                 existedNotification.NotificationContent = update.NotificationContent;
                 existedNotification.Title = update.Title;
                 existedNotification.Time = update.Time;
-                existedNotification.IsRead = update.IsRead;
                 this._Repo.Update(existedNotification);
                 this._Repo.Commit();
             }

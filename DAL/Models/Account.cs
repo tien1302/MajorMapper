@@ -17,7 +17,7 @@ public partial class Account
 
     public DateTime? DoB { get; set; }
 
-    public int Role { get; set; }
+    public int RoleId { get; set; }
 
     public string? Address { get; set; }
 
@@ -31,7 +31,7 @@ public partial class Account
 
     public virtual ICollection<Payment> Payments { get; set; } = new List<Payment>();
 
-    public virtual Role RoleNavigation { get; set; } = null!;
+    public virtual Role Role { get; set; } = null!;
 
     public virtual ICollection<Slot> Slots { get; set; } = new List<Slot>();
 

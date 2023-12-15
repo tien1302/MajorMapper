@@ -29,7 +29,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                var checkUserId = _accountRepository.GetByID(create.UserId);
+                var checkUserId = _accountRepository.GetByID(create.PlayerId);
                 if (checkUserId == null)
                 {
                     throw new Exception("User Id does not exist in the system.");
@@ -37,7 +37,7 @@ namespace BAL.DAOs.Implementations
 
                 Test test = new Test()
                 {
-                    UserId = create.UserId,
+                    PlayerId = create.PlayerId,
                     StatusGame = create.StatusGame,
                     StatusPayment = create.StatusPayment,
                     CreateDateTime = DateTime.Now,
@@ -107,7 +107,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                var checkUserId = _accountRepository.GetByID(update.UserId);
+                var checkUserId = _accountRepository.GetByID(update.PlayerId);
                 if (checkUserId == null)
                 {
                     throw new Exception("User Id does not exist in the system.");
@@ -119,7 +119,7 @@ namespace BAL.DAOs.Implementations
                     throw new Exception("Id does not exist in the system.");
                 }
 
-                existedTest.UserId = update.UserId;
+                existedTest.PlayerId = update.PlayerId;
                 existedTest.StatusGame = update.StatusGame;
                 existedTest.StatusPayment = update.StatusPayment;
                 _testRepository.Update(existedTest);

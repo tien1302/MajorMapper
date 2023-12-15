@@ -76,7 +76,7 @@ namespace BAL.DAOs.Implementations
                     Password = create.Password,
                     Gender = create.Gender,
                     DoB = create.DoB,
-                    Role = create.Role,
+                    RoleId = create.RoleId,
                     Address = create.Address,
                     Phone = create.Phone,
                     Status = true,
@@ -148,7 +148,7 @@ namespace BAL.DAOs.Implementations
                 }
                 GetAccount getAccount = this._mapper.Map<GetAccount>(existedAccount);
                 //GenerateToken
-                switch (existedAccount.Role)
+                switch (existedAccount.RoleId)
                 {
                     case 1:
                         {
@@ -186,7 +186,7 @@ namespace BAL.DAOs.Implementations
                 }
                 GetAccount getAccount = this._mapper.Map<GetAccount>(existedAccount);
                 //GenerateToken
-                switch (existedAccount.Role)
+                switch (existedAccount.RoleId)
                 {
                     case 1:
                         {

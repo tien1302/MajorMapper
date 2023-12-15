@@ -73,8 +73,8 @@ public partial class MajorMapperContext : DbContext
             entity.Property(e => e.Password).HasMaxLength(50);
             entity.Property(e => e.Phone).HasMaxLength(11);
 
-            entity.HasOne(d => d.RoleNavigation).WithMany(p => p.Accounts)
-                .HasForeignKey(d => d.Role)
+            entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
+                .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Account_Role");
         });
@@ -86,15 +86,15 @@ public partial class MajorMapperContext : DbContext
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Status).HasMaxLength(50);
 
+            entity.HasOne(d => d.Player).WithMany(p => p.Bookings)
+                .HasForeignKey(d => d.PlayerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Booking_Account");
+
             entity.HasOne(d => d.Slot).WithMany(p => p.Bookings)
                 .HasForeignKey(d => d.SlotId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Booking_Slot");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Bookings)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Booking_Account");
         });
 
         modelBuilder.Entity<Feedback>(entity =>
@@ -126,7 +126,6 @@ public partial class MajorMapperContext : DbContext
 
             entity.ToTable("Method");
 
-            entity.Property(e => e.Id).ValueGeneratedNever();
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.Name).HasMaxLength(50);
         });
@@ -135,12 +134,8 @@ public partial class MajorMapperContext : DbContext
         {
             entity.ToTable("Notification");
 
-            entity.Property(e => e.Time)
-                .HasColumnType("datetime")
-                .HasColumnName("time");
-            entity.Property(e => e.Title)
-                .HasMaxLength(50)
-                .HasColumnName("title");
+            entity.Property(e => e.Time).HasColumnType("datetime");
+            entity.Property(e => e.Title).HasMaxLength(50);
 
             entity.HasOne(d => d.Booking).WithMany(p => p.Notifications)
                 .HasForeignKey(d => d.BookingId)
@@ -153,21 +148,20 @@ public partial class MajorMapperContext : DbContext
 
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
             entity.Property(e => e.OrderId).HasMaxLength(50);
-            entity.Property(e => e.OrderType).HasMaxLength(50);
             entity.Property(e => e.TransactionId).HasMaxLength(50);
 
             entity.HasOne(d => d.Booking).WithMany(p => p.Payments)
                 .HasForeignKey(d => d.BookingId)
                 .HasConstraintName("FK_Payment_Booking");
 
-            entity.HasOne(d => d.TestResult).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.TestResultId)
-                .HasConstraintName("FK_Payment_TestResult");
-
-            entity.HasOne(d => d.User).WithMany(p => p.Payments)
-                .HasForeignKey(d => d.UserId)
+            entity.HasOne(d => d.Player).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.PlayerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Payment_Account");
+
+            entity.HasOne(d => d.Test).WithMany(p => p.Payments)
+                .HasForeignKey(d => d.TestId)
+                .HasConstraintName("FK_Payment_Test");
         });
 
         modelBuilder.Entity<PersonalityType>(entity =>
@@ -259,8 +253,8 @@ public partial class MajorMapperContext : DbContext
 
             entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
 
-            entity.HasOne(d => d.User).WithMany(p => p.Tests)
-                .HasForeignKey(d => d.UserId)
+            entity.HasOne(d => d.Player).WithMany(p => p.Tests)
+                .HasForeignKey(d => d.PlayerId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Test_Account");
         });
