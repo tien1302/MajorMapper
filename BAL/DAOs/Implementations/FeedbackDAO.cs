@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BAL.DAOs.Interfaces;
+using BAL.DTOs.Accounts;
 using BAL.DTOs.Feedbacks;
 using DAL.Models;
 using DAL.Repositories.Implementations;
@@ -96,13 +97,13 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
-
-        public List<Feedback> GetFeedbackAccount(int key)
+        
+        public List<GetFeedback> GetFeedbackAccount(int key)
         {
 
             try
             {
-                List<Feedback> listFeedback = _feedbackRepository.Get().ToList();
+                List<Feedback> listFeedback = _feedbackRepository.Get(includeProperties: "Booking.User").ToList();
                 Account account = _accountRepository.GetByID(key);
                 if (account == null)
                 {
@@ -114,7 +115,7 @@ namespace BAL.DAOs.Implementations
                                           join a in _dbContext.Accounts on s.ConsultantId equals a.Id
                                           where a.Id == key
                                           select f).ToList();
-                return (result);
+                return this._mapper.Map<List<GetFeedback>>(result);
             }
             catch (Exception ex)
             {

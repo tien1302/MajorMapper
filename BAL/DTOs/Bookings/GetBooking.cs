@@ -12,7 +12,7 @@ namespace BAL.DTOs.Bookings
         [Key]
         public int Id { get; set; }
 
-        public int UserId { get; set; }
+        public int PlayerId { get; set; }
 
         public int SlotId { get; set; }
 

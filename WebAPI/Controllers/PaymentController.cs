@@ -101,6 +101,7 @@ namespace WebAPI.Controllers
             }
         }
 
+
         [HttpPost("PaymentCallback")]
         public IActionResult PaymentCallback([FromBody] CreatePayment model)
         {
@@ -113,6 +114,23 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("listMoney")]
+        public IActionResult GetMoney(int year)
+        {
+            try
+            {
+                List<int> money = _paymentDAO.Getmoney(year);
+                return Ok(money);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
             }
         }
     }

@@ -16,5 +16,6 @@ namespace BAL.DAOs.Interfaces
         public void Delete(int key);
         string CreatePaymentUrl(CreatePayment create, HttpContext context);
         CreatePayment PaymentExecute(CreatePayment create);
+        public List<int> Getmoney(int year);
     }
 }

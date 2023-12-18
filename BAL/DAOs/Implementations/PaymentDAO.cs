@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BAL.DAOs.Interfaces;
 using BAL.DTOs.Payments;
+using BAL.DTOs.Slots;
 using BAL.VnPay;
 using DAL.Models;
 using DAL.Repositories.Implementations;
@@ -69,6 +70,7 @@ namespace BAL.DAOs.Implementations
             pay.AddRequestData("vnp_CurrCode", _configuration["Vnpay:CurrCode"]);
             pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
             pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Locale"]);
+            pay.AddRequestData("vnp_OrderType", "Booking");
             pay.AddRequestData("vnp_OrderInfo", create.Description);
             pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
             pay.AddRequestData("vnp_TxnRef", tick);
@@ -142,6 +144,31 @@ namespace BAL.DAOs.Implementations
             {
                 List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get().ToList());
                 return listPayment;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<int>Getmoney(int year)
+        {
+            try
+            {
+                List<int> listmoney = new List<int>();
+                int money =0;
+                List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year== year).ToList());
+                for (int i = 1; i <= 12; i++)
+                {
+                    List<GetPayment> list = listPayment.Where(list => list.CreateDateTime.Month == i).ToList();
+                    foreach (var item in list)
+                    {
+                        money =+ item.Amount;
+                    }
+                    listmoney.Add(money);
+                    money = 0;
+                }
+                return listmoney;
             }
             catch (Exception ex)
             {

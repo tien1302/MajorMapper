@@ -154,7 +154,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get().ToList());
+                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get(filter: p => p.Consultant.Status == true).ToList());
                 return listSlot;
             }
             catch (Exception ex)

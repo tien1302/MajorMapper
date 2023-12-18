@@ -1,4 +1,5 @@
 ﻿using BAL.DTOs.Accounts;
+using BAL.DTOs.Feedbacks;
 using BAL.DTOs.TestResults;
 using DAL.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -72,7 +73,7 @@ namespace WebClient.Controllers
             {
                 PropertyNameCaseInsensitive = true
             };
-            List<Feedback> listFeedback = JsonSerializer.Deserialize<List<Feedback>>(feedbackData, optionF);
+            List<GetFeedback> listFeedback = JsonSerializer.Deserialize<List<GetFeedback>>(feedbackData, optionF);
             ViewBag.Feedbacks = listFeedback;
             //TestResult
             HttpResponseMessage testResultResponse = await client.GetAsync($"{baseApiUrl}/GetTestResult/{id}");

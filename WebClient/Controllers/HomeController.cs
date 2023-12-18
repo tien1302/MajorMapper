@@ -47,7 +47,7 @@ namespace WebClient.Controllers
                 HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
                 HttpContext.Session.SetString("Name", tokenResponse.name);
                 HttpContext.Session.SetString("JWToken", tokenResponse.accessToken);
-
+                HttpContext.Session.SetString("Role", tokenResponse.roleName);
                 string role = tokenResponse.roleName;
                 if (role == "Admin")
                 {

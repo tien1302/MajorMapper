@@ -29,7 +29,7 @@
                                             Họ và tên
                                         </th>
                                         <th data-field="email" data-sortable="true">
-                                            @Html.DisplayNameFor(model => model.email)
+                                            Email
                                         </th>
                                         <th data-field="gender" data-sortable="true">
                                             Giới tính
@@ -45,9 +45,6 @@
                                         </th>
                                         <th data-field="phone" data-sortable="true">
                                             Số điện thoại
-                                        </th>
-                                        <th data-field="status" data-sortable="true">
-                                            Trạng thái
                                         </th>
                                         <th data-field="date" data-sortable="true">
                                             Ngày tạo
@@ -82,19 +79,16 @@
                                                 @Html.DisplayFor(modelItem => item.phone)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.status)
-                                            </td>
-                                            <td>
                                                 @Html.DisplayFor(modelItem => item.createDateTime)
                                             </td>
                                             <td>
-                                                <a href="@Url.Action("Details", new {id=item.id})" title="Thông tin" class="btn btn-default">
+                                                <a style="width:34px;" href="@Url.Action("Details", new {id=item.id})" title="Thông tin" class="btn btn-default">
                                                     <i class="fa fa-info" aria-hidden="true"></i>
                                                 </a>
-                                                <a href="@Url.Action("Update", new {id=item.id})" title="Sửa" class="btn btn-default">
+                                                <a style="width:34px;padding-left: 11px;" href="@Url.Action("Update", new {id=item.id})" title="Sửa" class="btn btn-default">
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
-                                                <a class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#PrimaryModalalert" title="Xóa">
+                                                <a style="width:34px;padding-left: 11px;" class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#PrimaryModalalert" title="Xóa">
                                                     <i class="fa fa-trash-o" aria-hidden="true"></i> 
                                                 </a>
                                             </td>

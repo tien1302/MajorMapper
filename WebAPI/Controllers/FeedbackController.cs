@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<Feedback> feedback = _feedbackDAO.GetFeedbackAccount(id);
+                List<GetFeedback> feedback = _feedbackDAO.GetFeedbackAccount(id);
                 return Ok(feedback);
             }
             catch (Exception ex)

@@ -107,7 +107,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetMajor> listMajor = _mapper.Map<List<GetMajor>>(_majorRepository.Get().ToList());
+                List<GetMajor> listMajor = _mapper.Map<List<GetMajor>>(_majorRepository.Get(includeProperties: "PersonalityTypes").ToList());
                 return listMajor;
             }
             catch (Exception ex)

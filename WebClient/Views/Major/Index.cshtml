@@ -42,11 +42,19 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+
                                     @foreach (var item in Model)
                                     {
                                         <tr>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.PersonalityTypeName)
+                                                @foreach (var personalityType in item.PersonalityTypeName)
+                                                {
+                                                    @personalityType
+                                                    @if (!item.PersonalityTypeName.Last().Equals(personalityType))
+                                                    {
+                                                        <span>, </span>
+                                                    }
+                                                }
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)

@@ -90,18 +90,33 @@
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
                     <ul class="metismenu" id="menu1">
-                        <li>
-                            <a title="Tài khoản" href="/Account/Index" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Tài khoản</span></a>
-                        </li>
-                        <li>
-                            <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
-                        </li>
-                        <li>
-                            <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
-                        </li>
-                        <li>
-                            <a title="Slot" href="/Slot/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Slot</span></a>
-                        </li>
+                        @if (@Context.Session.GetString("Role") == "Admin")
+                        {
+                            <li>
+                                <a title="Tài khoản" href="/Account/Index" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Tài khoản</span></a>
+                            </li>
+                            <li>
+                                <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
+                            </li>
+                            <li>
+                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
+                            </li>
+                           
+                        }
+                        else
+                        {
+                            <li>
+                                <a title="Slot" href="/Slot/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Slot</span></a>
+                            </li>
+                            <li>
+                                <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
+                            </li>
+                            <li>
+                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
+                            </li>
+                          
+                        }
+
                     </ul>
                 </nav>
             </div>
@@ -138,25 +153,13 @@
                                         <div class="header-top-menu tabl-d-n" style="padding: 15px 0px;">
                                             <ul class="nav navbar-nav mai-top-nav">
                                                 <li class="nav-item">
-                                                    <a href="#" class="nav-link">Home</a>
+                                                    <a href="#" class="nav-link">Trang chủ</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#" class="nav-link">About</a>
+                                                    <a href="#" class="nav-link">Hỗ trợ</a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a href="#" class="nav-link">Services</a>
-                                                </li>
-                                                <li class="nav-item dropdown res-dis-nn">
-                                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">Project <span class="angle-down-topmenu"><i class="fa fa-angle-down"></i></span></a>
-                                                    <div role="menu" class="dropdown-menu animated zoomIn">
-                                                        <a href="#" class="dropdown-item">Documentation</a>
-                                                        <a href="#" class="dropdown-item">Expert Backend</a>
-                                                        <a href="#" class="dropdown-item">Expert FrontEnd</a>
-                                                        <a href="#" class="dropdown-item">Contact Support</a>
-                                                    </div>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#" class="nav-link">Support</a>
+                                                    <a href="#" class="nav-link">Chính sách</a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -164,31 +167,7 @@
                                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">
-                                                <li class="nav-item dropdown">
-                                                    <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-message edu-chat-pro" aria-hidden="true"></i><span class="indicator-ms"></span></a>
-                                                    <div role="menu" class="author-message-top dropdown-menu animated zoomIn">
-                                                        <div class="message-single-top">
-                                                            <h1>Message</h1>
-                                                        </div>
-                                                        <ul class="message-menu">
-                                                            <li>
-                                                                <a href="#">
-                                                                    <div class="message-img">
-                                                                        <img src="img/contact/1.jpg" alt="">
-                                                                    </div>
-                                                                    <div class="message-content">
-                                                                        <span class="message-date">16 Sept</span>
-                                                                        <h2>Advanda Cro</h2>
-                                                                        <p>Please done this project as soon possible.</p>
-                                                                    </div>
-                                                                </a>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="message-view">
-                                                            <a href="#">View All Messages</a>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                               
                                                 <li class="nav-item">
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-bell" aria-hidden="true"></i><span class="indicator-nt"></span></a>
                                                     <div role="menu" class="notification-author dropdown-menu animated zoomIn">
@@ -223,7 +202,7 @@
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
                                                      
                                                         <li>
-                                                            <a href="#"><span class="edu-icon edu-user-rounded author-log-ic"></span>Thông tin tài khoản</a>
+                                                            <a href="/Account/Details/@Context.Session.GetInt32("AccountId")"><span class="edu-icon edu-user-rounded author-log-ic"></span>Thông tin tài khoản</a>
                                                         </li>
                                                         <li>
                                                             <a href="#"><span class="edu-icon edu-money author-log-ic"></span>Đổi mật khẩu</a>
@@ -277,7 +256,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="footer-copy-right">
-                        <p>Copyright © 2018. All rights reserved. Template by <a href="https://colorlib.com/wp/templates/">Colorlib</a></p>
+                        <p>© 2023 - Đồ án tốt nghiệp Major Mapper</p>
                     </div>
                 </div>
             </div>

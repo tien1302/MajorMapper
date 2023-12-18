@@ -3723,7 +3723,7 @@ div#sparklinehome canvas {
     background-color: #86bc42;
 }
 .footer-copyright-area {
-    background: #ffae62;
+    background: #ffefe0;
     padding: 20px 0px;
     text-align: center;
 }
@@ -4651,7 +4651,7 @@ div#sparklinehome canvas {
 	border-width: 0px;
 }
 .profile-img img{
-	width:100%;
+	width:40%;
 }
 .c3-align-dlt{
 	display:none;
@@ -4719,9 +4719,9 @@ div#sparklinehome canvas {
 .footer-copy-right p {
     margin: 0px;
     font-size: 15px;
-    color: #fff;
+    color: #000;
 }
-.footer-copy-right a{
-	color:#fff;
-	text-decoration:none;
+.footer-copy-right a {
+    color: #000;
+    text-decoration: none;
 }
