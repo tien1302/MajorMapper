@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using BAL.DAOs.Interfaces;
-using BAL.DTOs.Majors;
 using BAL.DTOs.Slots;
 using DAL.Models;
 using DAL.Repositories.Implementations;
@@ -77,23 +76,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get().ToList());
-            
-                List<GetSlot> result = listSlot.Where(p => p.ConsultantId == key).ToList();
-                return result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        // Hàm lấy list slot trống theo consultantId cho mobile
-        public List<GetSlot> GetSlotActive(int key)
-        {
-            try
-            {
-                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get(filter: p => p.ConsultantId == key && p.Status == "Not Booked").ToList());
+                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get(filter: s => s.ConsultantId == key).ToList());
                 return listSlot;
             }
             catch (Exception ex)
@@ -102,13 +85,28 @@ namespace BAL.DAOs.Implementations
             }
         }
 
-        public List<GetSlot> CheckStatus(int key)
+        // Hàm lấy list slot trống theo consultantId cho mobile
+        public List<GetSlot> GetAllSlotActive()
+        {
+            try
+            {
+                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get(filter: s => s.Status == "Available",
+                                                                    orderBy: q => q.OrderBy(s => s.StartDateTime).ThenBy(s => s.CreateDateTime)).ToList());
+                return listSlot;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<GetSlot> CheckStatus()
         {
             try
             {
                 string formattedTime = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss");
                 DateTime check = DateTime.Parse(formattedTime);
-                List<Slot> list = _slotRepository.Get().Where(s => s.ConsultantId == key && s.EndDateTime <= check ).ToList();
+                List<Slot> list = _slotRepository.Get(filter: s => s.EndDateTime <= check).ToList();
                 if (list.Count > 0)
                 {
                     foreach (var item in list)

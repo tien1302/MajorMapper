@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetSlot> slot = _slotDAO.CheckStatus(id);
+                List<GetSlot> slot = _slotDAO.CheckStatus();
                 slot = _slotDAO.Get(id);
                 return Ok(slot);
             }
@@ -53,12 +53,12 @@ namespace WebAPI.Controllers
         }
 
         // Hàm lấy list slot trống theo consultantId cho mobile
-        [HttpGet("GetSlotActive/{id}")]
-        public IActionResult GetSlotActive(int id)
+        [HttpGet("GetSlotActive")]
+        public IActionResult GetSlotActive()
         {
             try
             {
-                List<GetSlot> slot = _slotDAO.GetSlotActive(id);
+                List<GetSlot> slot = _slotDAO.GetAllSlotActive();
                 return Ok(slot);
             }
             catch (Exception ex)

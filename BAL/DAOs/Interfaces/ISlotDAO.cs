@@ -11,8 +11,8 @@ namespace BAL.DAOs.Interfaces
     {
         public List<GetSlot> GetAll();
         public List<GetSlot> Get(int key);
-        public List<GetSlot> CheckStatus(int key);
-        public List<GetSlot> GetSlotActive(int key);
+        public List<GetSlot> CheckStatus();
+        public List<GetSlot> GetAllSlotActive();
         public GetSlot GetBySlotId(int key);
         public void Create(CreateSlot createSlot);
         public void Update(int key);
