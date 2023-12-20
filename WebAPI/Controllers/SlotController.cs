@@ -58,6 +58,7 @@ namespace WebAPI.Controllers
         {
             try
             {
+                _slotDAO.CheckStatus();
                 List<GetSlot> slot = _slotDAO.GetAllSlotActive();
                 return Ok(slot);
             }
