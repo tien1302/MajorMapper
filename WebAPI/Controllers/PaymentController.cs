@@ -81,7 +81,38 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [HttpGet("listMoney")]
+        public IActionResult GetMoney(int year)
+        {
+            try
+            {
+                List<int> money = _paymentDAO.Getmoney(year);
+                return Ok(money);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
+        [HttpGet("listMoneyById")]
+        public IActionResult GetMoneyById(int id,int year)
+        {
+            try
+            {
+                List<int> money = _paymentDAO.GetmoneybyId(id,year);
+                return Ok(money);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
         [HttpPost("CreatePaymentUrl")]
         public IActionResult CreatePaymentUrl([FromBody] CreatePayment model)
         {
@@ -117,21 +148,6 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet("listMoney")]
-        public IActionResult GetMoney(int year)
-        {
-            try
-            {
-                List<int> money = _paymentDAO.Getmoney(year);
-                return Ok(money);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    Message = ex.Message
-                });
-            }
-        }
+        
     }
 }

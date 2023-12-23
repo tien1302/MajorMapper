@@ -150,7 +150,30 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
-
+        public List<int> GetmoneybyId(int id,int year)
+        {
+            try
+            {
+                List<int> listmoney = new List<int>();
+                int money = 0;
+                List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year && p.Booking.Slot.ConsultantId ==id, includeProperties: "Booking.Slot").ToList());
+                for (int i = 1; i <= 12; i++)
+                {
+                    List<GetPayment> list = listPayment.Where(list => list.CreateDateTime.Month == i).ToList();
+                    foreach (var item in list)
+                    {
+                        money += item.Amount;
+                    }
+                    listmoney.Add(money);
+                    money = 0;
+                }
+                return listmoney;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public List<int>Getmoney(int year)
         {
             try
@@ -163,7 +186,7 @@ namespace BAL.DAOs.Implementations
                     List<GetPayment> list = listPayment.Where(list => list.CreateDateTime.Month == i).ToList();
                     foreach (var item in list)
                     {
-                        money =+ item.Amount;
+                        money += item.Amount;
                     }
                     listmoney.Add(money);
                     money = 0;

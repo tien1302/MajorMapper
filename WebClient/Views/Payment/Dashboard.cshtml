@@ -1,8 +1,9 @@
-﻿@{
-    ViewData["Title"] = "Index";
+﻿
+@{
+    ViewData["Title"] = "Dashboard";
     var currentYear = DateTime.Now.Year;
     @model Money
- }
+}
 <!-- Charts Start-->
 <div class="charts-area mg-b-15">
     <div class="container-fluid">
@@ -10,7 +11,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="charts-single-pro mg-tb-30 responsive-mg-t-0 table-mg-t-pro-n dk-res-t-pro-0 nk-ds-n-pro-t-0">
                     <div class="sparkline10-hd">
-                        @if (Context.Request.Query["year"].Count==0)
+                        @if (Context.Request.Query["year"].Count == 0)
                         {
                             <h1 style="text-align:center;">Doanh thu năm @(currentYear.ToString())</h1>
                         }
@@ -18,7 +19,7 @@
                         {
                             <h1 style="text-align:center;">Doanh thu năm @Context.Request.Query["year"]</h1>
                         }
-                           
+
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="font-weight:bold; font-size:20px;">
@@ -49,7 +50,7 @@
 
     $("#Year").change(function () {
         var selectedDataset = $(this).val();
-        window.location.href = `/Payment/Index?year=${selectedDataset}`;
+        window.location.href = `/Payment/Dashboard?year=${selectedDataset}`;
     });
 
 
