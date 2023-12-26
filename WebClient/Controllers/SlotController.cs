@@ -49,7 +49,7 @@ namespace WebClient.Controllers
         {
             string strData = JsonSerializer.Serialize(p);
             var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
+            HttpResponseMessage response = await client.PostAsync($"{baseApiUrl}?allDay={p.AllDay}&auto={p.Auto}", contentData);
             var message = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {

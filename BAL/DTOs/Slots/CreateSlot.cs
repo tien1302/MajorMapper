@@ -14,5 +14,7 @@ namespace BAL.DTOs.Slots
 
         public DateTime StartDateTime { get; set; }
         //public string Recurring { get; set; }
+        public bool AllDay { get; set; }
+        public int Auto {  get; set; }
     }
 }

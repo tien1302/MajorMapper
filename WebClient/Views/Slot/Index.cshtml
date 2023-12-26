@@ -30,6 +30,11 @@
                                                 <input type="date" asp-for="Date" class="form-control" required title="Không được để trống" />
                                                 <span asp-validation-for="Date" class="text-danger"></span>
                                             </div>
+                                            <div class="form-group">
+                                                <label asp-for="AllDay" class="control-label">Cả ngày</label>
+                                                <input type="checkbox" asp-for="AllDay" class="form-control"  />
+                                                <span asp-validation-for="AllDay" class="text-danger"></span>
+                                            </div>
 
                                             <div class="form-group">
                                                 <label asp-for="StartDateTime" class="control-label">Slot</label>
@@ -51,6 +56,17 @@
                                                     <option value="20:00">Slot 14: 20:00</option>
                                                 </select>
                                                 <span asp-validation-for="StartDateTime" class="text-danger"></span>
+                                            </div>
+                                            <div class="form-group">
+                                                <label asp-for="Auto" class="control-label">Slot</label>
+                                                <select asp-for="Auto" class="form-control" required title="Không được để trống">
+                                                    <option selected="" disabled="">Chọn slot</option>
+                                                    <option value="3">Không lập lại</option>
+                                                    <option value="1">Hằng ngày trong 7 ngày</option>
+                                                    <option value="2">Hằng tuần trong 1 tháng</option>
+
+                                                </select>
+                                                <span asp-validation-for="Auto" class="text-danger"></span>
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" value="Index" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
