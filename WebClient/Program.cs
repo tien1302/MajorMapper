@@ -21,6 +21,7 @@ builder.Services.AddAuthentication(options =>
     options.ClientId = "33202222454-l4peaj7en9lg693sf1nc179vinqdv16t.apps.googleusercontent.com";
     options.ClientSecret = "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";
 });
+builder.Services.AddSignalR();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
