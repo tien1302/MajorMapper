@@ -26,17 +26,17 @@ namespace BAL.DAOs.Implementations
             _mapper = mapper;
         }
 
-        public void Create(bool allDay, int auto, CreateSlot createSlot)
+        public void Create(CreateSlot createSlot)
         {
             try
             {
-                if(allDay)
+                if(createSlot.AllDay)
                 {
-                    CreateAutoSlotsAllDay(auto, createSlot);
+                    CreateAutoSlotsAllDay(createSlot);
                 }
                 else 
                 {
-                    CreateAutoOneSlot(auto, createSlot);
+                    CreateAutoOneSlot(createSlot);
                 }
             }
             catch (Exception ex)
@@ -173,12 +173,16 @@ namespace BAL.DAOs.Implementations
             }
         }
 
-        public void CreateAutoSlotsAllDay(int auto, CreateSlot createSlot)
+        public void CreateAutoSlotsAllDay(CreateSlot createSlot)
         {
             try
             {
+                if (DateTime.Compare(createSlot.Date, DateTime.Now.Date) < 0)
+                {
+                    throw new Exception("Chỉ được chọn ngày hôm nay trở đi");
+                }
                 DateTime startDateTime;
-                if (auto == 1)
+                if (createSlot.Auto == 1)
                 {
                     DateTime endDaily = createSlot.Date.AddDays(6);
                     for (DateTime date = createSlot.Date; date <= endDaily; date = date.AddDays(1))
@@ -206,7 +210,7 @@ namespace BAL.DAOs.Implementations
                     }
                     _slotRepository.Commit();
                 }
-                else if(auto == 2)
+                else if(createSlot.Auto == 2)
                 {
                     for (int week = 1; week <= 4; week++)
                     {
@@ -233,7 +237,7 @@ namespace BAL.DAOs.Implementations
                     }
                     _slotRepository.Commit();
                 }
-                else if (auto == 3)
+                else if (createSlot.Auto == 3)
                 {
                     for (int hour = 7; hour <= 20; hour++)
                     {
@@ -264,12 +268,16 @@ namespace BAL.DAOs.Implementations
             }
         }
 
-        public void CreateAutoOneSlot(int auto, CreateSlot createSlot)
+        public void CreateAutoOneSlot(CreateSlot createSlot)
         {
             try
             {
                 DateTime startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day, createSlot.StartDateTime.Hour, 0, 0);
-                if (auto == 1)
+                if (DateTime.Compare(startDateTime, DateTime.Now) < 0)
+                {
+                    throw new Exception("Chỉ được chọn ngày hôm nay trở đi");
+                }
+                if (createSlot.Auto == 1)
                 {
                     DateTime endDaily = createSlot.Date.AddDays(6);
                     for (DateTime date = createSlot.Date; date <= endDaily; date = date.AddDays(1))
@@ -292,7 +300,7 @@ namespace BAL.DAOs.Implementations
                     }
                     _slotRepository.Commit();
                 }
-                else if (auto == 2)
+                else if (createSlot.Auto == 2)
                 {
                     for (int week = 1; week <= 4; week++)
                     {
@@ -313,7 +321,7 @@ namespace BAL.DAOs.Implementations
                     }
                     _slotRepository.Commit();
                 }
-                else if (auto == 3)
+                else if (createSlot.Auto == 3)
                 {
                     List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get(filter: s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId).ToList());
                     if (listSlot != null)
