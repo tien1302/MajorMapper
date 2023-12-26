@@ -111,7 +111,23 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [HttpPut("ResetPassword")]
+        public IActionResult ResetPassword([FromBody] ResetPassword reset)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                _DAO.ResetPassword(reset);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

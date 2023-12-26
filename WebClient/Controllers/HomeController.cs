@@ -116,15 +116,19 @@ namespace WebClient.Controllers
             return Redirect("~/Home/Index");
         }
 
-        public IActionResult Privacy()
+        public IActionResult Policy()
         {
             return View();
         }
-
+        public IActionResult Support()
+        {
+            return View();
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
     }
 }

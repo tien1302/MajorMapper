@@ -107,7 +107,6 @@ namespace BAL.DAOs.Implementations
                 existedAccount.DoB = update.DoB;
                 existedAccount.Address = update.Address;
                 existedAccount.Phone = update.Phone;
-                existedAccount.Status = update.Status;
                 this._Repo.Update(existedAccount);
                 this._Repo.Commit();
             }
@@ -261,6 +260,26 @@ namespace BAL.DAOs.Implementations
                 }
                 List<GetTestResult> result = listTestResult.Where(t => t.UserId == key).ToList();
                 return (result);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void ResetPassword(ResetPassword reset)
+        {
+            try
+            {
+                Account existedAccount = this._Repo.Get(x => x.Id == reset.Id && x.Password.Equals(reset.OldPassword))
+                                              .SingleOrDefault();
+                if (existedAccount == null)
+                {
+                    throw new Exception("Mặt khẩu cũ không đúng.");
+                }
+                existedAccount.Password = reset.Password;
+                this._Repo.Update(existedAccount);
+                this._Repo.Commit();
             }
             catch (Exception ex)
             {

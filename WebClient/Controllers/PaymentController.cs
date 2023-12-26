@@ -87,6 +87,7 @@ namespace WebClient.Controllers
             Money money = new Money();
             var id = HttpContext.Session.GetInt32("AccountId");
             int sum = 0;
+            int count = 0;
             string getyear = Request.Query["year"];
             List<int> years = new List<int>();
             int currentYear = DateTime.Now.Year;
@@ -105,15 +106,22 @@ namespace WebClient.Controllers
                 {
                     PropertyNameCaseInsensitive = true
                 };
-                List<int> listMoney = JsonSerializer.Deserialize<List<int>>(strData, options);
+                Tuple<List<int>, List<int>> listMoney = JsonSerializer.Deserialize<Tuple<List<int>, List<int>>>(strData, options);
 
-                foreach (int item in listMoney)
+                foreach (var item in listMoney.Item1)
                 {
                     sum += item;
                 }
+                foreach (var item in listMoney.Item2)
+                {
+                    count += item;
+                }
                 money.Sum = sum;
                 sum = 0;
-                ViewData["Moneys"] = listMoney;
+                money.Count = count;
+                count = 0;
+                ViewData["Moneys"] = listMoney.Item1;
+                ViewData["Counts"] = listMoney.Item2;
             }
             else
             {
@@ -125,16 +133,23 @@ namespace WebClient.Controllers
                 {
                     PropertyNameCaseInsensitive = true
                 };
-                List<int> listMoney = JsonSerializer.Deserialize<List<int>>(strData, options);
-                
+                Tuple<List<int>, List<int>> listMoney = JsonSerializer.Deserialize<Tuple<List<int>, List<int>>>(strData, options);
 
-                foreach (var item in listMoney)
+
+                foreach (var item in listMoney.Item1)
                 {
                     sum += item;
                 }
+                foreach (var item in listMoney.Item2)
+                {
+                    count += item;
+                }
                 money.Sum = sum;
                 sum = 0;
-                ViewData["Moneys"] = listMoney;
+                money.Count = count;
+                count = 0;
+                ViewData["Moneys"] = listMoney.Item1;
+                ViewData["Counts"] = listMoney.Item2;
             }
             
             

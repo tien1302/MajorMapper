@@ -20,5 +20,6 @@ namespace BAL.DAOs.Interfaces
         public List<GetTestResult> GetTestResultbyAccountId(int key);
         public GetAccount Login(AuthenticationAccount authenAccount, JwtAuth jwtAuth);
         public GetAccount LoginGoogle(AuthenticationAccountGoogle authenAccount, JwtAuth jwtAuth);
+        public void ResetPassword(ResetPassword reset);
     }
 }

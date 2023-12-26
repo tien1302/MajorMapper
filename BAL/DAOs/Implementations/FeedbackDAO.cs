@@ -103,19 +103,14 @@ namespace BAL.DAOs.Implementations
 
             try
             {
-                List<Feedback> listFeedback = _feedbackRepository.Get(includeProperties: "Booking.User").ToList();
+                List<Feedback> listFeedback = _feedbackRepository.Get(filter: p=>p.Booking.Slot.ConsultantId == key, includeProperties: "Booking.Slot").ToList();
                 Account account = _accountRepository.GetByID(key);
                 if (account == null)
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
-                List<Feedback> result =   (from f in listFeedback
-                                          join b in _dbContext.Bookings on f.BookingId equals b.Id
-                                          join s in _dbContext.Slots on b.SlotId equals s.Id
-                                          join a in _dbContext.Accounts on s.ConsultantId equals a.Id
-                                          where a.Id == key
-                                          select f).ToList();
-                return this._mapper.Map<List<GetFeedback>>(result);
+               
+                return this._mapper.Map<List<GetFeedback>>(listFeedback);
             }
             catch (Exception ex)
             {

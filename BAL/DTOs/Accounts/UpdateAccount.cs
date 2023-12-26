@@ -23,7 +23,5 @@ namespace BAL.DTOs.Accounts
         public string? Address { get; set; }
         [PhoneAtribute(ErrorMessage = "Số điện thoại không hợp lệ.")]
         public string? Phone { get; set; }
-
-        public bool Status { get; set; } 
     }
 }

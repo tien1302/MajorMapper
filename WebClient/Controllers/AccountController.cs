@@ -156,6 +156,32 @@ namespace WebClient.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
+        public async Task<ActionResult> ResetPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPassword p)
+        {
+            if (ModelState.IsValid)
+            {
+                string strData = JsonSerializer.Serialize(p);
+                var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/ResetPassword", contentData);
+                if (response.IsSuccessStatusCode)
+                {
+                    ViewBag.Message = "Insert successfully!";
+                }
+                else
+                {
+                    ViewBag.Message = "Error while calling WebAPI!";
+                }
+            }
+            else
+                ViewBag.Message = "Error!";
+            return View("ResetPassword");
+        }
 
     }
 }

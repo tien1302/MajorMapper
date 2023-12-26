@@ -150,12 +150,14 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
-        public List<int> GetmoneybyId(int id,int year)
+        public Tuple<List<int>, List<int>> GetmoneybyId(int id,int year)
         {
             try
             {
                 List<int> listmoney = new List<int>();
+                List<int> listcount = new List<int>();
                 int money = 0;
+                int count = 0;
                 List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year && p.Booking.Slot.ConsultantId ==id, includeProperties: "Booking.Slot").ToList());
                 for (int i = 1; i <= 12; i++)
                 {
@@ -163,11 +165,15 @@ namespace BAL.DAOs.Implementations
                     foreach (var item in list)
                     {
                         money += item.Amount;
+                        count++;
                     }
                     listmoney.Add(money);
+                    listcount.Add(count);
                     money = 0;
+                    count = 0;
                 }
-                return listmoney;
+                var tuple = new Tuple<List<int>, List<int>>(listmoney, listcount);
+                return tuple;
             }
             catch (Exception ex)
             {

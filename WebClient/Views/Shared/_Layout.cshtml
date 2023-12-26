@@ -202,17 +202,29 @@
                                                         <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                                     </a>
                                                     <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
-                                                     
-                                                        <li>
-                                                            <a href="/Account/Details/@Context.Session.GetInt32("AccountId")"><span class="edu-icon edu-user-rounded author-log-ic"></span>Thông tin tài khoản</a>
-                                                        </li>
-                                                        <li>
-                                                            <a href="#"><span class="edu-icon edu-money author-log-ic"></span>Đổi mật khẩu</a>
-                                                        </li>
-                                                      
-                                                        <li>
-                                                            <a asp-action="Logout" asp-controller="Home"><span class="edu-icon edu-locked author-log-ic"></span>Đăng xuất</a>
-                                                        </li>
+                                                        @if (@Context.Session.GetString("Role") == "Admin")
+                                                        {
+                                                            <li>
+                                                                <a asp-action="Logout" asp-controller="Home"><span class="edu-icon edu-locked author-log-ic"></span>Đăng xuất</a>
+                                                            </li>
+                                                        }
+                                                        else
+                                                        {
+                                                            <li>
+                                                                <a href="/Account/Details/@Context.Session.GetInt32("AccountId")"><span class="edu-icon edu-user-rounded author-log-ic"></span>Thông tin tài khoản</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="/Account/Update/@Context.Session.GetInt32("AccountId")"><span class="edu-icon edu-user-rounded author-log-ic"></span>Cập nhật thông tin</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="/Account/ResetPassword"><span class="edu-icon edu-money author-log-ic"></span>Đổi mật khẩu</a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a asp-action="Logout" asp-controller="Home"><span class="edu-icon edu-locked author-log-ic"></span>Đăng xuất</a>
+                                                            </li>
+                                                        }
+                                                       
                                                     </ul>
                                                 </li>
                                             </ul>
