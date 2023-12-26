@@ -89,7 +89,7 @@ namespace WebAPI.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Post([FromBody] CreateSlot createSlot)
+        public IActionResult Post(bool allDay, int auto, [FromBody] CreateSlot createSlot)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _slotDAO.Create(createSlot);
+                _slotDAO.Create(allDay, auto, createSlot);
                 return Ok();
             }
             catch (Exception ex)

@@ -4,6 +4,7 @@ using BAL.DTOs.Slots;
 using DAL.Models;
 using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -25,27 +26,18 @@ namespace BAL.DAOs.Implementations
             _mapper = mapper;
         }
 
-        public void Create(CreateSlot createSlot)
+        public void Create(bool allDay, int auto, CreateSlot createSlot)
         {
             try
             {
-                DateTime startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day, createSlot.StartDateTime.Hour, createSlot.StartDateTime.Minute, createSlot.StartDateTime.Second);
-
-                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get().ToList());
-                if (listSlot.Any(slot => slot.StartDateTime == startDateTime && slot.ConsultantId == createSlot.ConsultantId))
+                if(allDay)
                 {
-                    throw new Exception("Slot đã tồn tại.");
+                    CreateAutoSlotsAllDay(auto, createSlot);
                 }
-                Slot slot = new Slot()
+                else 
                 {
-                    ConsultantId = createSlot.ConsultantId,
-                    StartDateTime = startDateTime,
-                    EndDateTime = startDateTime.AddHours(1),
-                    CreateDateTime = DateTime.Now,
-                    Status = "Available",
-                };
-                _slotRepository.Insert(slot);
-                _slotRepository.Commit();
+                    CreateAutoOneSlot(auto, createSlot);
+                }
             }
             catch (Exception ex)
             {
@@ -174,6 +166,171 @@ namespace BAL.DAOs.Implementations
                 existedSlot.Status = "Booking";
                 _slotRepository.Update(existedSlot);
                 _slotRepository.Commit();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void CreateAutoSlotsAllDay(int auto, CreateSlot createSlot)
+        {
+            try
+            {
+                DateTime startDateTime;
+                if (auto == 1)
+                {
+                    DateTime endDaily = createSlot.Date.AddDays(6);
+                    for (DateTime date = createSlot.Date; date <= endDaily; date = date.AddDays(1))
+                    {
+                        for (int hour = 7; hour <= 20; hour++)
+                        {
+                            startDateTime = new DateTime(date.Date.Year, date.Date.Month, date.Date.Day, hour, 0, 0);
+                            if (DateTime.Compare(startDateTime, DateTime.Now) > 0)
+                            {
+                                Slot slot = new Slot()
+                                {
+                                    ConsultantId = createSlot.ConsultantId,
+                                    StartDateTime = startDateTime,
+                                    EndDateTime = startDateTime.AddHours(1),
+                                    CreateDateTime = DateTime.Now,
+                                    Status = "Available",
+                                };
+                                if (_slotRepository.Get().Any(s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId))
+                                {
+                                    continue; // Skip if slot already exists
+                                }
+                                _slotRepository.Insert(slot);
+                            }
+                        }
+                    }
+                    _slotRepository.Commit();
+                }
+                else if(auto == 2)
+                {
+                    for (int week = 1; week <= 4; week++)
+                    {
+                        for (int hour = 7; hour <= 20; hour++)
+                        {
+                            startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.AddDays(week * 7 - 7).Day, hour, 0, 0);
+                            if (DateTime.Compare(startDateTime, DateTime.Now) > 0)
+                            {
+                                Slot slot = new Slot()
+                                {
+                                    ConsultantId = createSlot.ConsultantId,
+                                    StartDateTime = startDateTime,
+                                    EndDateTime = startDateTime.AddHours(1),
+                                    CreateDateTime = DateTime.Now,
+                                    Status = "Available",
+                                };
+                                if (_slotRepository.Get().Any(s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId))
+                                {
+                                    continue; // Skip if slot already exists
+                                }
+                                _slotRepository.Insert(slot);
+                            }
+                        }
+                    }
+                    _slotRepository.Commit();
+                }
+                else if (auto == 3)
+                {
+                    for (int hour = 7; hour <= 20; hour++)
+                    {
+                        startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day, hour, 0, 0);
+                        if (DateTime.Compare(startDateTime, DateTime.Now) > 0)
+                        {
+                            Slot slot = new Slot()
+                            {
+                                ConsultantId = createSlot.ConsultantId,
+                                StartDateTime = startDateTime,
+                                EndDateTime = startDateTime.AddHours(1),
+                                CreateDateTime = DateTime.Now,
+                                Status = "Available",
+                            };
+                            if (_slotRepository.Get().Any(s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId))
+                            {
+                                continue; // Skip if slot already exists
+                            }
+                            _slotRepository.Insert(slot);
+                        }
+                    }
+                    _slotRepository.Commit();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public void CreateAutoOneSlot(int auto, CreateSlot createSlot)
+        {
+            try
+            {
+                DateTime startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day, createSlot.StartDateTime.Hour, 0, 0);
+                if (auto == 1)
+                {
+                    DateTime endDaily = createSlot.Date.AddDays(6);
+                    for (DateTime date = createSlot.Date; date <= endDaily; date = date.AddDays(1))
+                    {
+                        DateTime dateTime = new DateTime(date.Date.Year, date.Date.Month, date.Date.Day, createSlot.StartDateTime.Hour, 0, 0);
+           
+                        Slot slot = new Slot()
+                        {
+                            ConsultantId = createSlot.ConsultantId,
+                            StartDateTime = dateTime,
+                            EndDateTime = dateTime.AddHours(1),
+                            CreateDateTime = DateTime.Now,
+                            Status = "Available",
+                        };
+                        if (_slotRepository.Get().Any(s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId))
+                        {
+                            continue; // Skip if slot already exists
+                        }
+                        _slotRepository.Insert(slot);
+                    }
+                    _slotRepository.Commit();
+                }
+                else if (auto == 2)
+                {
+                    for (int week = 1; week <= 4; week++)
+                    {
+                        startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.AddDays(week * 7 - 7).Day, createSlot.StartDateTime.Hour, 0, 0);
+                        Slot slot = new Slot()
+                        {
+                            ConsultantId = createSlot.ConsultantId,
+                            StartDateTime = startDateTime,
+                            EndDateTime = startDateTime.AddHours(1),
+                            CreateDateTime = DateTime.Now,
+                            Status = "Available",
+                        };
+                        if (_slotRepository.Get().Any(s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId))
+                        {
+                            continue; // Skip if slot already exists
+                        }
+                        _slotRepository.Insert(slot);
+                    }
+                    _slotRepository.Commit();
+                }
+                else if (auto == 3)
+                {
+                    List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get(filter: s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId).ToList());
+                    if (listSlot != null)
+                    {
+                        throw new Exception("Slot đã tồn tại.");
+                    }
+                    Slot slot = new Slot()
+                    {
+                        ConsultantId = createSlot.ConsultantId,
+                        StartDateTime = startDateTime,
+                        EndDateTime = startDateTime.AddHours(1),
+                        CreateDateTime = DateTime.Now,
+                        Status = "Available",
+                    };
+                    _slotRepository.Insert(slot);
+                    _slotRepository.Commit();
+                }
             }
             catch (Exception ex)
             {
