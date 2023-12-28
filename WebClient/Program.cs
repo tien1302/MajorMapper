@@ -1,10 +1,26 @@
+using DAL.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.EntityFrameworkCore;
+using WebClient.Hubs;
+using WebClient.MiddlewareExtensions;
+using WebClient.SubscribeTableDependencies;
 
 var builder = WebApplication.CreateBuilder(args);
-
+// DB Context
+var connectionString = builder.Configuration.GetConnectionString("DBStore");
+builder.Services.AddDbContext<MajorMapperContext>(options =>
+    options.UseSqlServer(connectionString),
+    ServiceLifetime.Singleton
+);
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddControllersWithViews();
+builder.Services.AddSignalR();
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<NotificationHub>();
+builder.Services.AddSingleton<SubscribeNotificationTableDependency>();
+
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromHours(4);
@@ -40,6 +56,8 @@ app.UseRouting();
 
 app.UseSession();
 app.UseAuthorization();
+app.MapHub<NotificationHub>("/notificationHub");
+app.UseSqlTableDependency<SubscribeNotificationTableDependency>(connectionString);
 
 app.MapControllerRoute(
     name: "default",
