@@ -1,11 +1,15 @@
-﻿"use strict";
-
+﻿
 var connection = new signalR.HubConnectionBuilder().withUrl("/notificationHub").build();
 
-connection.start().then(function () {
-    console.log('connected to hub');
-}).catch(function (err) {
-    return console.error(err.toString());
+
+$(function () {
+    connection.start().then(function () {
+        console.log('connected to hub');
+        InvokeNotifications();
+
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
 });
 
 connection.on("OnConnected", function () {
@@ -14,12 +18,41 @@ connection.on("OnConnected", function () {
 
 function OnConnected() {
     var consultantId = $('#hfUsername').val();
-    connection.invoke("SaveUserConnection", consultantId).catch(function (err) {
+    connection.invoke("GetConnectionId", consultantId).catch(function (err) {
         return console.error(err.toString());
     })
 }
 
-connection.on("ReceivedPersonalNotification", function (message, consultantId) {
-    // alert(message + ' - ' + username);
-    DisplayPersonalNotification(message, 'hey ' + consultantId);
+//Get Notifications
+function InvokeNotifications() {
+    var consultantId = $('#hfUsername').val();
+    connection.invoke("SendNotifications", consultantId).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+connection.on("ReceivedNotifications", function (products) {
+    BindProductsToGrid(products);
+});
+//function BindProductsToGrid(products) {
+//    $('#NotificationList').empty();
+    
+//    $.each(products, function (index,product) {
+//        console.log(product);
+//        let li = $('<li/>');
+//        li.append($('<a href="#">') // Create a link for each product
+//            .append($('<div class="notification-content">')
+//                .append($(`<span class="notification-date">${product.time}</span>`))// Align with notification structure
+//                .append($(`<h2>${product.title}</h2>`) )// Use product name as sender
+//                .append($(`<p>${product.notificationContent}</p>`)) // Display price in the message area
+//            )
+//        );
+//        $('#NotificationList').append(li);
+//    });
+//}
+
+
+connection.on("ReceivedPersonalNotification", function (title, content) {
+    debugger;
+    DisplayPersonalNotification(title, 'hey ' + content);
 });

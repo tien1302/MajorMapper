@@ -110,5 +110,21 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
+        //Get notifications by consultantId
+        public List<GetNotification> GetAllByConsultantId(string key)
+        {
+            try
+            {
+                List<GetNotification> notifications = this._mapper.Map<List<GetNotification>>(this._Repo.Get(filter: n => n.Booking.Slot.ConsultantId == int.Parse(key), includeProperties: "Booking.Slot").ToList());
+                return notifications;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using BAL.DTOs.Bookings;
 using BAL.DTOs.Notifications;
+using DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace BAL.DAOs.Interfaces
         public void Create(CreateNotification create);
         public void Update(int key, UpdateNotification update);
         public void Delete(int key);
+        public List<GetNotification> GetAllByConsultantId(string key);
     }
 }

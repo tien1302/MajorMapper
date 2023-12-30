@@ -1,5 +1,6 @@
 ﻿using WebClient.SubscribeTableDependencies;
 
+
 namespace WebClient.MiddlewareExtensions
 {
     public static class ApplicationBuilderExtension

@@ -1,25 +1,30 @@
-using DAL.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using WebClient.Hubs;
-using WebClient.MiddlewareExtensions;
 using WebClient.SubscribeTableDependencies;
+using WebClient.MiddlewareExtensions;
+using WebClient.Interface;
+using BAL.DAOs.Implementations;
+using BAL.DAOs.Interfaces;
+using DAL.Repositories.Implementations;
+using DAL.Repositories.Interfaces;
+using BAL.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
-// DB Context
+
+// SignalR
 var connectionString = builder.Configuration.GetConnectionString("DBStore");
-builder.Services.AddDbContext<MajorMapperContext>(options =>
-    options.UseSqlServer(connectionString),
-    ServiceLifetime.Singleton
-);
-// Add services to the container.
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddControllersWithViews();
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddSingleton<NotificationHub>();
 builder.Services.AddSingleton<SubscribeNotificationTableDependency>();
+builder.Services.AddSingleton<IUserConnectionManager, UserConnectionManager>();
 
+builder.Services.AddSingleton<INotificationRepository, NotificationRepository>();
+builder.Services.AddSingleton<INotificationDAO, NotificationDAO>();
+builder.Services.AddAutoMapper(typeof(NotificationProfile));
+// Add services to the container.
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddControllersWithViews(); 
 
 builder.Services.AddSession(options =>
 {
@@ -37,11 +42,17 @@ builder.Services.AddAuthentication(options =>
     options.ClientId = "33202222454-l4peaj7en9lg693sf1nc179vinqdv16t.apps.googleusercontent.com";
     options.ClientSecret = "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";
 });
-builder.Services.AddSignalR();
+
 var app = builder.Build();
 
+
+
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseMigrationsEndPoint();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -55,12 +66,12 @@ app.UseRouting();
 
 
 app.UseSession();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapHub<NotificationHub>("/notificationHub");
-app.UseSqlTableDependency<SubscribeNotificationTableDependency>(connectionString);
-
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.UseSqlTableDependency<SubscribeNotificationTableDependency>(connectionString);
 
 app.Run();

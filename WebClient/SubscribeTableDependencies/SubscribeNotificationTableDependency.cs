@@ -1,4 +1,6 @@
 ﻿using DAL.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TableDependency.SqlClient;
 using WebClient.Hubs;
 
@@ -6,6 +8,7 @@ namespace WebClient.SubscribeTableDependencies
 {
     public class SubscribeNotificationTableDependency : ISubscribeTableDependency
     {
+        MajorMapperContext _dbContext = new MajorMapperContext();
         SqlTableDependency<Notification> tableDependency;
         NotificationHub notificationHub;
 
@@ -32,8 +35,20 @@ namespace WebClient.SubscribeTableDependencies
         {
             if (e.ChangeType != TableDependency.SqlClient.Base.Enums.ChangeType.None)
             {
-                var notification = e.Entity;
-                await notificationHub.SendNotificationToClient(notification.NotificationContent, notification.Booking.Slot.ConsultantId);
+                Notification notification = e.Entity;
+                var consultantId = "";
+                using (var context = new MajorMapperContext()) 
+                {
+                    List<Account> account = (from f in context.Accounts
+                                    join s in context.Slots on f.Id equals s.ConsultantId
+                                    join b in context.Bookings on s.Id equals b.SlotId
+                                    join a in context.Notifications on b.Id equals a.BookingId
+                                    where a.Id == notification.Id
+                                    select f).ToList();
+                    consultantId = account.ToList().FirstOrDefault().Id.ToString();
+                }
+                await notificationHub.SendNotificationToClient(notification.Title,notification.NotificationContent, consultantId);
+                await notificationHub.SendNotifications(consultantId);
             }
         }
     }

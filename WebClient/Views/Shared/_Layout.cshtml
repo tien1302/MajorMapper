@@ -177,23 +177,37 @@
                                                         <div class="notification-single-top">
                                                             <h1>Notifications</h1>
                                                         </div>
-                                                        <ul class="notification-menu">
+                                                        <ul class="notification-menu" id="NotificationList">
                                                             <li>
                                                                 <a href="#">
-                                                                    <div class="notification-icon">
-                                                                        <i class="educate-icon educate-checked edu-checked-pro admin-check-pro" aria-hidden="true"></i>
-                                                                    </div>
                                                                     <div class="notification-content">
-                                                                        <span class="notification-date">16 Sept</span>
+                                                                        
                                                                         <h2>Advanda Cro</h2>
-                                                                        <p>Please done this project as soon possible.</p>
+                                                                        <p>Please done this project as soon possdsasasdasdasdasdasdadasdasdadasdasdasdsasible.</p>
                                                                     </div>
                                                                 </a>
                                                             </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <div class="notification-content">
+                                                                        
+                                                                        <h2>Advanda Cro</h2>
+                                                                        <p>Please done this project as soon possdsasasdasdasdasdasdadasdasdadasdasdasdsasible.</p>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="#">
+                                                                    <div class="notification-content">
+
+                                                                        <h2>Advanda Cro</h2>
+                                                                        <p>Please done this project as soon possdsasasdasdasdasdasdadasdasdadasdasdasdsasible.</p>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                           
                                                         </ul>
-                                                        <div class="notification-view">
-                                                            <a href="#">View All Notification</a>
-                                                        </div>
+                                                       
                                                     </div>
                                                 </li>
                                                 <li class="nav-item">
@@ -260,7 +274,10 @@
         </div>
         <!-- Main -->
         <main role="main" style="margin-top:20px;">
-            <input type="hidden" id="hfUsername" value="@Context.Session.GetInt32("AccountId")" />
+            @{
+                var accountid = @Context.Session.GetInt32("AccountId").ToString();
+            }
+            <input type="hidden" id="hfUsername" value="@accountid" />
             @RenderBody()
         </main>
 
