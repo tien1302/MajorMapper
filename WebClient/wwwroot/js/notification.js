@@ -34,22 +34,23 @@ function InvokeNotifications() {
 connection.on("ReceivedNotifications", function (products) {
     BindProductsToGrid(products);
 });
-//function BindProductsToGrid(products) {
-//    $('#NotificationList').empty();
+
+function BindProductsToGrid(products) {
+    $('#NotificationList').empty();
     
-//    $.each(products, function (index,product) {
-//        console.log(product);
-//        let li = $('<li/>');
-//        li.append($('<a href="#">') // Create a link for each product
-//            .append($('<div class="notification-content">')
-//                .append($(`<span class="notification-date">${product.time}</span>`))// Align with notification structure
-//                .append($(`<h2>${product.title}</h2>`) )// Use product name as sender
-//                .append($(`<p>${product.notificationContent}</p>`)) // Display price in the message area
-//            )
-//        );
-//        $('#NotificationList').append(li);
-//    });
-//}
+    $.each(products, function (index,product) {
+        console.log(product);
+        let li = $('<li/>');
+        li.append($('<a href="#">') // Create a link for each product
+            .append($('<div class="notification-content">')
+                .append($(`<span class="notification-date">${product.time}</span>`))// Align with notification structure
+                .append($(`<h2>${product.title}</h2>`) )// Use product name as sender
+                .append($(`<p>${product.notificationContent}</p>`)) // Display price in the message area
+            )
+        );
+        $('#NotificationList').append(li);
+    });
+}
 
 
 connection.on("ReceivedPersonalNotification", function (title, content) {

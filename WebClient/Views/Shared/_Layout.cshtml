@@ -103,8 +103,7 @@
                             </li>
                             <li>
                                 <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
-                            </li>
-                           
+                            </li>  
                         }
                         else
                         {
@@ -117,9 +116,7 @@
                             <li>
                                 <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
                             </li>
-                          
                         }
-
                     </ul>
                 </nav>
             </div>
@@ -170,7 +167,6 @@
                                     <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12">
                                         <div class="header-right-info">
                                             <ul class="nav navbar-nav mai-top-nav header-right-menu">
-                                               
                                                 <li class="nav-item">
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-bell" aria-hidden="true"></i><span class="indicator-nt"></span></a>
                                                     <div role="menu" class="notification-author dropdown-menu animated zoomIn">
@@ -259,10 +255,30 @@
                             <div class="mobile-menu">
                                 <nav id="dropdown">
                                     <ul class="mobile-menu-nav">
-                                        <li><a href="/Account/Index">Tài khoản</a></li>
-                                        <li><a href="/Major/Index">Ngành nghề</a></li>
-                                        <li><a href="/Question/Index">Câu hỏi</a></li>
-                                        <li><a href="/Slot/Index">Slot</a></li>
+                                        @if (@Context.Session.GetString("Role") == "Admin")
+                                        {
+                                            <li>
+                                                <a title="Tài khoản" href="/Account/Index" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Tài khoản</span></a>
+                                            </li>
+                                            <li>
+                                                <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
+                                            </li>
+                                            <li>
+                                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
+                                            </li>  
+                                        }
+                                        else
+                                        {
+                                            <li>
+                                                <a title="Slot" href="/Slot/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Slot</span></a>
+                                            </li>
+                                            <li>
+                                                <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
+                                            </li>
+                                            <li>
+                                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
+                                            </li>
+                                        }
                                     </ul>
                                 </nav>
                             </div>

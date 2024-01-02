@@ -19,14 +19,18 @@ namespace BAL.DAOs.Implementations
     public class PaymentDAO : IPaymentDAO
     {
         private PaymentRepository _paymentRepository;
+        private TestRepository _testRepository;
         private BookingRepository _bookingRepository;
+        private INotificationDAO _notificationDAO;
         private IMapper _mapper;
         private IConfiguration _configuration;
 
-        public PaymentDAO(IPaymentRepository paymentRepository, IBookingRepository bookingRepository, IMapper mapper, IConfiguration configuration)
+        public PaymentDAO(IPaymentRepository paymentRepository, ITestRepository testRepository, IBookingRepository bookingRepository, INotificationDAO notificationDAO, IMapper mapper, IConfiguration configuration)
         {
             _paymentRepository = (PaymentRepository)paymentRepository;
+            _testRepository = (TestRepository)testRepository;
             _bookingRepository = (BookingRepository)bookingRepository;
+            _notificationDAO = notificationDAO;
             _mapper = mapper;
             _configuration = configuration;
         }
@@ -56,6 +60,17 @@ namespace BAL.DAOs.Implementations
 
         public string CreatePaymentUrl(CreatePayment create, HttpContext context)
         {
+            if (create.TestId > 0)
+            {
+                create.Amount = 50000;
+                create.Description = "Thanh toán test's results";
+            }
+            else if (create.BookingId > 0)
+            {
+                create.Amount = 100000;
+                create.Description = "Thanh toán booking";
+            }
+
             var tick = DateTime.Now.Ticks.ToString();
             var pay = new VnPayLibrary();
             var urlCallBack = _configuration["PaymentCallBack:ReturnUrl"];
@@ -63,8 +78,6 @@ namespace BAL.DAOs.Implementations
             pay.AddRequestData("vnp_Version", _configuration["Vnpay:Version"]);
             pay.AddRequestData("vnp_Command", _configuration["Vnpay:Command"]);
             pay.AddRequestData("vnp_TmnCode", _configuration["Vnpay:TmnCode"]);
-            pay.AddRequestData("vnp_UserId", create.PlayerId.ToString());
-            pay.AddRequestData("vnp_RelatiedId", create.BookingId.ToString());
             pay.AddRequestData("vnp_Amount", (create.Amount * 100).ToString());
             pay.AddRequestData("vnp_CreateDate", DateTime.Now.ToString("yyyyMMddHHmmss"));
             pay.AddRequestData("vnp_CurrCode", _configuration["Vnpay:CurrCode"]);
@@ -88,12 +101,26 @@ namespace BAL.DAOs.Implementations
             if (response != null)
             {
                 Create(response);
-                Booking booking = _bookingRepository.GetByID(response.BookingId);
-                if (booking != null)
+                if (response.TestId > 0)
                 {
-                    booking.Status = "Finish";
-                    _bookingRepository.Update(booking);
-                    _bookingRepository.Commit();
+                    Test test = _testRepository.GetByID(response.TestId);
+                    if(test != null)
+                    {
+                        test.StatusPayment = true;
+                        _testRepository.Update(test);
+                        _testRepository.Commit();
+                    }
+                }
+                else
+                {
+                    Booking booking = _bookingRepository.GetByID(response.BookingId);
+                    if (booking != null)
+                    {
+                        booking.Status = "Finish";
+                        _bookingRepository.Update(booking);
+                        _bookingRepository.Commit();
+                    }
+                    _notificationDAO.Create(response.BookingId);
                 }
             }
             return response;

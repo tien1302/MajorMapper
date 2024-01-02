@@ -10,7 +10,6 @@ namespace BAL.DTOs.Payments
     {
         public int PlayerId { get; set; }
 
-
         public int? BookingId { get; set; }
 
         public int? TestId { get; set; }
