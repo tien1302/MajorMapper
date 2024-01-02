@@ -51,7 +51,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] CreateNotification create)
+        public IActionResult Post(int id)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _DAO.Create(create);
+                _DAO.Create(id);
                 return Ok();
             }
             catch (Exception ex)

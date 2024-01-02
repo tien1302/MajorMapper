@@ -28,7 +28,6 @@ namespace WebClient.Controllers
         }
         public async Task<IActionResult> Index()
         {
-
             try
             {
                 var accessToken = HttpContext.Session.GetString("JWToken");
@@ -55,6 +54,13 @@ namespace WebClient.Controllers
             //Token
             var accessToken = HttpContext.Session.GetString("JWToken");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            int currentId = (int)HttpContext.Session.GetInt32("AccountId");
+            string name = HttpContext.Session.GetString("Name");
+            if (currentId != id && name != "admin")
+            {
+                return RedirectToAction("Details", new { id = currentId });
+            }
             //Account
             HttpResponseMessage response = await client.GetAsync(baseApiUrl);
             var strData = await response.Content.ReadAsStringAsync();
@@ -111,7 +117,6 @@ namespace WebClient.Controllers
         {
             HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
             var strData = await response.Content.ReadAsStringAsync();
-
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -131,6 +136,10 @@ namespace WebClient.Controllers
                 HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
                 if (response.IsSuccessStatusCode)
                 {
+                    HttpResponseMessage response1 = await client.GetAsync($"{baseApiUrl}/{id}");
+                    var token = await response1.Content.ReadAsStringAsync();
+                    GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
+                    HttpContext.Session.SetString("Name", tokenResponse.name);
                     ViewBag.Message = "Insert successfully!";
                 }
                 else
@@ -140,7 +149,7 @@ namespace WebClient.Controllers
             }
             else
                 ViewBag.Message = "Error!";
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details));
         }
 
         public async Task<IActionResult> Delete(int? id)

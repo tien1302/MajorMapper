@@ -64,7 +64,6 @@ namespace BAL.DAOs.Implementations
                 };
                 this._Repo.Insert(booking);
                 this._Repo.Commit();
-
                 return this._mapper.Map<GetBooking>(booking);
             }
             catch (Exception ex)

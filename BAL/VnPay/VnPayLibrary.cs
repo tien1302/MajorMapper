@@ -20,12 +20,6 @@ namespace BAL.VnPay
 
         public CreatePayment GetFullResponseData(CreatePayment model, string hashSecret)
         {
-            //var vnPay = new VnPayLibrary();
-            //var checkSignature =
-            //    vnPay.ValidateSignature(model.SecureHash, hashSecret); //check Signature
-
-            //if (!checkSignature)
-            //    return null;
             return model;
         }
 
@@ -81,7 +75,7 @@ namespace BAL.VnPay
         {
             var data = new StringBuilder();
 
-            foreach (var (key, value) in _requestData.Where(kv => kv.Key != "vnp_UserId" && kv.Key != "vnp_RelatiedId" && !string.IsNullOrEmpty(kv.Value)))
+            foreach (var (key, value) in _requestData.Where(kv => !string.IsNullOrEmpty(kv.Value)))
             {
                 data.Append(WebUtility.UrlEncode(key) + "=" + WebUtility.UrlEncode(value) + "&");
             }

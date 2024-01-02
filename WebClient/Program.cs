@@ -20,6 +20,7 @@ builder.Services.AddSingleton<SubscribeNotificationTableDependency>();
 builder.Services.AddSingleton<IUserConnectionManager, UserConnectionManager>();
 
 builder.Services.AddSingleton<INotificationRepository, NotificationRepository>();
+builder.Services.AddScoped<ISlotRepository, SlotRepository>();
 builder.Services.AddSingleton<INotificationDAO, NotificationDAO>();
 builder.Services.AddAutoMapper(typeof(NotificationProfile));
 // Add services to the container.
