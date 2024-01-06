@@ -39,19 +39,7 @@ namespace BAL.DAOs.Implementations
             }
         }
 
-        public List<GetNotification> GetAllByConsultantId(int key)
-        {
-            try
-            {
-                List<GetNotification> notifications = this._mapper.Map<List<GetNotification>>(this._Repo.Get(filter: n => n.Booking.Slot.ConsultantId == key, 
-                    includeProperties: "Booking.Slot", orderBy: q => q.OrderDescending()).Take(15).ToList());
-                return notifications;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+    
 
 
         public GetNotification Get(int key)
@@ -84,7 +72,7 @@ namespace BAL.DAOs.Implementations
                 Notification notification = new Notification()
                 {
                     BookingId = bookingId,
-                    NotificationContent = $"Bạn có một lịch tư vấn mới vào lúc{slot.StartDateTime.ToString("HH:mm")} ngày {slot.StartDateTime.ToString("MM/dd/yyyy")}",
+                    NotificationContent = $"Bạn có một lịch tư vấn mới vào lúc {slot.StartDateTime.ToString("HH:mm")} ngày {slot.StartDateTime.ToString("dd/MM/yyyy")}",
                     Title = "Có lịch tư vấn mới",
                     Time = DateTime.Now,
                 };
@@ -142,7 +130,9 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetNotification> notifications = this._mapper.Map<List<GetNotification>>(this._Repo.Get(filter: n => n.Booking.Slot.ConsultantId == int.Parse(key), includeProperties: "Booking.Slot").ToList());
+               
+                List<GetNotification> notifications = this._mapper.Map<List<GetNotification>>(this._Repo.Get(filter: n => n.Booking.Slot.ConsultantId == int.Parse(key), includeProperties: "Booking.Slot", orderBy: q => q.OrderByDescending(n =>n.Time)).Take(15).ToList());
+
                 return notifications;
             }
             catch (Exception ex)

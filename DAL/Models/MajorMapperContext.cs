@@ -288,7 +288,7 @@ public partial class MajorMapperContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TestResult_Test");
         });
-
+        modelBuilder.Entity<Notification>().ToTable(tb => tb.HasTrigger("TriggerName"));
         OnModelCreatingPartial(modelBuilder);
     }
 

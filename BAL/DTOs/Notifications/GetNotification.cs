@@ -12,13 +12,11 @@ namespace BAL.DTOs.Notifications
         [Key]
         public int Id { get; set; }
         public int? BookingId { get; set; }
-
+        public int? PlayerId { get; set; }
         public string NotificationContent { get; set; } = null!;
 
         public string Title { get; set; } = null!;
 
         public DateTime Time { get; set; }
-
-        public bool IsRead { get; set; }
     }
 }

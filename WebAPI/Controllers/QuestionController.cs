@@ -1,4 +1,5 @@
 ﻿using BAL.DAOs.Interfaces;
+using BAL.DTOs.Accounts;
 using BAL.DTOs.Questions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,23 @@ namespace WebAPI.Controllers
             {
                 List<GetQuestion> list = _questionDAO.GetAll();
                 return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
+
+        [HttpGet("GetProcessing")]
+        public IActionResult GetProcessing()
+        {
+            try
+            {
+                List<GetQuestion> question = _questionDAO.GetProcessing();
+                return Ok(question);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<BAL.DTOs.Questions.GetQuestion>
 
 @{
-    ViewData["Title"] = "Danh sách câu hỏi";
+    ViewData["Title"] = "Danh sách câu hỏi cần duyệt";
 }
 
 <!-- Static Table Start -->
@@ -12,21 +12,14 @@
                 <div class="sparkline13-list">
                     <div class="sparkline13-hd">
                         <div class="main-sparkline13-hd">
-                            <h1>Danh sách câu hỏi</h1>
+                            <h1>Danh sách câu hỏi cần duyệt</h1>
                         </div>
                     </div>
                     <div class="sparkline13-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbar">
-                                @if (@Context.Session.GetString("Role") == "Admin")
-                                {
-                                    <a class="btn btn-primary waves-effect waves-light" asp-action="Processing">Câu hỏi cần duyệt</a>
-                                }
-                                else
-                                {
-                                    <a class="btn btn-primary waves-effect waves-light" asp-action="Create">Tạo câu hỏi</a>
-                                }
-                                
+
+                                <a class="btn btn-primary waves-effect waves-light" asp-action="Index">Danh sách câu hỏi</a>
                             </div>
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true"
                                    data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
@@ -39,12 +32,8 @@
                                         <th data-field="des" data-sortable="true">
                                             Mô tả
                                         </th>
-                                        
                                         <th data-field="date" data-sortable="true">
                                             Ngày tạo
-                                        </th>
-                                        <th data-field="status" data-sortable="true">
-                                            Trạng thái
                                         </th>
                                         <th></th>
                                     </tr>
@@ -59,40 +48,42 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Description)
                                             </td>
-                                            
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.CreateDateTime)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.Status)
-                                            </td>
-                                            <td>
-                                                @if (@Context.Session.GetString("Role") == "Admin")
-                                                {
-                                                    <a style="width:34px;padding-left: 11px;" class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#DeleteQuestion" title="Xóa">
-                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                    </a>
-                                                }
-                                                else
-                                                {
-                                                    <a style="width:34px;padding-left: 11px;" href="@Url.Action("Create", new {id=item.Id})" title="Sửa" class="btn btn-default">
-                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                    </a>
-                                                }
+                                                <button type="button" class="btn btn-custon-rounded-four btn-success" data-toggle="modal" data-target="#AccpetQuestion">Chấp nhận</button>
+                                                <button type="button" class="btn btn-custon-rounded-four btn-danger" data-toggle="modal" data-target="#DenyQuestion">Từ chối</button>
                                             </td>
                                         </tr>
-                                        <!-- delete modal -->
-                                        <div id="DeleteQuestion" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                                        <!-- Accept modal -->
+                                        <div id="AccpetQuestion" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-body">
                                                         <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
-                                                        <h2>Xác nhận xóa</h2>
-                                                        <p>Xác nhận xóa câu hỏi của tính cách @Html.DisplayFor(modelItem => item.PersonalityTypeName)</p>
+                                                        <h2>Xác nhận</h2>
+                                                        <p>Xác nhận câu hỏi của tính cách @Html.DisplayFor(modelItem => item.PersonalityTypeName)</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
-                                                        <a href="@Url.Action("Delete", new {id=item.Id})">Xác nhận</a>
+                                                        <a href="@Url.Action("Update", new {id=item.Id, status = "Active" })">Xác nhận</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Deny modal -->
+                                        <div id="DenyQuestion" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body">
+                                                        <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                                        <h2>Từ chối</h2>
+                                                        <p>Từ chối câu hỏi của tính cách @Html.DisplayFor(modelItem => item.PersonalityTypeName)</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
+                                                        <a href="@Url.Action("Update", new {id=item.Id, status = "InActive"})">Xác nhận</a>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BAL.DAOs.Interfaces;
+using BAL.DTOs.Accounts;
 using BAL.DTOs.Questions;
 using DAL.Models;
 using DAL.Repositories.Implementations;
@@ -33,7 +34,7 @@ namespace BAL.DAOs.Implementations
                     Type = 1,
                     Description = create.Description,
                     CreateDateTime = DateTime.Now,
-                    Status = "1"
+                    Status = "Processing"
                 };
                 _questionRepository.Insert(question);
                 _questionRepository.Commit();
@@ -53,7 +54,8 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
-                _questionRepository.Delete(key);
+                existedQuestion.Status = "InActive";
+                _questionRepository.Update(existedQuestion);
                 _questionRepository.Commit();
             }
             catch (Exception ex)
@@ -62,20 +64,14 @@ namespace BAL.DAOs.Implementations
             }
         }
 
-        public GetQuestion Get(int key)
+        public List<GetQuestion> GetProcessing()
         {
             try
             {
-                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get().ToList());
-                Question question = _questionRepository.GetByID(key);
+                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get(filter: q=> q.Status=="Processing",includeProperties: "PersonalityType").ToList());
 
-                if (question == null)
-                {
-                    throw new Exception("Id does not exist in the system.");
-                }
 
-                GetQuestion result = listQuestion.FirstOrDefault(p => p.Id == question.Id);
-                return _mapper.Map<GetQuestion>(result);
+                return listQuestion;
             }
             catch (Exception ex)
             {
@@ -87,7 +83,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get(includeProperties: "PersonalityType").ToList());
+                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get(filter: q => q.Status != "InActive", includeProperties: "PersonalityType").ToList());
                 return listQuestion;
             }
             catch (Exception ex)
@@ -95,7 +91,22 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
-
+        public GetQuestion Get(int key)
+        {
+            try
+            {
+                Question question = this._questionRepository.GetByID(key);
+                if (question == null)
+                {
+                    throw new Exception("question Id không tồn tại.");
+                }
+                return this._mapper.Map<GetQuestion>(question);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public void Update(int key, UpdateQuestion update)
         {
             try
@@ -106,8 +117,7 @@ namespace BAL.DAOs.Implementations
                     throw new Exception("Question Id does not exist in the system.");
                 }
 
-                existedQuestion.PersonalityTypeId = update.PersonalityTypeId;
-                existedQuestion.Description = update.Description;
+                existedQuestion.Status = update.Status;
                 _questionRepository.Update(existedQuestion);
                 _questionRepository.Commit();
             }

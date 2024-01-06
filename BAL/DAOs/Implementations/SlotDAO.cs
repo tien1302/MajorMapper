@@ -324,7 +324,7 @@ namespace BAL.DAOs.Implementations
                 else if (createSlot.Auto == 3)
                 {
                     List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get(filter: s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId).ToList());
-                    if (listSlot != null)
+                    if (listSlot.Count != 0)
                     {
                         throw new Exception("Slot đã tồn tại.");
                     }
