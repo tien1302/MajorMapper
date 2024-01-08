@@ -1,4 +1,5 @@
-﻿using BAL.DAOs.Implementations;
+﻿using BAL.Authentications;
+using BAL.DAOs.Implementations;
 using BAL.DAOs.Interfaces;
 using BAL.DTOs.TestQuestions;
 using BAL.DTOs.Tests;
@@ -18,6 +19,7 @@ namespace WebAPI.Controllers
             _testQuestionDAO = testQuestionDAO;
         }
 
+        [PermissionAuthorize("Player")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -35,6 +37,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -52,6 +55,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateTestQuestion create)
         {
@@ -70,6 +74,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateTestQuestion update)
         {
@@ -88,6 +93,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

@@ -20,7 +20,6 @@ namespace BAL.DAOs.Implementations
 {
     public class AccountDAO : IAccountDAO
     {
-        MajorMapperContext _dbContext = new MajorMapperContext();
         private AccountRepository _Repo;
         private RoleRepository _roleRepo;
         private TestResultRepository _testResultRepo;
@@ -165,8 +164,6 @@ namespace BAL.DAOs.Implementations
                             break;
                         }
                 }
-
-
                 return GenerateToken(getAccount, jwtAuth);
             }
             catch (Exception ex)
@@ -183,6 +180,7 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Email không tồn tại.");
                 }
+
                 GetAccount getAccount = this._mapper.Map<GetAccount>(existedAccount);
                 //GenerateToken
                 switch (existedAccount.RoleId)
@@ -203,8 +201,6 @@ namespace BAL.DAOs.Implementations
                             break;
                         }
                 }
-
-
                 return GenerateToken(getAccount, jwtAuth);
             }
             catch (Exception ex)
@@ -212,6 +208,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
         private GetAccount GenerateToken(GetAccount getAccount, JwtAuth jwtAuth)
         {
             try
@@ -221,12 +218,12 @@ namespace BAL.DAOs.Implementations
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
                 var claims = new ClaimsIdentity(new[] {
-                 new Claim(JwtRegisteredClaimNames.Sub, getAccount.id.ToString()),
-                 new Claim(JwtRegisteredClaimNames.Email, getAccount.email),
-                 new Claim(JwtRegisteredClaimNames.Name, getAccount.name),
-                 new Claim("Role", getAccount.roleName),
-                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-             });
+                    new Claim(JwtRegisteredClaimNames.Sub, getAccount.id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, getAccount.email),
+                    new Claim(JwtRegisteredClaimNames.Name, getAccount.name),
+                    new Claim("Role", getAccount.roleName),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                });
 
                 var tokenDescription = new SecurityTokenDescriptor
                 {
@@ -277,6 +274,7 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Mặt khẩu cũ không đúng.");
                 }
+
                 existedAccount.Password = reset.Password;
                 this._Repo.Update(existedAccount);
                 this._Repo.Commit();

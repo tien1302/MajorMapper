@@ -44,7 +44,6 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Question Id does not exist in the system.");
                 }
-               
 
                 TestQuestion testQuestion = new TestQuestion()
                 {
@@ -53,6 +52,7 @@ namespace BAL.DAOs.Implementations
                     GameData = create.GameData,
                     Status = create.Status,
                 };
+
                 _testQuestionRepository.Insert(testQuestion);
                 _testQuestionRepository.Commit();
             }
@@ -71,6 +71,7 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
+
                 _testQuestionRepository.Delete(key);
                 _testQuestionRepository.Commit();
             }

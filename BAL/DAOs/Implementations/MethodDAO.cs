@@ -17,11 +17,13 @@ namespace BAL.DAOs.Implementations
     {
         private MethodRepository _repo;
         private IMapper _mapper;
+
         public MethodDAO(IMethodRepository repo, IMapper mapper)
         {
             _repo = (MethodRepository)repo;
             _mapper = mapper;
         }
+
         public void Create(CreateMethod createMethod)
         {
             try
@@ -32,6 +34,7 @@ namespace BAL.DAOs.Implementations
                     Description = createMethod.Description,
                     CreateDateTime = DateTime.Now,
                 };
+
                 _repo.Insert(method);
                 _repo.Commit();
             }
@@ -50,6 +53,7 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
+
                 _repo.Delete(key);
                 _repo.Commit();
             }

@@ -1,4 +1,5 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Authentications;
+using BAL.DAOs.Interfaces;
 using BAL.DTOs.Payments;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -81,6 +82,9 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        //Lấy số tiền cho admin
+        [PermissionAuthorize("Admin")]
         [HttpGet("listMoney")]
         public IActionResult GetMoney(int year)
         {
@@ -97,6 +101,9 @@ namespace WebAPI.Controllers
                 });
             }
         }
+
+        //Lấy số tiền theo ConsultantId
+        [PermissionAuthorize("Consultant")]
         [HttpGet("listMoneyById")]
         public IActionResult GetMoneyById(int id,int year)
         {
@@ -113,6 +120,8 @@ namespace WebAPI.Controllers
                 });
             }
         }
+
+        //Tạo url của Vnpay
         [HttpPost("CreatePaymentUrl")]
         public IActionResult CreatePaymentUrl([FromBody] CreatePayment model)
         {
@@ -132,7 +141,7 @@ namespace WebAPI.Controllers
             }
         }
 
-
+        //Xử lý thông tin từ Vnpay
         [HttpPost("PaymentCallback")]
         public IActionResult PaymentCallback([FromBody] CreatePayment model)
         {

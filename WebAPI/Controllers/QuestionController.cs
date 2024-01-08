@@ -1,4 +1,5 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Authentications;
+using BAL.DAOs.Interfaces;
 using BAL.DTOs.Accounts;
 using BAL.DTOs.Questions;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +18,7 @@ namespace WebAPI.Controllers
             _questionDAO = questionDAO;
         }
 
+        [PermissionAuthorize("Admin", "Consultant")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -34,6 +36,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpGet("GetProcessing")]
         public IActionResult GetProcessing()
         {
@@ -51,6 +54,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -68,6 +72,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Consultant")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateQuestion create)
         {
@@ -86,6 +91,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateQuestion update)
         {
@@ -104,6 +110,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

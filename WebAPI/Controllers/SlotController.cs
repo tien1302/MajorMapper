@@ -1,4 +1,5 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Authentications;
+using BAL.DAOs.Interfaces;
 using BAL.DTOs.Slots;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,6 +34,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Consultant")]
         // Hàm lấy list slot theo consultantId
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -52,6 +54,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         // Hàm lấy list slot trống theo consultantId cho mobile
         [HttpGet("GetSlotActive")]
         public IActionResult GetSlotActive()
@@ -71,6 +74,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Consultant")]
         // Hàm lấy slot theo SlotId
         [HttpGet("GetById/{id}")]
         public IActionResult GetById(int id)
@@ -88,6 +92,8 @@ namespace WebAPI.Controllers
                 });
             }
         }
+
+        [PermissionAuthorize("Consultant")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateSlot createSlot)
         {
@@ -106,24 +112,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                _slotDAO.Update(id);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
+        [PermissionAuthorize("Consultant")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

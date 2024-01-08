@@ -49,6 +49,7 @@ namespace BAL.DAOs.Implementations
                     Description = createPayment.Description,
                     CreateDateTime = DateTime.Now,
                 };
+
                 _paymentRepository.Insert(payment);
                 _paymentRepository.Commit();
             }
@@ -58,6 +59,7 @@ namespace BAL.DAOs.Implementations
             }
         }
 
+        //Tạo url của Vnpay
         public string CreatePaymentUrl(CreatePayment create, HttpContext context)
         {
             if (create.TestId > 0)
@@ -83,7 +85,16 @@ namespace BAL.DAOs.Implementations
             pay.AddRequestData("vnp_CurrCode", _configuration["Vnpay:CurrCode"]);
             pay.AddRequestData("vnp_IpAddr", pay.GetIpAddress(context));
             pay.AddRequestData("vnp_Locale", _configuration["Vnpay:Locale"]);
-            pay.AddRequestData("vnp_OrderType", "Booking");
+
+            if (create.TestId > 0)
+            {
+                pay.AddRequestData("vnp_OrderType", "Test");
+            }
+            else if (create.BookingId > 0)
+            {
+                pay.AddRequestData("vnp_OrderType", "Booking");
+            }
+
             pay.AddRequestData("vnp_OrderInfo", create.Description);
             pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
             pay.AddRequestData("vnp_TxnRef", tick);
@@ -94,6 +105,7 @@ namespace BAL.DAOs.Implementations
             return paymentUrl;
         }
 
+        //Xử lý thông tin từ Vnpay
         public CreatePayment PaymentExecute(CreatePayment model)
         {
             var pay = new VnPayLibrary();
@@ -111,7 +123,7 @@ namespace BAL.DAOs.Implementations
                         _testRepository.Commit();
                     }
                 }
-                else
+                else if(response.BookingId > 0)
                 {
                     Booking booking = _bookingRepository.GetByID(response.BookingId);
                     if (booking != null)
@@ -177,6 +189,8 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
+        //Lấy số tiền theo ConsultantId
         public Tuple<List<int>, List<int>> GetmoneybyId(int id,int year)
         {
             try
@@ -185,7 +199,7 @@ namespace BAL.DAOs.Implementations
                 List<int> listcount = new List<int>();
                 int money = 0;
                 int count = 0;
-                List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year && p.Booking.Slot.ConsultantId ==id, includeProperties: "Booking.Slot").ToList());
+                List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year && p.Booking.Slot.ConsultantId == id, includeProperties: "Booking.Slot").ToList());
                 for (int i = 1; i <= 12; i++)
                 {
                     List<GetPayment> list = listPayment.Where(list => list.CreateDateTime.Month == i).ToList();
@@ -207,13 +221,15 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
+        //Lấy số tiền cho admin
         public List<int>Getmoney(int year)
         {
             try
             {
                 List<int> listmoney = new List<int>();
                 int money =0;
-                List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year== year).ToList());
+                List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year).ToList());
                 for (int i = 1; i <= 12; i++)
                 {
                     List<GetPayment> list = listPayment.Where(list => list.CreateDateTime.Month == i).ToList();

@@ -42,6 +42,7 @@ namespace BAL.DAOs.Implementations
                     StatusPayment = create.StatusPayment,
                     CreateDateTime = DateTime.Now,
                 };
+
                 _testRepository.Insert(test);
                 _testRepository.Commit();
             }
@@ -60,6 +61,7 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
+
                 _testRepository.Delete(key);
                 _testRepository.Commit();
             }

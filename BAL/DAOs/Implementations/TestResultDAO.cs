@@ -35,6 +35,7 @@ namespace BAL.DAOs.Implementations
                     TestId = create.TestId,
                     CreateDateTime = DateTime.Now,
                 };
+
                 _testResultRepository.Insert(testResult);
                 _testResultRepository.Commit();
             }
@@ -53,6 +54,7 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
+
                 _testResultRepository.Delete(key);
                 _testResultRepository.Commit();
             }

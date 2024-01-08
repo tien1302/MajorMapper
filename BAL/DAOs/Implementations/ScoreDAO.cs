@@ -48,6 +48,7 @@ namespace BAL.DAOs.Implementations
                     PersonalityTypeId = create.PersonalityTypeId,
                     Result = create.Result,
                 };
+
                 _scoreRepository.Insert(score);
                 _scoreRepository.Commit();
             }
@@ -66,6 +67,7 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
+
                 _scoreRepository.Delete(key);
                 _scoreRepository.Commit();
             }

@@ -1,4 +1,5 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Authentications;
+using BAL.DAOs.Interfaces;
 using BAL.DTOs.Bookings;
 using DAL.Models;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +35,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -51,6 +53,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateBooking create)
         {
@@ -62,38 +65,6 @@ namespace WebAPI.Controllers
                 }
                 GetBooking booking = _DAO.Create(create);
                 return Ok(booking);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UpdateBooking update)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                _DAO.Update(id, update);
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
-        {
-            try
-            {
-                _DAO.Delete(id);
-                return Ok();
             }
             catch (Exception ex)
             {

@@ -22,6 +22,7 @@ namespace BAL.DAOs.Implementations
             _Repo = (BookingRepository)repo;
             _mapper = mapper;
         }
+
         public List<GetBooking> GetAll()
         {
             try
@@ -51,6 +52,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
         public GetBooking Create(CreateBooking create)
         {
             try
@@ -62,6 +64,7 @@ namespace BAL.DAOs.Implementations
                     Status = "Progressing",
                     CreateDateTime = DateTime.Now
                 };
+
                 this._Repo.Insert(booking);
                 this._Repo.Commit();
                 return this._mapper.Map<GetBooking>(booking);
@@ -71,6 +74,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
         public void Update(int key, UpdateBooking update)
         {
             try
@@ -85,24 +89,6 @@ namespace BAL.DAOs.Implementations
                 existedBooking.SlotId = update.SlotId;
                 existedBooking.Status = update.Status;
                 this._Repo.Update(existedBooking);
-                this._Repo.Commit();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public void Delete(int key)
-        {
-            try
-            {
-                Booking existedBooking = this._Repo.GetByID(key);
-                if (existedBooking == null)
-                {
-                    throw new Exception("BookingId does not exist in the system.");
-                }
-                this._Repo.Delete(key);
                 this._Repo.Commit();
             }
             catch (Exception ex)

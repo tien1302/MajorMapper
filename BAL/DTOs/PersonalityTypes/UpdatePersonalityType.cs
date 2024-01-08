@@ -12,6 +12,6 @@ namespace BAL.DTOs.PersonalityTypes
         [Required(ErrorMessage = "PersonalityType Name is required.")]
         [MaxLength(200, ErrorMessage = "PersonalityType Name is required less than or equals 200 characters.")]
         public string Name { get; set; }
-        public int Method { get; set; }
+        public int MethodId { get; set; }
     }
 }

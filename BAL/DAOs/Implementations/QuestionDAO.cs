@@ -36,6 +36,7 @@ namespace BAL.DAOs.Implementations
                     CreateDateTime = DateTime.Now,
                     Status = "Processing"
                 };
+
                 _questionRepository.Insert(question);
                 _questionRepository.Commit();
             }
@@ -54,7 +55,8 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
-                existedQuestion.Status = "InActive";
+
+                existedQuestion.Status = "Inactive";
                 _questionRepository.Update(existedQuestion);
                 _questionRepository.Commit();
             }
@@ -64,13 +66,12 @@ namespace BAL.DAOs.Implementations
             }
         }
 
+        //Láy list question có trạng thái "Processing"
         public List<GetQuestion> GetProcessing()
         {
             try
             {
-                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get(filter: q=> q.Status=="Processing",includeProperties: "PersonalityType").ToList());
-
-
+                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get(filter: q => q.Status == "Processing", includeProperties: "PersonalityType").ToList());
                 return listQuestion;
             }
             catch (Exception ex)
@@ -83,7 +84,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get(filter: q => q.Status != "InActive", includeProperties: "PersonalityType").ToList());
+                List<GetQuestion> listQuestion = _mapper.Map<List<GetQuestion>>(_questionRepository.Get(filter: q => q.Status != "Inactive", includeProperties: "PersonalityType").ToList());
                 return listQuestion;
             }
             catch (Exception ex)
@@ -91,6 +92,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
         public GetQuestion Get(int key)
         {
             try
@@ -107,6 +109,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
         public void Update(int key, UpdateQuestion update)
         {
             try

@@ -39,9 +39,6 @@ namespace BAL.DAOs.Implementations
             }
         }
 
-    
-
-
         public GetNotification Get(int key)
         {
             try
@@ -58,6 +55,7 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+
         public void Create(int? bookingId)
         {
             try
@@ -76,47 +74,8 @@ namespace BAL.DAOs.Implementations
                     Title = "Có lịch tư vấn mới",
                     Time = DateTime.Now,
                 };
+
                 this._Repo.Insert(notification);
-                this._Repo.Commit();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public void Update(int key, UpdateNotification update)
-        {
-            try
-            {
-                Notification existedNotification = this._Repo.GetByID(key);
-                if (existedNotification == null)
-                {
-                    throw new Exception("NotificationId does not exist in the system.");
-                }
-
-                existedNotification.BookingId = update.BookingId;
-                existedNotification.NotificationContent = update.NotificationContent;
-                existedNotification.Title = update.Title;
-                existedNotification.Time = update.Time;
-                this._Repo.Update(existedNotification);
-                this._Repo.Commit();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public void Delete(int key)
-        {
-            try
-            {
-                Notification existedNotification = this._Repo.GetByID(key);
-                if (existedNotification == null)
-                {
-                    throw new Exception("NotificationId does not exist in the system.");
-                }
-                this._Repo.Delete(key);
                 this._Repo.Commit();
             }
             catch (Exception ex)
@@ -130,9 +89,11 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-               
-                List<GetNotification> notifications = this._mapper.Map<List<GetNotification>>(this._Repo.Get(filter: n => n.Booking.Slot.ConsultantId == int.Parse(key), includeProperties: "Booking.Slot", orderBy: q => q.OrderByDescending(n =>n.Time)).Take(15).ToList());
-
+                List<GetNotification> notifications = this._mapper.Map<List<GetNotification>>(
+                                                      this._Repo.Get(filter: n => n.Booking.Slot.ConsultantId == int.Parse(key), 
+                                                                     includeProperties: "Booking.Slot", 
+                                                                     orderBy: q => q.OrderByDescending(n =>n.Time))
+                                                                .Take(15).ToList());
                 return notifications;
             }
             catch (Exception ex)
@@ -140,7 +101,5 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
-
-
     }
 }
