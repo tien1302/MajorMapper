@@ -24,8 +24,8 @@ namespace WebAPI.Controllers
             _jwtAuthOptions = jwtAuthOptions;
         }
 
+        [PermissionAuthorize("Admin")]
         [HttpGet]
-        //[PermissionAuthorize("Admin")]
         public IActionResult Get()
         {
             try
@@ -42,6 +42,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Admin")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -59,6 +60,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Consultant,Player")]
         [HttpGet("GetTestResult/{id}")]
         public IActionResult GetTestResult(int id)
         {
@@ -94,6 +96,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Consultant", "Player")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateAccount update)
         {
@@ -111,6 +114,8 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [PermissionAuthorize("Consultant", "Player")]
         [HttpPut("ResetPassword")]
         public IActionResult ResetPassword([FromBody] ResetPassword reset)
         {
@@ -128,6 +133,7 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

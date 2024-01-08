@@ -15,11 +15,13 @@ namespace BAL.DAOs.Implementations
     public class PersonalityTypeDAO : IPersonalityTypeDAO
     {
         private PersonalityTypeRepository _personalityTypeRepository;
+        private MethodRepository _methodRepository;
         private IMapper _mapper;
 
-        public PersonalityTypeDAO(IPersonalityTypeRepository personalityTypeRepository, IMapper mapper)
+        public PersonalityTypeDAO(IPersonalityTypeRepository personalityTypeRepository, IMethodRepository methodRepository, IMapper mapper)
         {
             _personalityTypeRepository = (PersonalityTypeRepository)personalityTypeRepository;
+            _methodRepository = (MethodRepository)methodRepository;
             _mapper = mapper;
         }
 
@@ -30,10 +32,11 @@ namespace BAL.DAOs.Implementations
                 PersonalityType personalityType = new PersonalityType()
                 {
                     Name = createPersonalityType.Name,
-                    MethodId = createPersonalityType.Method,
+                    MethodId = createPersonalityType.MethodId,
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
                 };
+
                 _personalityTypeRepository.Insert(personalityType);
                 _personalityTypeRepository.Commit();
             }
@@ -52,6 +55,7 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
+
                 _personalityTypeRepository.Delete(key);
                 _personalityTypeRepository.Commit();
             }
@@ -106,7 +110,7 @@ namespace BAL.DAOs.Implementations
                 }
 
                 existedPersonalityType.Name = updatePersonalityType.Name;
-                existedPersonalityType.MethodId = updatePersonalityType.Method;
+                existedPersonalityType.MethodId = updatePersonalityType.MethodId;
                 existedPersonalityType.UpdateDateTime = DateTime.Now;
                 _personalityTypeRepository.Update(existedPersonalityType);
                 _personalityTypeRepository.Commit();

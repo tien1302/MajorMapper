@@ -63,15 +63,17 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         } 
+
         public void Delete(int key)
         {
             try
             {
-                Major existedMajor = _majorRepository.Get(includeProperties: "PersonalityTypes").FirstOrDefault(u => u.Id == key);
+                Major existedMajor = _majorRepository.Get(filter: u => u.Id == key, includeProperties: "PersonalityTypes").FirstOrDefault();
                 if (existedMajor == null)
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
+
                 existedMajor.PersonalityTypes.Clear();
                 _majorRepository.Delete(key);
                 _majorRepository.Commit();
@@ -132,7 +134,7 @@ namespace BAL.DAOs.Implementations
                     listPersonalityType.Add(checkPersonalityTypeId);
                 }
 
-                Major existedMajor = _majorRepository.Get(includeProperties: "PersonalityTypes").FirstOrDefault(u => u.Id == key);
+                Major existedMajor = _majorRepository.Get(filter: u => u.Id == key, includeProperties: "PersonalityTypes").FirstOrDefault();
                 if (existedMajor == null)
                 {
                     throw new Exception("Id does not exist in the system.");

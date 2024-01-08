@@ -1,4 +1,5 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Authentications;
+using BAL.DAOs.Interfaces;
 using BAL.DTOs.Feedbacks;
 using DAL.Models;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +35,8 @@ namespace WebAPI.Controllers
             }
         }
 
+        //Lấy list feedback theo constultantId
+        [PermissionAuthorize("Consultant")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -51,6 +54,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateFeedback create)
         {
@@ -69,6 +73,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateFeedback update)
         {
@@ -87,6 +92,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

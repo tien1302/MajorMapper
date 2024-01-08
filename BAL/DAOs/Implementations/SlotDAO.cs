@@ -54,6 +54,7 @@ namespace BAL.DAOs.Implementations
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
+
                 _slotRepository.Delete(key);
                 _slotRepository.Commit();
             }
@@ -82,8 +83,10 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(_slotRepository.Get(filter: s => s.Status == "Available",
-                                                                    orderBy: q => q.OrderBy(s => s.StartDateTime).ThenBy(s => s.CreateDateTime)).ToList());
+                List<GetSlot> listSlot = _mapper.Map<List<GetSlot>>(
+                                         _slotRepository.Get(filter: s => s.Status == "Available",
+                                                             orderBy: q => q.OrderBy(s => s.StartDateTime)
+                                                                            .ThenBy(s => s.CreateDateTime)).ToList());
                 return listSlot;
             }
             catch (Exception ex)
@@ -92,6 +95,7 @@ namespace BAL.DAOs.Implementations
             }
         }
 
+        //Tự động cập nhật trạng thái "Hoàn thành" cho list slot
         public List<GetSlot> CheckStatus()
         {
             try
@@ -153,26 +157,7 @@ namespace BAL.DAOs.Implementations
             }
         }
 
-        public void Update(int key)
-        {
-            try
-            {
-                Slot existedSlot = _slotRepository.GetByID(key);
-                if (existedSlot == null)
-                {
-                    throw new Exception("Id does not exist in the system.");
-                }
-
-                existedSlot.Status = "Booking";
-                _slotRepository.Update(existedSlot);
-                _slotRepository.Commit();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
+        //Tạo tự động nhiều slot cho cả ngày
         public void CreateAutoSlotsAllDay(CreateSlot createSlot)
         {
             try
@@ -204,6 +189,7 @@ namespace BAL.DAOs.Implementations
                                 {
                                     continue; // Skip if slot already exists
                                 }
+
                                 _slotRepository.Insert(slot);
                             }
                         }
@@ -231,6 +217,7 @@ namespace BAL.DAOs.Implementations
                                 {
                                     continue; // Skip if slot already exists
                                 }
+
                                 _slotRepository.Insert(slot);
                             }
                         }
@@ -256,6 +243,7 @@ namespace BAL.DAOs.Implementations
                             {
                                 continue; // Skip if slot already exists
                             }
+
                             _slotRepository.Insert(slot);
                         }
                     }
@@ -268,6 +256,7 @@ namespace BAL.DAOs.Implementations
             }
         }
 
+        //Tạo tự động 1 slot
         public void CreateAutoOneSlot(CreateSlot createSlot)
         {
             try
@@ -296,6 +285,7 @@ namespace BAL.DAOs.Implementations
                         {
                             continue; // Skip if slot already exists
                         }
+
                         _slotRepository.Insert(slot);
                     }
                     _slotRepository.Commit();
@@ -317,6 +307,7 @@ namespace BAL.DAOs.Implementations
                         {
                             continue; // Skip if slot already exists
                         }
+
                         _slotRepository.Insert(slot);
                     }
                     _slotRepository.Commit();
@@ -336,6 +327,7 @@ namespace BAL.DAOs.Implementations
                         CreateDateTime = DateTime.Now,
                         Status = "Available",
                     };
+
                     _slotRepository.Insert(slot);
                     _slotRepository.Commit();
                 }

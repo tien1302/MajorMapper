@@ -76,34 +76,13 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
-
-        public GetFeedback Get(int key)
-        {
-            try
-            {
-                List<GetFeedback> listFeedback = _mapper.Map<List<GetFeedback>>(_feedbackRepository.Get().ToList());
-                Feedback feedback = _feedbackRepository.GetByID(key);
-
-                if (feedback == null)
-                {
-                    throw new Exception("Id does not exist in the system.");
-                }
-
-                GetFeedback result = listFeedback.FirstOrDefault(p => p.Id == feedback.Id);
-                return _mapper.Map<GetFeedback>(result);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
         
+        //Lấy list feedback theo constultantId
         public List<GetFeedback> GetFeedbackAccount(int key)
         {
-
             try
             {
-                List<Feedback> listFeedback = _feedbackRepository.Get(filter: p=>p.Booking.Slot.ConsultantId == key, includeProperties: "Booking.Slot").ToList();
+                List<Feedback> listFeedback = _feedbackRepository.Get(filter: p => p.Booking.Slot.ConsultantId == key, includeProperties: "Booking.Slot").ToList();
                 Account account = _accountRepository.GetByID(key);
                 if (account == null)
                 {

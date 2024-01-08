@@ -1,4 +1,5 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Authentications;
+using BAL.DAOs.Interfaces;
 using BAL.DTOs.Methods;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ namespace WebAPI.Controllers
             _methodDAO = methodDAO;
         }
 
+        [PermissionAuthorize("Admin", "Consultant")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -33,6 +35,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Admin", "Consultant")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -50,6 +53,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Admin")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateMethod create)
         {
@@ -68,6 +72,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateMethod update)
         {
@@ -86,6 +91,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

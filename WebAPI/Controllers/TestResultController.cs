@@ -1,4 +1,5 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Authentications;
+using BAL.DAOs.Interfaces;
 using BAL.DTOs.TestResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ namespace WebAPI.Controllers
             _testResultDAO = testResultDAO;
         }
 
+        [PermissionAuthorize("Consultant", "Player")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -33,6 +35,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Consultant", "Player")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -50,6 +53,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateTestResult create)
         {
@@ -68,6 +72,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

@@ -1,4 +1,5 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Authentications;
+using BAL.DAOs.Interfaces;
 using BAL.DTOs.Scores;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,8 @@ namespace WebAPI.Controllers
                 });
             }
         }
-
+        
+        [PermissionAuthorize("Player")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -50,6 +52,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateScore create)
         {
@@ -68,6 +71,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateScore update)
         {
@@ -86,6 +90,7 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
