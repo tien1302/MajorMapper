@@ -28,8 +28,14 @@ namespace WebClient.Controllers
         }
         public async Task<IActionResult> Index()
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
+            }
             try
             {
+                //Token
                 var accessToken = HttpContext.Session.GetString("JWToken");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 //Account
@@ -43,8 +49,9 @@ namespace WebClient.Controllers
                 List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
                 return View(list);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
                 return Redirect("~/Home/Index");
             }
         }
@@ -54,23 +61,22 @@ namespace WebClient.Controllers
             //Token
             var accessToken = HttpContext.Session.GetString("JWToken");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
+            //Session
             int currentId = (int)HttpContext.Session.GetInt32("AccountId");
-            string name = HttpContext.Session.GetString("Name");
-            if (currentId != id && name != "admin")
+            string role = HttpContext.Session.GetString("Role");
+            if (currentId != id && role != "Admin")
             {
                 return RedirectToAction("Details", new { id = currentId });
             }
             //Account
             HttpResponseMessage response = await client.GetAsync(baseApiUrl);
             var strData = await response.Content.ReadAsStringAsync();
-
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
             List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
-            GetAccount account = list.Where(p => p.id == id).First();
+            GetAccount account = list.Where(p => p.Id == id).FirstOrDefault();
             //Feedback
             HttpResponseMessage feedbackResponse = await client.GetAsync($"{feedbackApiUrl}/{id}");
             var feedbackData = await feedbackResponse.Content.ReadAsStringAsync();
@@ -96,6 +102,11 @@ namespace WebClient.Controllers
 
         public async Task<ActionResult> Create()
         {
+            if (HttpContext.Session.GetString("Role") !="Admin")
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
+            }
             return View();
         }
 
@@ -103,93 +114,191 @@ namespace WebClient.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateAccount p)
         {
-            string strData = JsonSerializer.Serialize(p);
-            var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
-            if (response.IsSuccessStatusCode)
+            try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    //Token
+                    var accessToken = HttpContext.Session.GetString("JWToken");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    // Create Account
+                    string strData = JsonSerializer.Serialize(p);
+                    var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["AlertMessage"] = "Thêm tài khoản thành công.";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        TempData["AlertMessageError"] = "Thêm tài khoản thất bại.";
+                    }
+                }
+                else
+                    TempData["AlertMessageError"] = "Thêm tài khoản thất bại.";
+                return View("Create");
             }
-            return View("Create");
+            catch (Exception)
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
+            }
+            
         }
 
         public async Task<IActionResult> Update(int id)
         {
-            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
-            var strData = await response.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions
+            try
             {
-                PropertyNameCaseInsensitive = true
-            };
-            UpdateAccount account = JsonSerializer.Deserialize<UpdateAccount>(strData, options);
-            return View(account);
+                //Token
+                var accessToken = HttpContext.Session.GetString("JWToken");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                //Session
+                int currentId = (int)HttpContext.Session.GetInt32("AccountId");
+                string name = HttpContext.Session.GetString("Name");
+                if (currentId != id && name != "Admin")
+                {
+                    return RedirectToAction("Update", new { id = currentId });
+                }
+                //Update Account
+                HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/{id}");
+                var strData = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                UpdateAccount account = JsonSerializer.Deserialize<UpdateAccount>(strData, options);
+                return View(account);
+            }
+            catch (Exception)
+            {
+                TempData["AlertMessageError"] = "Tài khoản bạn không có quyền sử dụng chức năng này.";
+                return Redirect("~/Home/Index");
+            }
+           
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Update(int id,UpdateAccount p)
         {
-            if (ModelState.IsValid)
+            try
             {
-                string strData = JsonSerializer.Serialize(p);
-                var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
-                if (response.IsSuccessStatusCode)
+                if (ModelState.IsValid)
                 {
-                    HttpResponseMessage response1 = await client.GetAsync($"{baseApiUrl}/{id}");
-                    var token = await response1.Content.ReadAsStringAsync();
-                    GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
-                    HttpContext.Session.SetString("Name", tokenResponse.name);
-                    ViewBag.Message = "Insert successfully!";
+
+                    //Token
+                    var accessToken = HttpContext.Session.GetString("JWToken");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    //Update Account
+                    string strData = JsonSerializer.Serialize(p);
+                    var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        if(HttpContext.Session.GetString("Role") != "Admin")
+                        {
+                            //Token
+                            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+                            HttpResponseMessage response1 = await client.GetAsync($"{baseApiUrl}/{id}");
+                            var token = await response1.Content.ReadAsStringAsync();
+                            GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
+                            HttpContext.Session.SetString("Name", tokenResponse.Name);
+                            TempData["AlertMessage"] = "Cập nhật tài khoản thành công.";
+                            return RedirectToAction(nameof(Details), new { id = tokenResponse.Id });
+                        }
+                        TempData["AlertMessage"] = "Cập nhật tài khoản thành công.";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        TempData["AlertMessageError"] = "Cập nhật tài khoản thất bại.";
+                    }
                 }
                 else
-                {
-                    ViewBag.Message = "Error while calling WebAPI!";
-                }
+                    TempData["AlertMessageError"] = "Cập nhật tài khoản thất bại.";
+                return View("Update");
             }
-            else
-                ViewBag.Message = "Error!";
-            return RedirectToAction(nameof(Details));
+            catch (Exception)
+            {
+                TempData["AlertMessageError"] = "Tài khoản bạn không có quyền sử dụng chức năng này.";
+                return Redirect("~/Home/Index");
+            }
+          
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            HttpResponseMessage response = await client.DeleteAsync($"{baseApiUrl}/{id}");
-            if (response.IsSuccessStatusCode)
+            try
             {
-                TempData["Message"] = "Delete successfully!";
+                //Token
+                var accessToken = HttpContext.Session.GetString("JWToken");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                //Delete
+                HttpResponseMessage response = await client.DeleteAsync($"{baseApiUrl}/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["AlertMessage"] = "Xóa tài khoản thành công.";
+                }
+                else
+                {
+                    TempData["AlertMessageError"] = "Xóa tài khoản thất bại.";
+                }
+                return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception)
             {
-                TempData["Message"] = "Error while calling WebAPI!";
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
             }
-            return RedirectToAction(nameof(Index));
+            
         }
         public async Task<ActionResult> ResetPassword()
         {
+            if (HttpContext.Session.GetString("Role") == "Player")
+            {
+                TempData["AlertMessageError"] = "Tài khoản bạn không có quyền sử dụng chức năng này.";
+                return Redirect("~/Home/Index");
+            }
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPassword p)
         {
-            if (ModelState.IsValid)
+            try
             {
-                string strData = JsonSerializer.Serialize(p);
-                var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/ResetPassword", contentData);
-                if (response.IsSuccessStatusCode)
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Message = "Insert successfully!";
+                    //Token
+                    var accessToken = HttpContext.Session.GetString("JWToken");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    //Reset Password
+                    string strData = JsonSerializer.Serialize(p);
+                    var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/ResetPassword", contentData);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["AlertMessage"] = "Cập nhật mật khẩu thành công.";
+                    }
+                    else
+                    {
+                        TempData["AlertMessageError"] = "Cập nhật mật khẩu thất bại.";
+                    }
                 }
                 else
-                {
-                    ViewBag.Message = "Error while calling WebAPI!";
-                }
+                    TempData["AlertMessageError"] = "Cập nhật mật khẩu thất bại.";
+                return View("ResetPassword");
             }
-            else
-                ViewBag.Message = "Error!";
-            return View("ResetPassword");
+            catch (Exception)
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
+            }
+           
         }
 
     }

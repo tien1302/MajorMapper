@@ -26,155 +26,194 @@ namespace WebClient.Controllers
 
         public async Task<IActionResult> Index()
         {
-            HttpResponseMessage response = await client.GetAsync(baseApiUrl);
-            string strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
+            try
             {
-                PropertyNameCaseInsensitive = true
-            };
-            List<GetQuestion> list = JsonSerializer.Deserialize<List<GetQuestion>>(strData, options);
-            return View(list);
+                //Token
+                var accessToken = HttpContext.Session.GetString("JWToken");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                //Get
+                HttpResponseMessage response = await client.GetAsync(baseApiUrl);
+                string strData = await response.Content.ReadAsStringAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                List<GetQuestion> list = JsonSerializer.Deserialize<List<GetQuestion>>(strData, options);
+                return View(list);
+            }
+            catch (Exception)
+            {
+                TempData["AlertMessageError"] = "Tài khoản bạn không có quyền sử dụng chức năng này.";
+                return Redirect("~/Home/Index");
+            }
+            
         }
         public async Task<IActionResult> Processing()
         {
-            HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/GetProcessing");
-            string strData = await response.Content.ReadAsStringAsync();
-
-            var options = new JsonSerializerOptions
+            try
             {
-                PropertyNameCaseInsensitive = true
-            };
-            List<GetQuestion> list = JsonSerializer.Deserialize<List<GetQuestion>>(strData, options);
-            return View(list);
+                //Token
+                var accessToken = HttpContext.Session.GetString("JWToken");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                //Get
+                HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/GetProcessing");
+                string strData = await response.Content.ReadAsStringAsync();
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                List<GetQuestion> list = JsonSerializer.Deserialize<List<GetQuestion>>(strData, options);
+                return View(list);
+            }
+            catch (Exception)
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
+            }
+            
         }
         public async Task<ActionResult> Create(int id)
         {
-            //Question
-            HttpResponseMessage responseq = await client.GetAsync($"{baseApiUrl}/{id}");
-            if (responseq.IsSuccessStatusCode)
+            try
             {
-                var strDataq = await responseq.Content.ReadAsStringAsync();
-                var optionsq = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                CreateQuestion question = JsonSerializer.Deserialize<CreateQuestion>(strDataq, optionsq);
+                //Token
+                var accessToken = HttpContext.Session.GetString("JWToken");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 //Personality Type
                 HttpResponseMessage response = await client.GetAsync(personApiUrl);
                 string strData = await response.Content.ReadAsStringAsync();
-
                 var options = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 };
                 List<GetPersonalityType> list = JsonSerializer.Deserialize<List<GetPersonalityType>>(strData, options);
                 if (list != null)
-
                     ViewBag.ListPerson = list.Select(
                         i => new SelectListItem
                         {
                             Text = i.Name,
                             Value = i.Id.ToString()
                         });
-                return View(question);
-            }
-            else
-            {
-                HttpResponseMessage response = await client.GetAsync(personApiUrl);
-                string strData = await response.Content.ReadAsStringAsync();
-
-                var options = new JsonSerializerOptions
+                //Question
+                HttpResponseMessage responseq = await client.GetAsync($"{baseApiUrl}/{id}");
+                if (responseq.IsSuccessStatusCode)
                 {
-                    PropertyNameCaseInsensitive = true
-                };
-                List<GetPersonalityType> list = JsonSerializer.Deserialize<List<GetPersonalityType>>(strData, options);
-                if (list != null)
-
-                    ViewBag.ListPerson = list.Select(
-                        i => new SelectListItem
-                        {
-                            Text = i.Name,
-                            Value = i.Id.ToString()
-                        });
+                    var strDataq = await responseq.Content.ReadAsStringAsync();
+                    var optionsq = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    CreateQuestion question = JsonSerializer.Deserialize<CreateQuestion>(strDataq, optionsq);
+                 
+                    return View(question);
+                }
                 return View();
             }
+            catch (Exception)
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Consultant.";
+                return Redirect("~/Home/Index");
+            }
+            
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateQuestion p)
         {
-            if (ModelState.IsValid)
+            try
             {
-                string strData = JsonSerializer.Serialize(p);
-                var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
-                if (response.IsSuccessStatusCode)
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Message = "Insert successfully!";
+                    //Token
+                    var accessToken = HttpContext.Session.GetString("JWToken");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    //Create
+                    string strData = JsonSerializer.Serialize(p);
+                    var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["AlertMessage"] = "Thêm câu hỏi thành công.";
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        TempData["AlertMessageError"] = "Thêm câu hỏi thất bại.";
+                    }
                 }
                 else
-                {
-                    ViewBag.Message = "Error while calling WebAPI!";
-                }
+                    TempData["AlertMessageError"] = "Thêm câu hỏi thất bại.";
+                return View("Create");
             }
-            ViewBag.Message = "Error!";
-
-            HttpResponseMessage responsep = await client.GetAsync(personApiUrl);
-            string strDatap = await responsep.Content.ReadAsStringAsync();
-
-            var optionsp = new JsonSerializerOptions
+            catch (Exception)
             {
-                PropertyNameCaseInsensitive = true
-            };
-            List<GetPersonalityType> list = JsonSerializer.Deserialize<List<GetPersonalityType>>(strDatap, optionsp);
-            if (list != null)
-
-                ViewBag.ListPerson = list.Select(
-                    i => new SelectListItem
-                    {
-                        Text = i.Name,
-                        Value = i.Id.ToString()
-                    });
-            return RedirectToAction(nameof(Index));
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Consultant.";
+                return Redirect("~/Home/Index");
+            }
         }
 
         public async Task<IActionResult> Update(int id, string status)
         {
-            UpdateQuestion question = new UpdateQuestion();
-            question.Status = status;
-            if (ModelState.IsValid)
+            try
             {
-                string strData = JsonSerializer.Serialize(question);
-                var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
-                if (response.IsSuccessStatusCode)
+                UpdateQuestion question = new UpdateQuestion();
+                question.Status = status;
+                if (ModelState.IsValid)
                 {
-                    ViewBag.Message = "Insert successfully!";
+                    //Token
+                    var accessToken = HttpContext.Session.GetString("JWToken");
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    //Update
+                    string strData = JsonSerializer.Serialize(question);
+                    var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
+                    HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        TempData["AlertMessage"] = "Cập nhật câu hỏi thành công.";
+                    }
+                    else
+                    {
+                        TempData["AlertMessageError"] = "Cập nhật câu hỏi thất bại.";
+                    }
                 }
                 else
-                {
-                    ViewBag.Message = "Error while calling WebAPI!";
-                }
+                    TempData["AlertMessageError"] = "Cập nhật câu hỏi thất bại.";
+                return RedirectToAction(nameof(Processing));
             }
-            else
-                ViewBag.Message = "Error!";
-            return RedirectToAction(nameof(Processing));
+            catch (Exception)
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
+            }
         }
 
         public async Task<IActionResult> Delete(int? id)
         {
-            HttpResponseMessage response = await client.DeleteAsync($"{baseApiUrl}/{id}");
-            if (response.IsSuccessStatusCode)
+            try
             {
-                TempData["Message"] = "Delete successfully!";
+                //Token
+                var accessToken = HttpContext.Session.GetString("JWToken");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                //Delete
+                HttpResponseMessage response = await client.DeleteAsync($"{baseApiUrl}/{id}");
+                if (response.IsSuccessStatusCode)
+                {
+                    TempData["AlertMessage"] = "Xóa câu hỏi thành công.";
+                }
+                else
+                {
+                    TempData["AlertMessageError"] = "Xóa câu hỏi thất bại.";
+                }
+                return RedirectToAction(nameof(Index));
             }
-            else
+            catch (Exception)
             {
-                TempData["Message"] = "Error while calling WebAPI!";
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
             }
-            return RedirectToAction(nameof(Index));
         }
     }
 }

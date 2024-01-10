@@ -1,7 +1,7 @@
 ﻿@model BAL.DTOs.Accounts.CreateAccount
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Đăng nhập";
     Layout = "_LoginLayout";
 }
 
@@ -70,6 +70,24 @@
         }
 
 </style>
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Thành công!</strong> @TempData["AlertMessage"]
+    </div>
+}
+@if (TempData["AlertMessageError"] != null)
+{
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Cảnh báo!</strong> @TempData["AlertMessageError"]
+    </div>
+}
 <div class="error-pagewrap">
     <div class="error-page-int">
         <div class="text-center m-b-md custom-login">

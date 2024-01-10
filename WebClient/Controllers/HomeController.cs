@@ -36,28 +36,30 @@ namespace WebClient.Controllers
 
         public async Task<IActionResult> Login (AuthenticationAccount account)
         {
-            //Token
+            //Login
             string strData = JsonSerializer.Serialize(account);
             var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync($"{baseApiUrl}/Login", contentData);
             var token = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
+                //Set Session
                 GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
-                HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
-                HttpContext.Session.SetString("Name", tokenResponse.name);
-                HttpContext.Session.SetString("JWToken", tokenResponse.accessToken);
-                HttpContext.Session.SetString("Role", tokenResponse.roleName);
-                string role = tokenResponse.roleName;
-                if (role == "Admin")
+                HttpContext.Session.SetInt32("AccountId", tokenResponse.Id);
+                HttpContext.Session.SetString("Name", tokenResponse.Name);
+                HttpContext.Session.SetString("JWToken", tokenResponse.AccessToken);
+                HttpContext.Session.SetString("Role", tokenResponse.RoleName);
+          
+                if (HttpContext.Session.GetString("Role") == "Admin")
                 {
                     return Redirect("~/Account/Index");
                 }
-                if (role == "Consultant")
+                if (HttpContext.Session.GetString("Role") == "Consultant")
                 {
-                    return Redirect("~/Question/Index");
+                    return Redirect("~/Slot/Index");
                 }
-                return Redirect("~/Booking/Index");
+                ViewBag.Message = "Tài khoản bạn không có quyền sử dụng chức năng này.";
+                return Redirect("~/Home/Index");
             }
             ViewBag.Message = token.Replace("\"", "");
             return View("Index");
@@ -67,7 +69,6 @@ namespace WebClient.Controllers
         public IActionResult GoogleLogin()
         {
             var properties = new AuthenticationProperties { RedirectUri = Url.Action("GoogleResponse") };
-
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
@@ -90,20 +91,23 @@ namespace WebClient.Controllers
             var token = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
+                //Set Session
                 GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
-                HttpContext.Session.SetString("JWToken", tokenResponse.accessToken);
-                HttpContext.Session.SetInt32("AccountId", tokenResponse.id);
-                HttpContext.Session.SetString("Name", tokenResponse.name);
-                string role = tokenResponse.roleName;
-                if (role == "Admin")
+                HttpContext.Session.SetInt32("AccountId", tokenResponse.Id);
+                HttpContext.Session.SetString("Name", tokenResponse.Name);
+                HttpContext.Session.SetString("JWToken", tokenResponse.AccessToken);
+                HttpContext.Session.SetString("Role", tokenResponse.RoleName);
+
+                if (HttpContext.Session.GetString("Role") == "Admin")
                 {
                     return Redirect("~/Account/Index");
                 }
-                if (role == "Consultant")
+                if (HttpContext.Session.GetString("Role") == "Consultant")
                 {
-                    return Redirect("~/Question/Index");
+                    return Redirect("~/Slot/Index");
                 }
-                return Redirect("~/Booking/Index");
+                ViewBag.Message = "Tài khoản bạn không có quyền sử dụng chức năng này.";
+                return Redirect("~/Home/Index");
             }
             ViewBag.Message = token.Replace("\"", "");
             return View("Index");
@@ -115,15 +119,7 @@ namespace WebClient.Controllers
             HttpContext.SignOutAsync();
             return Redirect("~/Home/Index");
         }
-
-        public IActionResult Policy()
-        {
-            return View();
-        }
-        public IActionResult Support()
-        {
-            return View();
-        }
+      
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

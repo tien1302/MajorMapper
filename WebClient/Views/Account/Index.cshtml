@@ -3,7 +3,24 @@
 @{
     ViewData["Title"] = "Danh sách tài khoản";
 }
-
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Thành công!</strong> @TempData["AlertMessage"]
+    </div>
+}
+@if (TempData["AlertMessageError"] != null)
+{
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Cảnh báo!</strong> @TempData["AlertMessageError"]
+    </div>
+}
 <!-- Static Table Start -->
 <div class="data-table-area mg-b-15">
     <div class="container-fluid">
@@ -18,7 +35,7 @@
                     <div class="sparkline13-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbar">
-                                <a class="btn btn-primary waves-effect waves-light" href="/Account/Create">Tạo tài khoản</a>
+                                <a class="btn btn-primary waves-effect waves-light" href="/Account/Create">Thêm tài khoản</a>
                             </div>
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true"
                                    data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
@@ -58,60 +75,64 @@
                                         <tr>
                                            
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.name)
+                                                @Html.DisplayFor(modelItem => item.Name)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.email)
+                                                @Html.DisplayFor(modelItem => item.Email)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.gender)
+                                                @Html.DisplayFor(modelItem => item.Gender)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.doB)
+                                                @Html.DisplayFor(modelItem => item.DoB)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.roleName)
+                                                @Html.DisplayFor(modelItem => item.RoleName)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.address)
+                                                @Html.DisplayFor(modelItem => item.Address)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.phone)
+                                                @Html.DisplayFor(modelItem => item.Phone)
                                             </td>
                                             <td>
-                                                @Html.DisplayFor(modelItem => item.createDateTime)
+                                                @Html.DisplayFor(modelItem => item.CreateDateTime)
                                             </td>
                                             <td>
-                                                <a style="width:34px;" href="@Url.Action("Details", new {id=item.id})" title="Thông tin" class="btn btn-default">
+                                                <a style="width:34px;" href="@Url.Action("Details", new {id=item.Id})" title="Thông tin" class="btn btn-default">
                                                     <i class="fa fa-info" aria-hidden="true"></i>
                                                 </a>
-                                                <a style="width:34px;padding-left: 11px;" href="@Url.Action("Update", new {id=item.id})" title="Sửa" class="btn btn-default">
+                                                <a style="width:34px;padding-left: 11px;" href="@Url.Action("Update", new {id=item.Id})" title="Sửa" class="btn btn-default">
                                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                                 </a>
-                                                <a style="width:34px;padding-left: 11px;" class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#PrimaryModalalert" title="Xóa">
+                                                <a style="width:34px;padding-left: 11px;" class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="@("#DeleteAccount-"+item.Id)" title="Xóa">
                                                     <i class="fa fa-trash-o" aria-hidden="true"></i> 
                                                 </a>
                                             </td>
                                         </tr>
-                                        <!-- delete modal -->
-                                        <div id="PrimaryModalalert" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
-                                                        <h2>Xác nhận xóa</h2>
-                                                        <p>Xác nhận xóa tài khoản @Html.DisplayFor(modelItem => item.name)</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
-                                                        <a href="@Url.Action("Delete", new {id=item.id})">Xác nhận</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     }
                                 </tbody>
                             </table>
+                            @foreach (var item in Model)
+                            {
+                                <!-- delete modal -->
+                                <div id="DeleteAccount-@item.Id" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                                <h2>Xác nhận xóa</h2>
+                                                <p>Xác nhận xóa tài khoản @Html.DisplayFor(modelItem => item.Name)</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
+                                                <a href="@Url.Action("Delete", new {id=item.Id})">Xác nhận</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

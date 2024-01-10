@@ -3,7 +3,24 @@
 @{
     ViewData["Title"] = "Danh sách câu hỏi";
 }
-
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Thành công!</strong> @TempData["AlertMessage"]
+    </div>
+}
+@if (TempData["AlertMessageError"] != null)
+{
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Cảnh báo!</strong> @TempData["AlertMessageError"]
+    </div>
+}
 <!-- Static Table Start -->
 <div class="data-table-area mg-b-15">
     <div class="container-fluid">
@@ -24,7 +41,7 @@
                                 }
                                 else
                                 {
-                                    <a class="btn btn-primary waves-effect waves-light" asp-action="Create">Tạo câu hỏi</a>
+                                    <a class="btn btn-primary waves-effect waves-light" asp-action="Create">Thêm câu hỏi</a>
                                 }
                                 
                             </div>

@@ -137,7 +137,7 @@
 				email:
 				{
 					required: true,
-					email: true
+					
 				},
 				phoneno:
 				{
@@ -161,8 +161,8 @@
 			
 				email:
 				{
-					required: 'Please enter your email address',
-					email: 'Please enter a VALID email address'
+					required: 'Please enter your email address'
+					
 				},
 				phoneno:
 				{
@@ -229,7 +229,7 @@
 				email:
 				{
 					required: true,
-					email: true
+					
 				},
 				phoneno:
 				{
@@ -288,8 +288,8 @@
 				},
 				email:
 				{
-					required: 'Please enter your email address',
-					email: 'Please enter a VALID email address'
+					required: 'Please enter your email address'
+					
 				},
 				phoneno:
 				{
@@ -332,7 +332,7 @@
 				email:
 				{
 					required: true,
-					email: true
+					
 				}
 			},
 			messages:
@@ -348,7 +348,7 @@
 				email:
 				{
 					required: 'Please enter your email address',
-					email: 'Please enter a VALID email address'
+					
 				}
 			},					
 			
@@ -399,7 +399,7 @@
 				email:
 				{
 					required: true,
-					email: true
+					
 				}
 			},
 			messages:
@@ -439,7 +439,7 @@
 				email:
 				{
 					required: 'Please enter your email address',
-					email: 'Please enter a VALID email address'
+					
 				}
 			},					
 			
@@ -529,7 +529,7 @@
 				email:
 				{
 					required: true,
-					email: true
+					
 				},
 				phone:
 				{
@@ -561,7 +561,7 @@
 				email:
 				{
 					required: 'Please enter your email address',
-					email: 'Please enter a VALID email address'
+					
 				},
 				noofstudent:
 				{

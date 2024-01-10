@@ -138,7 +138,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                Account existedAccount = this._Repo.Get(x => x.Email == authenAccount.Email && x.Password.Equals(authenAccount.Password))
+                Account existedAccount = this._Repo.Get(x => x.Email == authenAccount.Email && x.Password.Equals(authenAccount.Password)&& x.Status==true)
                                              .SingleOrDefault();
                 if (existedAccount == null)
                 {
@@ -150,17 +150,17 @@ namespace BAL.DAOs.Implementations
                 {
                     case 1:
                         {
-                            getAccount.roleName = "Admin";
+                            getAccount.RoleName = "Admin";
                             break;
                         }
                     case 2:
                         {
-                            getAccount.roleName = "Consultant";
+                            getAccount.RoleName = "Consultant";
                             break;
                         }
                     case 3:
                         {
-                            getAccount.roleName = "User";
+                            getAccount.RoleName = "User";
                             break;
                         }
                 }
@@ -175,7 +175,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                Account existedAccount = this._Repo.Get(x => x.Email == authenAccount.Email ).SingleOrDefault();
+                Account existedAccount = this._Repo.Get(x => x.Email == authenAccount.Email&& x.Status == true).SingleOrDefault();
                 if (existedAccount == null)
                 {
                     throw new Exception("Email không tồn tại.");
@@ -187,17 +187,17 @@ namespace BAL.DAOs.Implementations
                 {
                     case 1:
                         {
-                            getAccount.roleName = "Admin";
+                            getAccount.RoleName = "Admin";
                             break;
                         }
                     case 2:
                         {
-                            getAccount.roleName = "Consultant";
+                            getAccount.RoleName = "Consultant";
                             break;  
                         }
                     case 3:
                         {
-                            getAccount.roleName = "Player";
+                            getAccount.RoleName = "Player";
                             break;
                         }
                 }
@@ -218,10 +218,10 @@ namespace BAL.DAOs.Implementations
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
                 var claims = new ClaimsIdentity(new[] {
-                    new Claim(JwtRegisteredClaimNames.Sub, getAccount.id.ToString()),
-                    new Claim(JwtRegisteredClaimNames.Email, getAccount.email),
-                    new Claim(JwtRegisteredClaimNames.Name, getAccount.name),
-                    new Claim("Role", getAccount.roleName),
+                    new Claim(JwtRegisteredClaimNames.Sub, getAccount.Id.ToString()),
+                    new Claim(JwtRegisteredClaimNames.Email, getAccount.Email),
+                    new Claim(JwtRegisteredClaimNames.Name, getAccount.Name),
+                    new Claim("Role", getAccount.RoleName),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 });
 
@@ -235,7 +235,7 @@ namespace BAL.DAOs.Implementations
                 var token = jwtTokenHandler.CreateToken(tokenDescription);
                 string accessToken = jwtTokenHandler.WriteToken(token);
 
-                getAccount.accessToken = accessToken;
+                getAccount.AccessToken = accessToken;
 
                 return getAccount;
             }

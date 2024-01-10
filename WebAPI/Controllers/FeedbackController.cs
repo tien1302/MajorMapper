@@ -36,7 +36,7 @@ namespace WebAPI.Controllers
         }
 
         //Lấy list feedback theo constultantId
-        [PermissionAuthorize("Consultant")]
+        [PermissionAuthorize("Admin", "Consultant")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {

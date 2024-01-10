@@ -11,27 +11,27 @@ namespace BAL.DTOs.Accounts
     public class GetAccount
     {
         [Key]
-        public int id { get; set; }
-        public string name { get; set; } = null!;
+        public int Id { get; set; }
+        public string Name { get; set; } = null!;
 
-        public string email { get; set; } = null!;
+        public string Email { get; set; } = null!;
 
-        public string password { get; set; } = null!;
+        public string Password { get; set; } = null!;
 
-        public string? gender { get; set; }
+        public string? Gender { get; set; }
         [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? doB { get; set; }
+        public DateTime? DoB { get; set; }
 
-        public string roleName { get; set; }
+        public string RoleName { get; set; }
 
-        public string? address { get; set; }
+        public string? Address { get; set; }
 
-        public string? phone { get; set; }
+        public string? Phone { get; set; }
 
-        public string status { get; set; } = null!;
+        public string Status { get; set; } = null!;
 
-        public DateTime createDateTime { get; set; }
+        public DateTime CreateDateTime { get; set; }
 
-        public string accessToken { get; set; }
+        public string AccessToken { get; set; }
     }
 }

@@ -69,15 +69,13 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                List<GetPersonalityType> listPersonalityType = _mapper.Map<List<GetPersonalityType>>(_personalityTypeRepository.Get().ToList());
-                PersonalityType personalityType = _personalityTypeRepository.GetByID(key);
+                GetPersonalityType result = _mapper.Map<GetPersonalityType>(_personalityTypeRepository.Get(filter: x=>x.Id==key,includeProperties: "Method").FirstOrDefault());
 
-                if (personalityType == null)
+                if (result == null)
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
-
-                GetPersonalityType result = listPersonalityType.FirstOrDefault(p => p.Id == personalityType.Id);
+                
                 return _mapper.Map<GetPersonalityType>(result);
             }
             catch (Exception ex)

@@ -27,133 +27,157 @@ namespace WebClient.Controllers
 
         public async Task<ActionResult> Index()
         {
-            Money money = new Money();
-            int sum = 0;
-            string getyear = Request.Query["year"];
-            List<int> years = new List<int>();
-            int currentYear = DateTime.Now.Year;
-            for (int i = 0; i < 5; i++)
-            {
-                years.Add(currentYear - i);
-            }
-            List<SelectListItem> selectItems = years.Select(y => new SelectListItem { Value = y.ToString(), Text = "Năm "+ y.ToString() }).ToList();
-            ViewBag.Years = selectItems;
-            if (getyear == null)
-            {
-            
-                HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/listMoney?year={DateTime.Now.Year}");
-                string strData = await response.Content.ReadAsStringAsync();
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                List<int> listMoney = JsonSerializer.Deserialize<List<int>>(strData, options);
+			try
+			{
+				//Token
+				var accessToken = HttpContext.Session.GetString("JWToken");
+				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+				//dashboard
+				Money money = new Money();
+				int sum = 0;
+				string getyear = Request.Query["year"];
+				List<int> years = new List<int>();
+				int currentYear = DateTime.Now.Year;
+				for (int i = 0; i < 5; i++)
+				{
+					years.Add(currentYear - i);
+				}
+				List<SelectListItem> selectItems = years.Select(y => new SelectListItem { Value = y.ToString(), Text = "Năm " + y.ToString() }).ToList();
+				ViewBag.Years = selectItems;
+				if (getyear == null)
+				{
 
-                foreach (var item in listMoney)
-                {
-                    sum += item;
-                }
-                money.Sum = sum;
-                sum = 0;
-                ViewData["Moneys"] = listMoney;
-            }
-            else
-            {
-                int year = int.Parse(getyear);
-                
-                HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/listMoney?year={year}");
-                string strData = await response.Content.ReadAsStringAsync();
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                List<int> listMoney = JsonSerializer.Deserialize<List<int>>(strData, options);
-               
-                foreach (var item in listMoney)
-                {
-                    sum += item;
-                }
-                money.Sum = sum;
-                sum = 0;
-                ViewData["Moneys"] = listMoney;
+					HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/listMoney?year={DateTime.Now.Year}");
+					string strData = await response.Content.ReadAsStringAsync();
+					var options = new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					};
+					List<int> listMoney = JsonSerializer.Deserialize<List<int>>(strData, options);
 
-            }
+					foreach (var item in listMoney)
+					{
+						sum += item;
+					}
+					money.Sum = sum;
+					sum = 0;
+					ViewData["Moneys"] = listMoney;
+				}
+				else
+				{
+					int year = int.Parse(getyear);
 
-            return View(money);
+					HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/listMoney?year={year}");
+					string strData = await response.Content.ReadAsStringAsync();
+					var options = new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					};
+					List<int> listMoney = JsonSerializer.Deserialize<List<int>>(strData, options);
+
+					foreach (var item in listMoney)
+					{
+						sum += item;
+					}
+					money.Sum = sum;
+					sum = 0;
+					ViewData["Moneys"] = listMoney;
+
+				}
+
+				return View(money);
+			}
+			catch (Exception)
+			{
+				TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+				return Redirect("~/Home/Index");
+			}
+			
         }
 
         public async Task<ActionResult> Dashboard()
         {
-            Money money = new Money();
-            var id = HttpContext.Session.GetInt32("AccountId");
-            int sum = 0;
-            int count = 0;
-            string getyear = Request.Query["year"];
-            List<int> years = new List<int>();
-            int currentYear = DateTime.Now.Year;
-            for (int i = 0; i < 5; i++)
-            {
-                years.Add(currentYear - i);
-            }
-            List<SelectListItem> selectItems = years.Select(y => new SelectListItem { Value = y.ToString(), Text = "Năm " + y.ToString() }).ToList();
-            ViewBag.Years = selectItems;
-            if (getyear == null)
-            {
+			try
+			{
+				//Token
+				var accessToken = HttpContext.Session.GetString("JWToken");
+				client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+				//dashboard
+				Money money = new Money();
+				var id = HttpContext.Session.GetInt32("AccountId");
+				int sum = 0;
+				int count = 0;
+				string getyear = Request.Query["year"];
+				List<int> years = new List<int>();
+				int currentYear = DateTime.Now.Year;
+				for (int i = 0; i < 5; i++)
+				{
+					years.Add(currentYear - i);
+				}
+				List<SelectListItem> selectItems = years.Select(y => new SelectListItem { Value = y.ToString(), Text = "Năm " + y.ToString() }).ToList();
+				ViewBag.Years = selectItems;
+				if (getyear == null)
+				{
 
-                HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/listMoneyById?id={id}&year={DateTime.Now.Year}");
-                string strData = await response.Content.ReadAsStringAsync();
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                Tuple<List<int>, List<int>> listMoney = JsonSerializer.Deserialize<Tuple<List<int>, List<int>>>(strData, options);
+					HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/listMoneyById?id={id}&year={DateTime.Now.Year}");
+					string strData = await response.Content.ReadAsStringAsync();
+					var options = new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					};
+					Tuple<List<int>, List<int>> listMoney = JsonSerializer.Deserialize<Tuple<List<int>, List<int>>>(strData, options);
 
-                foreach (var item in listMoney.Item1)
-                {
-                    sum += item;
-                }
-                foreach (var item in listMoney.Item2)
-                {
-                    count += item;
-                }
-                money.Sum = sum;
-                sum = 0;
-                money.Count = count;
-                count = 0;
-                ViewData["Moneys"] = listMoney.Item1;
-                ViewData["Counts"] = listMoney.Item2;
-            }
-            else
-            {
-                int year = int.Parse(getyear);
+					foreach (var item in listMoney.Item1)
+					{
+						sum += item;
+					}
+					foreach (var item in listMoney.Item2)
+					{
+						count += item;
+					}
+					money.Sum = sum;
+					sum = 0;
+					money.Count = count;
+					count = 0;
+					ViewData["Moneys"] = listMoney.Item1;
+					ViewData["Counts"] = listMoney.Item2;
+				}
+				else
+				{
+					int year = int.Parse(getyear);
 
-                HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/listMoneyById?id={id}&year={year}");
-                string strData = await response.Content.ReadAsStringAsync();
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-                Tuple<List<int>, List<int>> listMoney = JsonSerializer.Deserialize<Tuple<List<int>, List<int>>>(strData, options);
+					HttpResponseMessage response = await client.GetAsync($"{baseApiUrl}/listMoneyById?id={id}&year={year}");
+					string strData = await response.Content.ReadAsStringAsync();
+					var options = new JsonSerializerOptions
+					{
+						PropertyNameCaseInsensitive = true
+					};
+					Tuple<List<int>, List<int>> listMoney = JsonSerializer.Deserialize<Tuple<List<int>, List<int>>>(strData, options);
 
 
-                foreach (var item in listMoney.Item1)
-                {
-                    sum += item;
-                }
-                foreach (var item in listMoney.Item2)
-                {
-                    count += item;
-                }
-                money.Sum = sum;
-                sum = 0;
-                money.Count = count;
-                count = 0;
-                ViewData["Moneys"] = listMoney.Item1;
-                ViewData["Counts"] = listMoney.Item2;
-            }
-            
-            
-            return View(money);
+					foreach (var item in listMoney.Item1)
+					{
+						sum += item;
+					}
+					foreach (var item in listMoney.Item2)
+					{
+						count += item;
+					}
+					money.Sum = sum;
+					sum = 0;
+					money.Count = count;
+					count = 0;
+					ViewData["Moneys"] = listMoney.Item1;
+					ViewData["Counts"] = listMoney.Item2;
+				}
+				return View(money);
+			}
+			catch (Exception)
+			{
+				TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Consultant.";
+				return Redirect("~/Home/Index");
+			}
+			
         }
 
 
@@ -195,7 +219,12 @@ namespace WebClient.Controllers
             string strData = JsonSerializer.Serialize(model);
             var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync($"{baseApiUrl}/PaymentCallback", contentData);
-            return Json(response);
+            return Redirect("~/Payment/Success");
+        }
+
+        public IActionResult Success()
+        {
+            return View();
         }
     }
 }

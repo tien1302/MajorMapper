@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
             _jwtAuthOptions = jwtAuthOptions;
         }
 
-        [PermissionAuthorize("Admin")]
+        [PermissionAuthorize("Admin", "Consultant")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Admin")]
+        [PermissionAuthorize("Admin", "Consultant")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -60,7 +60,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Consultant,Player")]
+        [PermissionAuthorize("Admin","Consultant", "Player")]
         [HttpGet("GetTestResult/{id}")]
         public IActionResult GetTestResult(int id)
         {
@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
                 });
             }
         }
-
+        [PermissionAuthorize("Admin")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateAccount create)
         {
@@ -96,7 +96,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Consultant", "Player")]
+        [PermissionAuthorize("Consultant", "Player", "Admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateAccount update)
         {

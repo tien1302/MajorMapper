@@ -1,7 +1,7 @@
 ﻿@model BAL.DTOs.Accounts.CreateAccount
 
 @{
-    ViewData["Title"] = "Tạo tài khoản";
+    ViewData["Title"] = "Thêm tài khoản";
 }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-payment-inner-st">
-                    <h1>Tạo tài khoản</h1>
+                    <h1>Thêm tài khoản</h1>
                     <div id="myTabContent" class="tab-content custom-product-edit">
                         <div class="product-tab-list tab-pane fade active in" id="reviews">
                             <div class="row">
@@ -21,31 +21,31 @@
                                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                             <div class="form-group">
                                                 <label asp-for="Name" class="control-label">Họ và tên</label>
-                                                <input asp-for="Name" class="form-control" required title="Không được để trống" />
+                                                <input asp-for="Name" class="form-control"/>
                                                 <span asp-validation-for="Name" class="text-danger"></span>
                                             </div>
 
                                             <div class="form-group">
                                                 <label asp-for="Email" class="control-label"></label>
-                                                <input asp-for="Email" type="email" class="form-control" required title="Không được để trống" />
+                                                <input asp-for="Email" class="form-control"/>
                                                 <span asp-validation-for="Email" class="text-danger"></span>
                                             </div>
 
                                             <div class="form-group">
                                                 <label asp-for="Password" class="control-label">Mật khẩu</label>
-                                                <input asp-for="Password" type="password" class="form-control" required title="Không được để trống" />
+                                                <input asp-for="Password" type="password" class="form-control"/>
                                                 <span asp-validation-for="Password" class="text-danger"></span>
                                             </div>
 
                                             <div class="form-group">
                                                 <label asp-for="ConfirmPassword" class="control-label">Xác nhận mật khẩu</label>
-                                                <input asp-for="ConfirmPassword" type="password" class="form-control" required title="Không được để trống" />
+                                                <input asp-for="ConfirmPassword" type="password" class="form-control"/>
                                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                                             </div>
 
                                             <div class="form-group">
                                                 <label asp-for="Gender" class="control-label">Giới tính</label>
-                                                <select asp-for="Gender" class="form-control" required title="Không được để trống">
+                                                <select asp-for="Gender" class="form-control">
                                                     <option disabled selected>Chọn giới tính</option>
                                                     <option value="Nam">Nam</option>
                                                     <option value="Nữ">Nữ</option>
@@ -55,7 +55,7 @@
 
                                             <div class="form-group">
                                                 <label asp-for="DoB" class="control-label">Ngày sinh</label>
-                                                <input asp-for="DoB" class="form-control" type="date" required title="Không được để trống" />
+                                                <input asp-for="DoB" class="form-control" type="date"/>
                                                 <span asp-validation-for="DoB" class="text-danger"></span>
                                             </div>
 
@@ -63,7 +63,7 @@
 
                                             <div class="form-group">
                                                 <label asp-for="Address" class="control-label" >Địa chỉ</label>
-                                                <input id="detailaddress" placeholder="Địa chỉ cụ thể" class="form-control" required title="Không được để trống" />
+                                                <input id="detailaddress" placeholder="Địa chỉ cụ thể" class="form-control"/>
                                                 
                                                 <div class="row">
                                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
@@ -91,20 +91,20 @@
 
                                                     </div>
                                                 </div>
-
+                                                <span asp-validation-for="Address" class="text-danger"></span>
                                                 <input asp-for="Address" type="hidden" class="form-control" />
-
+                                                
                                             </div>
 
                                             <div class="form-group">
                                                 <label asp-for="Phone" class="control-label">Số điện thoại</label>
-                                                <input asp-for="Phone" type="number" class="form-control" required title="Không được để trống" />
+                                                <input asp-for="Phone" type="number" class="form-control"/>
                                                 <span asp-validation-for="Phone" class="text-danger"></span>
                                             </div>
                                             
                                             <div class="form-group">
                                                 <button type="submit" value="Create" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
-                                                <a asp-action="Index">Quay lại</a>
+                                                <a style="margin-left:10px;" onclick="history.back()">Quay lại</a>
                                             </div>
                                         </form>
                                     </div>

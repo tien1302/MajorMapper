@@ -3,6 +3,24 @@
 @{
     ViewData["Title"] = "Danh sách ngành nghề";
 }
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Thành công!</strong> @TempData["AlertMessage"]
+    </div>
+}
+@if (TempData["AlertMessageError"] != null)
+{
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Cảnh báo!</strong> @TempData["AlertMessageError"]
+    </div>
+}
 <!-- Static Table Start -->
 <div class="data-table-area mg-b-15">
     <div class="container-fluid">
@@ -32,6 +50,9 @@
                                         <th data-field="des" data-sortable="true">
                                             Mô tả
                                         </th>
+                                        <th data-field="person" data-sortable="true">
+                                            Loại tính cách
+                                        </th>
                                         <th data-field="createdate" data-sortable="true">
                                             Ngày tạo
                                         </th>
@@ -46,21 +67,18 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            <td>
-                                                @foreach (var personalityType in item.PersonalityTypeName)
-                                                {
-                                                    @personalityType
-                                                    @if (!item.PersonalityTypeName.Last().Equals(personalityType))
-                                                    {
-                                                        <span>, </span>
-                                                    }
-                                                }
-                                            </td>
+                                            
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td>
+                                                @foreach (var personalityType in item.PersonalityTypeName)
+                                                {
+                                                    @(personalityType + (item.PersonalityTypeName.Last().Equals(personalityType) ? "" : ", "))
+                                                }
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.CreateDateTime)

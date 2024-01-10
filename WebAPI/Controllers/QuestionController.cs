@@ -36,7 +36,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Player")]
+        [PermissionAuthorize("Admin")]
         [HttpGet("GetProcessing")]
         public IActionResult GetProcessing()
         {
@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Player")]
+        [PermissionAuthorize("Admin", "Player")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -110,7 +110,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Player")]
+        [PermissionAuthorize("Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
