@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<int> money = _paymentDAO.Getmoney(year);
+                Tuple<List<int>, List<int>> money = _paymentDAO.Getmoney(year);
                 return Ok(money);
             }
             catch (Exception ex)

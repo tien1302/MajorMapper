@@ -87,8 +87,17 @@
     <div class="left-sidebar-pro">
         <nav id="sidebar" class="">
             <div class="sidebar-header">
-                <a href="index.html"><img class="main-logo" src="~/img/logo/logo.png" alt="" asp-append-version="true" /></a>
-                <strong><a href="index.html"><img src="~/img/logo/logosn.png" alt="" asp-append-version="true" /></a></strong>
+                @if (@Context.Session.GetString("Role") == "Admin")
+                {
+                    <a href="/Account/Index"><img class="main-logo" src="~/img/logo/logo.png" alt="" asp-append-version="true" /></a>
+                    <strong><a href="/Account/Index"><img src="~/img/logo/logosn.png" alt="" asp-append-version="true" /></a></strong>
+                }
+                @if (@Context.Session.GetString("Role") == "Consultant")
+                {
+                    <a href="/Slot/Index"><img class="main-logo" src="~/img/logo/logo.png" alt="" asp-append-version="true" /></a>
+                    <strong><a href="/Slot/Index"><img src="~/img/logo/logosn.png" alt="" asp-append-version="true" /></a></strong>
+                }
+                
             </div>
             <div class="left-custom-menu-adp-wrap comment-scrollbar">
                 <nav class="sidebar-nav left-sidebar-menu-pro">
@@ -99,22 +108,40 @@
                                 <a title="Tài khoản" href="/Account/Index" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Tài khoản</span></a>
                             </li>
                             <li>
+                                <a title="Doanh thu" href="/Payment/Index" aria-expanded="false"><span class="educate-icon educate-charts icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Doanh thu</span></a>
+                            </li>
+                            <li>
                                 <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
                             </li>
                             <li>
-                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
+                                <a title="Tính cách" href="/PersonalityType/Index" aria-expanded="false"><span class="educate-icon educate-form icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Tính cách</span></a>
+                            </li>
+                            <li>
+                                <a title="Phương pháp" href="/Method/Index" aria-expanded="false"><span class="educate-icon educate-department icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Phương pháp</span></a>
+                            </li>
+                            <li>
+                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
                             </li>  
                         }
                         else
                         {
                             <li>
-                                <a title="Slot" href="/Slot/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Slot</span></a>
+                                <a title="Lịch" href="/Slot/Index" aria-expanded="false"><span class="educate-icon educate-event icon-wrap sub-icon-mg" aria-hidden="true"></span> <span class="mini-click-non">Lịch</span></a>
+                            </li>
+                            <li>
+                                <a title="Doanh thu" href="/Payment/Dashboard" aria-expanded="false"><span class="educate-icon educate-charts icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Doanh thu</span></a>
                             </li>
                             <li>
                                 <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
                             </li>
                             <li>
-                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
+                                <a title="Tính cách" href="/PersonalityType/Index" aria-expanded="false"><span class="educate-icon educate-form icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Tính cách</span></a>
+                            </li>
+                            <li>
+                                <a title="Phương pháp" href="/Method/Index" aria-expanded="false"><span class="educate-icon educate-department icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Phương pháp</span></a>
+                            </li>
+                            <li>
+                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-data-table icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
                             </li>
                         }
                     </ul>
@@ -129,7 +156,14 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="logo-pro">
-                        <a href="index.html"><img class="main-logo" src="~/img/logo/logo.png" alt="" asp-append-version="true" /></a>
+                        @if (@Context.Session.GetString("Role") == "Admin")
+                        {
+                            <a href="/Accout/Index"><img class="main-logo" src="~/img/logo/logo.png" alt="" asp-append-version="true" /></a>
+                        }
+                        @if (@Context.Session.GetString("Role") == "Consultant")
+                        {
+                            <a href="/Slot/Index"><img class="main-logo" src="~/img/logo/logo.png" alt="" asp-append-version="true" /></a>
+                        }
                     </div>
                 </div>
             </div>
@@ -153,13 +187,14 @@
                                         <div class="header-top-menu tabl-d-n" style="padding: 15px 0px;">
                                             <ul class="nav navbar-nav mai-top-nav">
                                                 <li class="nav-item">
-                                                    <a href="#" class="nav-link">Trang chủ</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#" class="nav-link">Hỗ trợ</a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a href="#" class="nav-link">Chính sách</a>
+                                                    @if (@Context.Session.GetString("Role") == "Admin")
+                                                    {
+                                                        <a href="/Account/Index" class="nav-link">Trang chủ</a>
+                                                    }
+                                                    @if (@Context.Session.GetString("Role") == "Consultant")
+                                                    {
+                                                        <a href="/Slot/Index" class="nav-link">Trang chủ</a>
+                                                    }
                                                 </li>
                                             </ul>
                                         </div>
@@ -171,7 +206,7 @@
                                                     <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle"><i class="educate-icon educate-bell" aria-hidden="true"></i><span class="indicator-nt"></span></a>
                                                     <div role="menu" class="notification-author dropdown-menu animated zoomIn">
                                                         <div class="notification-single-top">
-                                                            <h1>Notifications</h1>
+                                                            <h1>Thông báo</h1>
                                                         </div>
                                                         <ul class="notification-menu" id="NotificationList">
                                                             <li>
@@ -231,27 +266,21 @@
                                     <ul class="mobile-menu-nav">
                                         @if (@Context.Session.GetString("Role") == "Admin")
                                         {
-                                            <li>
-                                                <a title="Tài khoản" href="/Account/Index" aria-expanded="false"><span class="educate-icon educate-professor icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Tài khoản</span></a>
-                                            </li>
-                                            <li>
-                                                <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
-                                            </li>
-                                            <li>
-                                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
-                                            </li>  
+                                            <li><a href="/Account/Index">Tài khoản</a></li>
+                                            <li><a href="/Payment/Index">Doanh thu</a></li>
+                                            <li><a href="/Major/Index">Ngành nghề</a></li>
+                                            <li><a href="/PersonalityType/Index">Tính cách</a></li>
+                                            <li><a href="/Method/Index">Phương pháp</a></li>
+                                            <li><a href="/Question/Index">Câu hỏi</a></li>
                                         }
-                                        else
+                                        @if (@Context.Session.GetString("Role") == "Consultant")
                                         {
-                                            <li>
-                                                <a title="Slot" href="/Slot/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Slot</span></a>
-                                            </li>
-                                            <li>
-                                                <a title="Ngành nghề" href="/Major/Index" aria-expanded="false"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Ngành nghề</span></a>
-                                            </li>
-                                            <li>
-                                                <a title="Câu hỏi" href="/Question/Index" aria-expanded="false"><span class="educate-icon educate-library icon-wrap" aria-hidden="true"></span> <span class="mini-click-non">Câu hỏi</span></a>
-                                            </li>
+                                            <li><a href="/Slot/Index">Lịch</a></li>
+                                            <li><a href="/Payment/Index">Doanh thu</a></li>
+                                            <li><a href="/Major/Index">Ngành nghề</a></li>
+                                            <li><a href="/PersonalityType/Index">Tính cách</a></li>
+                                            <li><a href="/Method/Index">Phương pháp</a></li>
+                                            <li><a href="/Question/Index">Câu hỏi</a></li>
                                         }
                                     </ul>
                                 </nav>

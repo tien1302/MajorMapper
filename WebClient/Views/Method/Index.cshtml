@@ -34,9 +34,12 @@
                     </div>
                     <div class="sparkline13-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
-                            <div id="toolbar">
-                                <a class="btn btn-primary waves-effect waves-light" asp-action="Create">Tạo phương pháp</a>
-                            </div>
+                            @if (@Context.Session.GetString("Role") == "Admin")
+                            {
+                                <div id="toolbar">
+                                    <a class="btn btn-primary waves-effect waves-light" asp-action="Create">Thêm phương pháp</a>
+                                </div>
+                            }
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true"
                                    data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
@@ -51,7 +54,10 @@
                                         <th data-field="date" data-sortable="true">
                                             Ngày tạo
                                         </th>
-                                        <th></th>
+                                        @if (@Context.Session.GetString("Role") == "Admin")
+                                        {
+                                            <th></th>
+                                        }
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -67,11 +73,15 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.CreateDateTime)
                                             </td>
-                                            <td>
-                                                <a style="width:34px;padding-left: 11px;" href="@Url.Action("Update", new {id=item.Id})" title="Sửa" class="btn btn-default">
-                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
+                                            @if (@Context.Session.GetString("Role") == "Admin")
+                                            {
+                                                <td>
+                                                    <a style="width:34px;padding-left: 11px;" href="@Url.Action("Update", new {id=item.Id})" title="Sửa" class="btn btn-default">
+                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                    </a>
+                                                </td>
+                                            }
+                                            
                                         </tr>
                                     }
                                 </tbody>

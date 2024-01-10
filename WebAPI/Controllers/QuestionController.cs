@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Admin", "Player")]
+        [PermissionAuthorize("Admin", "Consultant", "Player")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {

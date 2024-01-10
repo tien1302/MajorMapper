@@ -92,6 +92,11 @@ namespace WebClient.Controllers
 
         public async Task<IActionResult> Update(int id)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
+            }
             try
             {
                 //Token

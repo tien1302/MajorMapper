@@ -86,7 +86,7 @@
                                             <td>
                                                 @if (@Context.Session.GetString("Role") == "Admin")
                                                 {
-                                                    <a style="width:34px;padding-left: 11px;" class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#DeleteQuestion" title="Xóa">
+                                                    <a style="width:34px;padding-left: 11px;" class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="@("#DeleteQuestion-" + item.Id)" title="Xóa">
                                                         <i class="fa fa-trash-o" aria-hidden="true"></i>
                                                     </a>
                                                 }
@@ -98,25 +98,29 @@
                                                 }
                                             </td>
                                         </tr>
-                                        <!-- delete modal -->
-                                        <div id="DeleteQuestion" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
-                                                        <h2>Xác nhận xóa</h2>
-                                                        <p>Xác nhận xóa câu hỏi của tính cách @Html.DisplayFor(modelItem => item.PersonalityTypeName)</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
-                                                        <a href="@Url.Action("Delete", new {id=item.Id})">Xác nhận</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        
                                     }
                                 </tbody>
                             </table>
+                            @foreach (var item in Model)
+                            {
+                                <!-- delete modal -->
+                                <div id="DeleteQuestion-@item.Id" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                                <h2>Xác nhận xóa</h2>
+                                                <p>Xác nhận xóa câu hỏi của tính cách @Html.DisplayFor(modelItem => item.PersonalityTypeName)</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
+                                                <a href="@Url.Action("Delete", new {id=item.Id})">Xác nhận</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

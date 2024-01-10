@@ -198,22 +198,23 @@ namespace BAL.DAOs.Implementations
                 }
                 else if(createSlot.Auto == 2)
                 {
-                    for (int week = 1; week <= 4; week++)
+                    for (int week = 0; week <= 3; week++)
                     {
                         for (int hour = 7; hour <= 20; hour++)
                         {
-                            startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.AddDays(week * 7 - 7).Day, hour, 0, 0);
+                            startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day, hour, 0, 0);
+                            DateTime dateTime = startDateTime.AddDays(week * 7);
                             if (DateTime.Compare(startDateTime, DateTime.Now) > 0)
                             {
                                 Slot slot = new Slot()
                                 {
                                     ConsultantId = createSlot.ConsultantId,
-                                    StartDateTime = startDateTime,
-                                    EndDateTime = startDateTime.AddHours(1),
+                                    StartDateTime = dateTime,
+                                    EndDateTime = dateTime.AddHours(1),
                                     CreateDateTime = DateTime.Now,
                                     Status = "Available",
                                 };
-                                if (_slotRepository.Get().Any(s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId))
+                                if (_slotRepository.Get().Any(s => s.StartDateTime == dateTime && s.ConsultantId == createSlot.ConsultantId))
                                 {
                                     continue; // Skip if slot already exists
                                 }
@@ -292,18 +293,19 @@ namespace BAL.DAOs.Implementations
                 }
                 else if (createSlot.Auto == 2)
                 {
-                    for (int week = 1; week <= 4; week++)
+                    for (int week = 0; week <= 3; week++)
                     {
-                        startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.AddDays(week * 7 - 7).Day, createSlot.StartDateTime.Hour, 0, 0);
+                        startDateTime = new DateTime(createSlot.Date.Year, createSlot.Date.Month, createSlot.Date.Day, createSlot.StartDateTime.Hour, 0, 0);
+                        DateTime dateTime = startDateTime.AddDays(week*7);
                         Slot slot = new Slot()
                         {
                             ConsultantId = createSlot.ConsultantId,
-                            StartDateTime = startDateTime,
-                            EndDateTime = startDateTime.AddHours(1),
+                            StartDateTime = dateTime,
+                            EndDateTime = dateTime.AddHours(1),
                             CreateDateTime = DateTime.Now,
                             Status = "Available",
                         };
-                        if (_slotRepository.Get().Any(s => s.StartDateTime == startDateTime && s.ConsultantId == createSlot.ConsultantId))
+                        if (_slotRepository.Get().Any(s => s.StartDateTime == dateTime && s.ConsultantId == createSlot.ConsultantId))
                         {
                             continue; // Skip if slot already exists
                         }

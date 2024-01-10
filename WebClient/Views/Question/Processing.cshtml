@@ -3,7 +3,24 @@
 @{
     ViewData["Title"] = "Danh sách câu hỏi cần duyệt";
 }
-
+@if (TempData["AlertMessage"] != null)
+{
+    <div class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Thành công!</strong> @TempData["AlertMessage"]
+    </div>
+}
+@if (TempData["AlertMessageError"] != null)
+{
+    <div class="alert alert-warning">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong>Cảnh báo!</strong> @TempData["AlertMessageError"]
+    </div>
+}
 <!-- Static Table Start -->
 <div class="data-table-area mg-b-15">
     <div class="container-fluid">
@@ -18,7 +35,6 @@
                     <div class="sparkline13-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
                             <div id="toolbar">
-
                                 <a class="btn btn-primary waves-effect waves-light" asp-action="Index">Danh sách câu hỏi</a>
                             </div>
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true"
@@ -52,45 +68,48 @@
                                                 @Html.DisplayFor(modelItem => item.CreateDateTime)
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-custon-rounded-four btn-success" data-toggle="modal" data-target="#AccpetQuestion">Chấp nhận</button>
-                                                <button type="button" class="btn btn-custon-rounded-four btn-danger" data-toggle="modal" data-target="#DenyQuestion">Từ chối</button>
+                                                <button type="button" class="btn btn-custon-rounded-four btn-success" data-toggle="modal" data-target="@("#AccpetQuestion-" + item.Id)">Chấp nhận</button>
+                                                <button type="button" class="btn btn-custon-rounded-four btn-danger" data-toggle="modal" data-target="@("#DenyQuestion-" + item.Id)">Từ chối</button>
                                             </td>
                                         </tr>
-                                        <!-- Accept modal -->
-                                        <div id="AccpetQuestion" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
-                                                        <h2>Xác nhận</h2>
-                                                        <p>Xác nhận câu hỏi của tính cách @Html.DisplayFor(modelItem => item.PersonalityTypeName)</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
-                                                        <a href="@Url.Action("Update", new {id=item.Id, status = "Active" })">Xác nhận</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Deny modal -->
-                                        <div id="DenyQuestion" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
-                                                        <h2>Từ chối</h2>
-                                                        <p>Từ chối câu hỏi của tính cách @Html.DisplayFor(modelItem => item.PersonalityTypeName)</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
-                                                        <a href="@Url.Action("Update", new {id=item.Id, status = "InActive"})">Xác nhận</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     }
                                 </tbody>
                             </table>
+                            @foreach (var item in Model)
+                            {
+                                <!-- Accept modal -->
+                                <div id="AccpetQuestion-@item.Id" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                                <h2>Xác nhận</h2>
+                                                <p>Xác nhận câu hỏi của tính cách @Html.DisplayFor(modelItem => item.PersonalityTypeName)</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
+                                                <a href="@Url.Action("Update", new {id=item.Id, status = "Active" })">Xác nhận</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Deny modal -->
+                                <div id="DenyQuestion-@item.Id" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                                <h2>Từ chối</h2>
+                                                <p>Từ chối câu hỏi của tính cách @Html.DisplayFor(modelItem => item.PersonalityTypeName)</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
+                                                <a href="@Url.Action("Update", new {id=item.Id, status = "InActive"})">Xác nhận</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

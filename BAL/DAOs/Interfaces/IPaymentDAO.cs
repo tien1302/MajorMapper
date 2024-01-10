@@ -18,9 +18,9 @@ namespace BAL.DAOs.Interfaces
         string CreatePaymentUrl(CreatePayment create, HttpContext context);
         //Xử lý thông tin từ Vnpay
         CreatePayment PaymentExecute(CreatePayment create);
-        //Lấy số tiền theo ConsultantId
-        public List<int> Getmoney(int year);
         //Lấy số tiền cho admin
+        public Tuple<List<int>, List<int>> Getmoney(int year);
+        //Lấy số tiền cho ConsultantId
         public Tuple<List<int>, List<int>> GetmoneybyId(int id, int year);
     }
 }

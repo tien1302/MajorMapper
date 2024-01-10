@@ -22,7 +22,8 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12" style="font-weight:bold; font-size:20px;">
-                            <p>Tổng doanh thu trong năm: @Model.Sum.ToString("#,##0")<span>  đ</span></p>
+                            <p>Tổng tiền hoa hồng từ vấn trong năm: @Model.Sum.ToString("#,##0")<span>  đ</span></p>
+                            <p>Tổng doanh thu ứng dụng trong năm: @Model.Count.ToString("#,##0")<span>  đ</span></p>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                             <div class="form-group" style=" position: relative;float: right;">
@@ -60,17 +61,43 @@
         type: 'bar',
         data: {
             labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
-            datasets: [{
-                label: 'Tháng',
+            datasets: [
+            {
+                label: 'Doanh thu',
+                    data: @Html.Raw(Json.Serialize(ViewData["Tests"] as List<int>)),
+                borderWidth: 1,
+                yAxisID: "y"
+            },{
+                label: 'Tiền hoa hồng',
                 data: @Html.Raw(Json.Serialize(ViewData["Moneys"] as List<int>)),
-                borderWidth: 1
-            }]
+                borderWidth: 1,
+                yAxisID: "y1",
+            }
+            ]
         },
         options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            stacked: false,
             scales: {
                 y: {
-                    beginAtZero: true
-                }
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                    beginAtZero: true,
+                },
+                y1: {
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+                    beginAtZero: true,
+                    grid: {
+                        drawOnChartArea: false,
+                    },
+                },
             }
         }
     });

@@ -43,8 +43,12 @@ namespace WebClient.Controllers
             var token = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
                 //Set Session
-                GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
+                GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token, options);
                 HttpContext.Session.SetInt32("AccountId", tokenResponse.Id);
                 HttpContext.Session.SetString("Name", tokenResponse.Name);
                 HttpContext.Session.SetString("JWToken", tokenResponse.AccessToken);
@@ -91,8 +95,12 @@ namespace WebClient.Controllers
             var token = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
                 //Set Session
-                GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
+                GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token,options);
                 HttpContext.Session.SetInt32("AccountId", tokenResponse.Id);
                 HttpContext.Session.SetString("Name", tokenResponse.Name);
                 HttpContext.Session.SetString("JWToken", tokenResponse.AccessToken);

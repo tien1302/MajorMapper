@@ -38,9 +38,7 @@
             </div>
             <div class="modal-body">
                 <form asp-action="Index" class="add-department">
-                    <div class="text-danger">
-                        <p style="color: #FF0000;">@ViewBag.Message</p>
-                    </div>
+                    
                     <input asp-for="ConsultantId" type="hidden" class="form-control" value="@Accessor.HttpContext.Session.GetInt32("AccountId")" />
                     <div class="form-group" style="text-align: left;">
                         <label asp-for="Date" class="control-label">Ngày/Tháng/Năm</label>
@@ -99,96 +97,20 @@
         </div>
     </div>
 </div>
-@* <div class="single-pro-review-area mt-t-30 mg-b-15">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div class="product-payment-inner-st">
-                    <h1>Thêm lịch</h1>
-                    <div id="myTabContent" class="tab-content custom-product-edit">
-                        <div class="product-tab-list tab-pane fade active in" id="reviews">
-                            <div class="row">
-                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="review-content-section">
 
-                                        <form asp-action="Index" class="add-department">
-                                            <div class="text-danger">
-                                                <p style="color: #FF0000;">@ViewBag.Message</p>
-                                            </div>
-                                            <input asp-for="ConsultantId" type="hidden" class="form-control" value="@Accessor.HttpContext.Session.GetInt32("AccountId")" />
-                                            <div class="form-group">
-                                                <label asp-for="Date" class="control-label">Ngày/Tháng/Năm</label>
-                                                <input type="date" asp-for="Date" class="form-control" required title="Không được để trống" />
-                                                <span asp-validation-for="Date" class="text-danger"></span>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 form-group" style="height: 40px;">
-                                                    <label asp-for="AllDay" class="control-label" style="display: flex; align-items: flex-end;" >
-                                                        <input type="checkbox" asp-for="AllDay" id="checkbox-allday" style="height:20px; width:20px; margin-right: 15px;" />   Cả ngày
-                                                    </label>
-                                                    <span asp-validation-for="AllDay" class="text-danger"></span>
-                                                </div>
-
-                                                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12 form-group" id="slot-box">
-                                                   
-                                                        <select asp-for="StartDateTime" class="form-control" required title="Không được để trống">
-                                                            <option selected="" disabled="">Chọn slot</option>
-                                                            <option value="7:00">Slot 1: 7:00</option>
-                                                            <option value="8:00">Slot 2: 8:00</option>
-                                                            <option value="9:00">Slot 3: 9:00</option>
-                                                            <option value="10:00">Slot 4: 10:00</option>
-                                                            <option value="11:00">Slot 5: 11:00</option>
-                                                            <option value="12:00">Slot 6: 12:00</option>
-                                                            <option value="13:00">Slot 7: 13:00</option>
-                                                            <option value="14:00">Slot 8: 14:00</option>
-                                                            <option value="15:00">Slot 9: 15:00</option>
-                                                            <option value="16:00">Slot 10: 16:00</option>
-                                                            <option value="17:00">Slot 11: 17:00</option>
-                                                            <option value="18:00">Slot 12: 18:00</option>
-                                                            <option value="19:00">Slot 13: 19:00</option>
-                                                            <option value="20:00">Slot 14: 20:00</option>
-                                                        </select>
-                                                       
-                                                    
-                                                    <span asp-validation-for="StartDateTime" class="text-danger"></span>
-                                                </div>
-                                            </div>
-                                            
-                                            <div class="form-group">
-                                                <label asp-for="Auto" class="control-label">Slot</label>
-                                                <select asp-for="Auto" class="form-control" required title="Không được để trống">
-                                                    <option selected="" disabled="">Chọn slot</option>
-                                                    <option value="3">Không lập lại</option>
-                                                    <option value="1">Hằng ngày trong 7 ngày</option>
-                                                    <option value="2">Hằng tuần trong 1 tháng</option>
-
-                                                </select>
-                                                <span asp-validation-for="Auto" class="text-danger"></span>
-                                            </div>
-                                            <div class="form-group">
-                                                <button type="submit" value="Index" class="btn btn-primary waves-effect waves-light">Xác nhận</button>
-                                                <a asp-action="Index">Quay lại</a>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div> *@
 
 <div class="calender-area mg-b-15">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <button class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#addSlot">
-                    Thêm lịch
-                </button>
+                <div class="text-danger" style="text-align:center;">
+                    <p style="color: #FF0000;">@ViewBag.Message</p>
+                </div>
+                
                 <div class="calender-inner">
+                    <button class="btn btn-primary waves-effect waves-light" data-toggle="modal" data-target="#addSlot" style="margin-bottom: 20px;">
+                        Thêm lịch
+                    </button>
                     <div id='calendar'></div>
                 </div>
             </div>

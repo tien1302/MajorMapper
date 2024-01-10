@@ -199,15 +199,16 @@ namespace BAL.DAOs.Implementations
                 List<int> listcount = new List<int>();
                 int money = 0;
                 int count = 0;
-                List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year && p.Booking.Slot.ConsultantId == id, includeProperties: "Booking.Slot").ToList());
+                List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year && p.Booking.Slot.ConsultantId == id && p.BookingId > 0, includeProperties: "Booking.Slot").ToList());
                 for (int i = 1; i <= 12; i++)
                 {
                     List<GetPayment> list = listPayment.Where(list => list.CreateDateTime.Month == i).ToList();
                     foreach (var item in list)
                     {
-                        money += item.Amount;
+                        money += (item.Amount/10)*9;
                         count++;
                     }
+                    
                     listmoney.Add(money);
                     listcount.Add(count);
                     money = 0;
@@ -223,24 +224,35 @@ namespace BAL.DAOs.Implementations
         }
 
         //Lấy số tiền cho admin
-        public List<int>Getmoney(int year)
+        public Tuple<List<int>, List<int>> Getmoney(int year)
         {
             try
             {
                 List<int> listmoney = new List<int>();
+                List<int> listtest = new List<int>();
                 int money =0;
-                List<GetPayment> listPayment = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year).ToList());
+                int test = 0;
+                List<GetPayment> listBooking = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year && p.BookingId > 0).ToList());
+                List<GetPayment> listTest = _mapper.Map<List<GetPayment>>(_paymentRepository.Get(filter: p => p.CreateDateTime.Year == year && p.TestId > 0).ToList());
                 for (int i = 1; i <= 12; i++)
                 {
-                    List<GetPayment> list = listPayment.Where(list => list.CreateDateTime.Month == i).ToList();
-                    foreach (var item in list)
+                    List<GetPayment> listBookingByMonth = listBooking.Where(list => list.CreateDateTime.Month == i).ToList();
+                    List<GetPayment> listTestByMonth = listTest.Where(list => list.CreateDateTime.Month == i).ToList();
+                    foreach (var item in listBookingByMonth)
                     {
-                        money += item.Amount;
+                        money += item.Amount / 10;
+                    }
+                    foreach (var item in listTestByMonth)
+                    {
+                        test += item.Amount;
                     }
                     listmoney.Add(money);
+                    listtest.Add(test);
                     money = 0;
+                    test = 0;
                 }
-                return listmoney;
+                var tuple = new Tuple<List<int>, List<int>>(listmoney, listtest);
+                return tuple;
             }
             catch (Exception ex)
             {

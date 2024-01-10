@@ -34,16 +34,16 @@
                     </div>
                     <div class="sparkline13-graph">
                         <div class="datatable-dashv1-list custom-datatable-overright">
-                            <div id="toolbar">
-                                <a class="btn btn-primary waves-effect waves-light" href="/Major/Create">Thêm ngành nghề</a>
-                            </div>
+                            @if (@Context.Session.GetString("Role") == "Admin")
+                            {
+                                <div id="toolbar">
+                                    <a class="btn btn-primary waves-effect waves-light" href="/Major/Create">Thêm ngành nghề</a>
+                                </div>
+                            }
                             <table id="table" data-toggle="table" data-pagination="true" data-search="true" data-key-events="true" data-resizable="true" data-cookie="true"
                                    data-cookie-id-table="saveId" data-click-to-select="true" data-toolbar="#toolbar">
                                 <thead>
                                     <tr>
-                                        <th data-field="person" data-sortable="true">
-                                            Loại tính cách
-                                        </th>
                                         <th data-field="name" data-sortable="true">
                                             Tên ngành nghề
                                         </th>
@@ -59,15 +59,17 @@
                                         <th data-field="updatedate" data-sortable="true">
                                             Ngày cập nhật
                                         </th>
-                                        <th></th>
+                                        @if (@Context.Session.GetString("Role") == "Admin")
+                                        {
+                                            <th></th>
+                                        }
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                     @foreach (var item in Model)
                                     {
                                         <tr>
-                                            
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)
                                             </td>
@@ -86,34 +88,40 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.UpdateDateTime)
                                             </td>
-                                            <td>
-                                                <a href="@Url.Action("Update", new {id=item.Id})" title="Sửa" class="btn btn-default">
-                                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                                </a>
-                                                <a class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="#PrimaryModalalert" title="Xóa">
-                                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                                </a>
-                                            </td>
+                                            @if (@Context.Session.GetString("Role") == "Admin")
+                                            {
+                                                <td>
+                                                    <a href="@Url.Action("Update", new {id=item.Id})" title="Sửa" class="btn btn-default">
+                                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                                    </a>
+                                                    <a class="btn btn-default" href="#" id="DeleteModal" data-toggle="modal" data-target="@("#DeleteMajor-" + item.Id)" title="Xóa">
+                                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                                    </a>
+                                                </td>
+                                            }
                                         </tr>
-                                        <!-- delete modal -->
-                                        <div id="PrimaryModalalert" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-body">
-                                                        <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
-                                                        <h2>Xác nhận xóa</h2>
-                                                        <p>Xác nhận xóa ngành @Html.DisplayFor(modelItem => item.Name)</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
-                                                        <a href="@Url.Action("Delete", new {id=item.Id})">Xác nhận</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     }
                                 </tbody>
                             </table>
+                            @foreach (var item in Model)
+                            {
+                                <!-- delete modal -->
+                                <div id="DeleteMajor-@item.Id" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-body">
+                                                <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                                <h2>Xác nhận xóa</h2>
+                                                <p>Xác nhận xóa ngành @Html.DisplayFor(modelItem => item.Name)</p>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a style="background-color:#d80027" data-dismiss="modal" href="#">Hủy</a>
+                                                <a href="@Url.Action("Delete", new {id=item.Id})">Xác nhận</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>

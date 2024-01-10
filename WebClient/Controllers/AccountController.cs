@@ -201,10 +201,14 @@ namespace WebClient.Controllers
                         {
                             //Token
                             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
+                            //Update
                             HttpResponseMessage response1 = await client.GetAsync($"{baseApiUrl}/{id}");
                             var token = await response1.Content.ReadAsStringAsync();
-                            GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token);
+                            var options = new JsonSerializerOptions
+                            {
+                                PropertyNameCaseInsensitive = true
+                            };
+                            GetAccount tokenResponse = JsonSerializer.Deserialize<GetAccount>(token, options);
                             HttpContext.Session.SetString("Name", tokenResponse.Name);
                             TempData["AlertMessage"] = "Cập nhật tài khoản thành công.";
                             return RedirectToAction(nameof(Details), new { id = tokenResponse.Id });
@@ -231,6 +235,11 @@ namespace WebClient.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
+            }
             try
             {
                 //Token
@@ -257,7 +266,7 @@ namespace WebClient.Controllers
         }
         public async Task<ActionResult> ResetPassword()
         {
-            if (HttpContext.Session.GetString("Role") == "Player")
+            if (HttpContext.Session.GetString("Role") != "Consultant")
             {
                 TempData["AlertMessageError"] = "Tài khoản bạn không có quyền sử dụng chức năng này.";
                 return Redirect("~/Home/Index");
@@ -289,13 +298,12 @@ namespace WebClient.Controllers
                         TempData["AlertMessageError"] = "Cập nhật mật khẩu thất bại.";
                     }
                 }
-                else
-                    TempData["AlertMessageError"] = "Cập nhật mật khẩu thất bại.";
+                
                 return View("ResetPassword");
             }
             catch (Exception)
             {
-                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Consultant.";
                 return Redirect("~/Home/Index");
             }
            

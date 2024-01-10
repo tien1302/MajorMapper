@@ -31,6 +31,11 @@ namespace WebClient.Controllers
 
         public async Task<ActionResult> Index()
         {
+            if (HttpContext.Session.GetString("Role") != "Consultant")
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Consultant.";
+                return Redirect("~/Home/Index");
+            }
             try
             {
                 //Token
@@ -61,12 +66,18 @@ namespace WebClient.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(CreateSlot p)
         {
+            if (HttpContext.Session.GetString("Role") != "Consultant")
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Consultant.";
+                return Redirect("~/Home/Index");
+            }
             try
             {
                 //Token
                 var accessToken = HttpContext.Session.GetString("JWToken");
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 //Create
+                var id = HttpContext.Session.GetInt32("AccountId");
                 string strData = JsonSerializer.Serialize(p);
                 var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync($"{baseApiUrl}?allDay={p.AllDay}&auto={p.Auto}", contentData);
@@ -74,23 +85,31 @@ namespace WebClient.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     TempData["AlertMessage"] = "Thêm lịch thành công.";
+                    //Token
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    //Get
+                    HttpResponseMessage responseSlot = await client.GetAsync($"{baseApiUrl}/{id}");
+                    string strDataSlot = await responseSlot.Content.ReadAsStringAsync();
+
+                    var optionsSlot = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    };
+                    List<GetSlot> list = JsonSerializer.Deserialize<List<GetSlot>>(strDataSlot, optionsSlot);
+                    ViewData["Slots"] = list;
                     return RedirectToAction(nameof(Index));
                 }
-                else
-                {
-                    TempData["AlertMessageError"] = "Thêm lịch thất bại.";
-                }
-                ViewBag.Message = message.Replace("\"", "");
-                var id = HttpContext.Session.GetInt32("AccountId");
-                HttpResponseMessage responseSlot = await client.GetAsync($"{baseApiUrl}/{id}");
-                string strDataSlot = await responseSlot.Content.ReadAsStringAsync();
+                TempData["AlertMessageError"] = message.Replace("\"", "");
+                //Get
+                HttpResponseMessage responseSlot2 = await client.GetAsync($"{baseApiUrl}/{id}");
+                string strDataSlot2 = await responseSlot2.Content.ReadAsStringAsync();
 
-                var optionsSlot = new JsonSerializerOptions
+                var optionsSlot2 = new JsonSerializerOptions
                 {
                     PropertyNameCaseInsensitive = true
                 };
-                List<GetSlot> list = JsonSerializer.Deserialize<List<GetSlot>>(strDataSlot, optionsSlot);
-                ViewData["Slots"] = list;
+                List<GetSlot> list2 = JsonSerializer.Deserialize<List<GetSlot>>(strDataSlot2, optionsSlot2);
+                ViewData["Slots"] = list2;
                 return View();
 
             }
@@ -104,6 +123,11 @@ namespace WebClient.Controllers
 
         public async Task<IActionResult> Delete(int? id)
         {
+            if (HttpContext.Session.GetString("Role") != "Consultant")
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Consultant.";
+                return Redirect("~/Home/Index");
+            }
             try
             {
                 //Token
@@ -114,6 +138,8 @@ namespace WebClient.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     TempData["AlertMessage"] = "Xóa lịch thành công.";
+                    return RedirectToAction(nameof(Index));
+
                 }
                 else
                 {

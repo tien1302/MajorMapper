@@ -56,7 +56,7 @@ namespace BAL.DAOs.Implementations
                     throw new Exception("Id does not exist in the system.");
                 }
 
-                existedQuestion.Status = "Inactive";
+                existedQuestion.Status = "InActive";
                 _questionRepository.Update(existedQuestion);
                 _questionRepository.Commit();
             }

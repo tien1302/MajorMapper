@@ -9,9 +9,10 @@ namespace BAL.DTOs.PersonalityTypes
 {
     public class UpdatePersonalityType
     {
-        [Required(ErrorMessage = "PersonalityType Name is required.")]
+        [Required(ErrorMessage = "Không được để trống")]
         [MaxLength(200, ErrorMessage = "PersonalityType Name is required less than or equals 200 characters.")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Không được để trống")]
         public int MethodId { get; set; }
     }
 }

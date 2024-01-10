@@ -27,7 +27,12 @@ namespace WebClient.Controllers
 
         public async Task<ActionResult> Index()
         {
-			try
+            if (HttpContext.Session.GetString("Role") != "Admin")
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Admin.";
+                return Redirect("~/Home/Index");
+            }
+            try
 			{
 				//Token
 				var accessToken = HttpContext.Session.GetString("JWToken");
@@ -35,7 +40,8 @@ namespace WebClient.Controllers
 				//dashboard
 				Money money = new Money();
 				int sum = 0;
-				string getyear = Request.Query["year"];
+                int sumtest = 0;
+                string getyear = Request.Query["year"];
 				List<int> years = new List<int>();
 				int currentYear = DateTime.Now.Year;
 				for (int i = 0; i < 5; i++)
@@ -53,16 +59,23 @@ namespace WebClient.Controllers
 					{
 						PropertyNameCaseInsensitive = true
 					};
-					List<int> listMoney = JsonSerializer.Deserialize<List<int>>(strData, options);
+                    Tuple<List<int>, List<int>> listMoney = JsonSerializer.Deserialize<Tuple<List<int>, List<int>>>(strData, options);
 
-					foreach (var item in listMoney)
+					foreach (var item in listMoney.Item1)
 					{
 						sum += item;
 					}
-					money.Sum = sum;
+                    foreach (var item in listMoney.Item2)
+                    {
+                        sumtest += item;
+                    }
+                    money.Sum = sum;
 					sum = 0;
-					ViewData["Moneys"] = listMoney;
-				}
+                    money.Count = sumtest;
+                    sumtest = 0;
+                    ViewData["Moneys"] = listMoney.Item1;
+                    ViewData["Tests"] = listMoney.Item2;
+                }
 				else
 				{
 					int year = int.Parse(getyear);
@@ -73,17 +86,24 @@ namespace WebClient.Controllers
 					{
 						PropertyNameCaseInsensitive = true
 					};
-					List<int> listMoney = JsonSerializer.Deserialize<List<int>>(strData, options);
+                    Tuple<List<int>, List<int>> listMoney = JsonSerializer.Deserialize<Tuple<List<int>, List<int>>>(strData, options);
 
-					foreach (var item in listMoney)
-					{
-						sum += item;
-					}
-					money.Sum = sum;
-					sum = 0;
-					ViewData["Moneys"] = listMoney;
+                    foreach (var item in listMoney.Item1)
+                    {
+                        sum += item;
+                    }
+                    foreach (var item in listMoney.Item2)
+                    {
+                        sumtest += item;
+                    }
+                    money.Sum = sum;
+                    sum = 0;
+                    money.Count = sumtest;
+                    sumtest = 0;
+                    ViewData["Moneys"] = listMoney.Item1;
+                    ViewData["Tests"] = listMoney.Item2;
 
-				}
+                }
 
 				return View(money);
 			}
@@ -97,7 +117,12 @@ namespace WebClient.Controllers
 
         public async Task<ActionResult> Dashboard()
         {
-			try
+            if (HttpContext.Session.GetString("Role") != "Consultant")
+            {
+                TempData["AlertMessageError"] = "Bạn phải đăng nhập bằng tài khoản Consultant.";
+                return Redirect("~/Home/Index");
+            }
+            try
 			{
 				//Token
 				var accessToken = HttpContext.Session.GetString("JWToken");

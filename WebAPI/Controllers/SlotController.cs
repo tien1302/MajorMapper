@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Player")]
+        [PermissionAuthorize("Player", "Consultant")]
         // Hàm lấy list slot trống theo consultantId cho mobile
         [HttpGet("GetSlotActive")]
         public IActionResult GetSlotActive()
