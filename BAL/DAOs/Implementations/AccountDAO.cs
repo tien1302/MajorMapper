@@ -71,7 +71,7 @@ namespace BAL.DAOs.Implementations
                 var checkEmail = this._Repo.Get(filter: a => a.Email == create.Email && a.Status == true).FirstOrDefault();
                 if (checkEmail != null)
                 {
-                    throw new Exception("Email bị trùng.");
+                    throw new Exception("Email đã tồn tại.");
                 }
 
                 Account account = new Account()
@@ -101,13 +101,18 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                var checkEmail = this._Repo.Get(filter: a => a.Email == update.Email && a.Status == true).FirstOrDefault();
-                if (checkEmail != null)
-                {
-                    throw new Exception("Email bị trùng.");
-                }
-
+                var checkEmail = this._Repo.Get(filter: a => a.Email == update.Email && a.Status == true && a.Id == key).FirstOrDefault();
                 Account existedAccount = this._Repo.GetByID(key);
+                if (checkEmail == null)
+                {
+                    var checkEmail2 = this._Repo.Get(filter: a => a.Email == update.Email && a.Status == true).FirstOrDefault();
+                    if (checkEmail2 != null)
+                    {
+                        throw new Exception("Email đã tồn tại.");
+                    }
+  
+                }
+                
                 if (existedAccount == null)
                 {
                     throw new Exception("Account Id không tồn tại.");

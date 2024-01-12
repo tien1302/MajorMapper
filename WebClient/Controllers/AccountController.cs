@@ -152,6 +152,7 @@ namespace WebClient.Controllers
                     string strData = JsonSerializer.Serialize(p);
                     var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
                     HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
+                    var token = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
                         TempData["AlertMessage"] = "Thêm tài khoản thành công.";
@@ -159,7 +160,7 @@ namespace WebClient.Controllers
                     }
                     else
                     {
-                        TempData["AlertMessageError"] = "Thêm tài khoản thất bại.";
+                        ViewBag.Message = token.Replace("\"", "");
                     }
                 }
                 else
@@ -222,6 +223,7 @@ namespace WebClient.Controllers
                     string strData = JsonSerializer.Serialize(p);
                     var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
                     HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
+                    var token2 = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
                         if(HttpContext.Session.GetString("Role") != "Admin")
@@ -245,7 +247,7 @@ namespace WebClient.Controllers
                     }
                     else
                     {
-                        TempData["AlertMessageError"] = "Cập nhật tài khoản thất bại.";
+                        ViewBag.Message = token2.Replace("\"", "");
                     }
                 }
                 else
