@@ -21,15 +21,17 @@ namespace BAL.DAOs.Implementations
         private PaymentRepository _paymentRepository;
         private TestRepository _testRepository;
         private BookingRepository _bookingRepository;
+        private SlotRepository _slotRepository;
         private INotificationDAO _notificationDAO;
         private IMapper _mapper;
         private IConfiguration _configuration;
 
-        public PaymentDAO(IPaymentRepository paymentRepository, ITestRepository testRepository, IBookingRepository bookingRepository, INotificationDAO notificationDAO, IMapper mapper, IConfiguration configuration)
+        public PaymentDAO(IPaymentRepository paymentRepository, ITestRepository testRepository, IBookingRepository bookingRepository, ISlotRepository slotRepository, INotificationDAO notificationDAO, IMapper mapper, IConfiguration configuration)
         {
             _paymentRepository = (PaymentRepository)paymentRepository;
             _testRepository = (TestRepository)testRepository;
             _bookingRepository = (BookingRepository)bookingRepository;
+            _slotRepository = (SlotRepository)slotRepository;
             _notificationDAO = notificationDAO;
             _mapper = mapper;
             _configuration = configuration;
@@ -131,6 +133,13 @@ namespace BAL.DAOs.Implementations
                         booking.Status = "Finish";
                         _bookingRepository.Update(booking);
                         _bookingRepository.Commit();
+                    }
+                    Slot slot = _slotRepository.GetByID(booking.SlotId);
+                    if (slot != null)
+                    {
+                        slot.Status = "Booked";
+                        _slotRepository.Update(slot);
+                        _slotRepository.Commit();
                     }
                     _notificationDAO.Create(response.BookingId);
                 }
