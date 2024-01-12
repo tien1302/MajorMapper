@@ -79,7 +79,10 @@
         ============================================ -->
     <script src="~/js/vendor/modernizr-2.8.3.min.js" asp-append-version="true"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <!-- notifications CSS
+        ============================================ -->
+    <link rel="stylesheet" href="~/css/notifications/Lobibox.min.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/notifications/notifications.css" asp-append-version="true">
 
 </head>
 <body>
@@ -417,8 +420,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/microsoft/signalr/dist/browser/signalr.js"></script>
-    <script src="~/js/notification.js"></script>
-    
+    <script src="~/js/notification.js" asp-append-version="true"></script>
+    <!-- notification JS
+        ============================================ -->
+    <script src="~/js/notifications/Lobibox.js" asp-append-version="true"></script>
+    <script src="~/js/notifications/notification-active.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -55,5 +55,5 @@ function BindProductsToGrid(products) {
 
 connection.on("ReceivedPersonalNotification", function (title, content) {
     debugger;
-    DisplayPersonalNotification(title, 'hey ' + content);
+    DisplayPersonalNotification(title, content);
 });

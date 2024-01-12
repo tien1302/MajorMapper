@@ -40,12 +40,12 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                Booking booking = this._Repo.GetByID(key);
+                GetBooking booking = this._mapper.Map<GetBooking>(this._Repo.Get(filter: x=>x.SlotId == key).FirstOrDefault());
                 if (booking == null)
                 {
-                    throw new Exception("Booking Id does not exist in the system.");
+                    throw new Exception("Booking does not exist in the system.");
                 }
-                return this._mapper.Map<GetBooking>(booking);
+                return booking;
             }
             catch (Exception ex)
             {

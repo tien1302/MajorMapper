@@ -44,6 +44,25 @@ namespace BAL.DAOs.Implementations
                 throw new Exception(ex.Message);
             }
         }
+        public void Update(int key)
+        {
+            try
+            {
+                Slot existedSlot = _slotRepository.GetByID(key);
+                if (existedSlot == null)
+                {
+                    throw new Exception("Id does not exist in the system.");
+                }
+
+                existedSlot.Status = "Booking";
+                _slotRepository.Update(existedSlot);
+                _slotRepository.Commit();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
         public void Delete(int key)
         {

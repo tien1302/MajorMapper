@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Player")]
+        [PermissionAuthorize("Player", "Consultant")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -53,7 +53,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Player")]
+        [PermissionAuthorize("Player", "Consultant")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateBooking create)
         {

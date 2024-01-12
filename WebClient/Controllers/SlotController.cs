@@ -159,10 +159,19 @@ namespace WebClient.Controllers
 			return View();
 		}
 
-        public async Task<IActionResult> Lobby()
+        public async Task<IActionResult> Lobby(int id)
         {
-            string bookingId = Request.Query["bookingId"];
-            HttpResponseMessage response = await client.GetAsync($"{bookingApiUrl}/{bookingId}");
+            ViewData["PlayerId"] = id;
+            return View();
+        }
+        public async Task<IActionResult> Details()
+        {
+            string slotId = Request.Query["slotId"];
+            //Token
+            var accessToken = HttpContext.Session.GetString("JWToken");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
+            HttpResponseMessage response = await client.GetAsync($"{bookingApiUrl}/{slotId}");
             var strData = await response.Content.ReadAsStringAsync();
 
             var options = new JsonSerializerOptions
@@ -170,10 +179,9 @@ namespace WebClient.Controllers
                 PropertyNameCaseInsensitive = true
             };
             GetBooking booking = JsonSerializer.Deserialize<GetBooking>(strData, options);
-            ViewData["Booking"] = booking;
-            return View();
+
+            return Redirect("~/Account/DetailsPlayer/" + booking.PlayerId);
         }
-        
         public async Task<ActionResult> GetToken(string channel)
         {
             string appId = "32f662b1d5cf4a50bbf47cd0ba9bfcd5";

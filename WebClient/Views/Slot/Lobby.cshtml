@@ -16,13 +16,13 @@
     <img id="logo" src="~/img/logo/logo.png" />
 
     <div id="welcome-message">
-        <h1>Welcome to MyChat</h1>
+        <h1>Xin Chào @Accessor.HttpContext.Session.GetString("Name")</h1>
     </div>
 
     <form id="form">
         <div class="field-wrapper">
 
-            <input type="hidden" name="room" value="@((ViewData["Booking"] as GetBooking)?.PlayerId)" />
+            <input type="hidden" name="room" value="@(ViewData["PlayerId"])" />
             <input type="hidden" name="name" value="@Accessor.HttpContext.Session.GetString("Name")" />
             <div class="form-field">
                 <input type="submit" value="Tham gia" />

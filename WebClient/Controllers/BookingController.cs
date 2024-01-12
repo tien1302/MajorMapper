@@ -42,6 +42,10 @@ namespace WebClient.Controllers
 
         public async Task<ActionResult> Create()
         {
+            //Token
+            var accessToken = HttpContext.Session.GetString("JWToken");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
             string slotId = Request.Query["slotId"];
             HttpResponseMessage response = await client.GetAsync($"{slotApiUrl}/GetById/{slotId}");
             var strData = await response.Content.ReadAsStringAsync();
@@ -63,11 +67,17 @@ namespace WebClient.Controllers
         {
             if (ModelState.IsValid)
             {
+                //Token
+                var accessToken = HttpContext.Session.GetString("JWToken");
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
                 string strData = JsonSerializer.Serialize(p);
                 var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
                 if (response.IsSuccessStatusCode)
                 {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+
                     ViewBag.Message = "Insert successfully!";
                     string strDatas = JsonSerializer.Serialize(p.SlotId);
                     var contentDatas = new StringContent(strDatas, System.Text.Encoding.UTF8, "application/json");
@@ -85,6 +95,7 @@ namespace WebClient.Controllers
                         // Assuming the ID is in a property called "Id" in the response JSON
                         var id = responseObject.Id;
                         // Use the ID as needed
+                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
 
                         HttpResponseMessage response1 = await client.GetAsync($"{baseApiUrl}/{id}");
                         var strData1 = await response1.Content.ReadAsStringAsync();

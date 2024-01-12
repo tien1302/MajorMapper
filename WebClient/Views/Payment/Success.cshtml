@@ -8,9 +8,14 @@
 		<div class="content-error">
 			<h1> <span class="counter"> Thành công</span></h1>
 			<p>Bạn đã đặt lịch thành công</p>
-			<button style="font-weight: 700; color: #fff; padding: 10px 30px; border-radius: 3px; background: #006DF0; transition: all .4s ease 0s; border: none;" type="button" onclick="javascript:window.close()">Quay lại trò chơi</button>
+			<button style="font-weight: 700; color: #fff; padding: 10px 30px; border-radius: 3px; background: #006DF0; transition: all .4s ease 0s; border: none;" type="button" onclick="CloseWindow()">Quay lại trò chơi</button>
 		</div>
 
 	</div>
 </div>
-
+<script>
+	function CloseWindow() {
+		window.top.opener = null;
+		window.close();
+	}
+</script>

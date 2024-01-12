@@ -100,6 +100,33 @@ namespace WebClient.Controllers
             return View(account);
         }
 
+        public async Task<IActionResult> DetailsPlayer(int id)
+        {
+            //Token
+            var accessToken = HttpContext.Session.GetString("JWToken");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            //Account
+            HttpResponseMessage response = await client.GetAsync(baseApiUrl);
+            var strData = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
+            GetAccount account = list.Where(p => p.Id == id).FirstOrDefault();
+            //TestResult
+            HttpResponseMessage testResultResponse = await client.GetAsync($"{baseApiUrl}/GetTestResult/{id}");
+            var testResultData = await testResultResponse.Content.ReadAsStringAsync();
+            var optionT = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            List<GetTestResult> listTestResult = JsonSerializer.Deserialize<List<GetTestResult>>(testResultData, optionT);
+            ViewBag.TestResults = listTestResult;
+            return View(account);
+        }
+
+
         public async Task<ActionResult> Create()
         {
             if (HttpContext.Session.GetString("Role") !="Admin")
