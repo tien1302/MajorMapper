@@ -6,6 +6,7 @@ using BAL.DTOs.TestResults;
 using DAL.Models;
 using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -67,6 +68,11 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
+                var checkEmail = this._Repo.Get(filter: a => a.Email == create.Email && a.Status == true).FirstOrDefault();
+                if (checkEmail != null)
+                {
+                    throw new Exception("Email bị trùng.");
+                }
 
                 Account account = new Account()
                 {
@@ -81,6 +87,7 @@ namespace BAL.DAOs.Implementations
                     Status = true,
                     CreateDateTime = DateTime.Now
                 };
+
                 this._Repo.Insert(account);
                 this._Repo.Commit();
             }
@@ -94,6 +101,12 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
+                var checkEmail = this._Repo.Get(filter: a => a.Email == update.Email && a.Status == true).FirstOrDefault();
+                if (checkEmail != null)
+                {
+                    throw new Exception("Email bị trùng.");
+                }
+
                 Account existedAccount = this._Repo.GetByID(key);
                 if (existedAccount == null)
                 {
@@ -138,7 +151,7 @@ namespace BAL.DAOs.Implementations
         {
             try
             {
-                Account existedAccount = this._Repo.Get(x => x.Email == authenAccount.Email && x.Password.Equals(authenAccount.Password)&& x.Status==true)
+                Account existedAccount = this._Repo.Get(x => x.Email == authenAccount.Email && x.Password.Equals(authenAccount.Password)&& x.Status == true)
                                              .SingleOrDefault();
                 if (existedAccount == null)
                 {

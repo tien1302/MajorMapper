@@ -156,8 +156,8 @@ namespace WebClient.Controllers
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                 //Session
                 int currentId = (int)HttpContext.Session.GetInt32("AccountId");
-                string name = HttpContext.Session.GetString("Name");
-                if (currentId != id && name != "Admin")
+                string role = HttpContext.Session.GetString("Role");
+                if (currentId != id && role != "Admin")
                 {
                     return RedirectToAction("Update", new { id = currentId });
                 }
