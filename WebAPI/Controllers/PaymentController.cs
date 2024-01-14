@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Payments;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +10,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PaymentController : ControllerBase
     {
-        private IPaymentDAO _paymentDAO;
+        private IPaymentService _paymentService;
 
-        public PaymentController(IPaymentDAO paymentDAO)
+        public PaymentController(IPaymentService paymentService)
         {
-            _paymentDAO = paymentDAO;
+            _paymentService = paymentService;
         }
 
         [HttpGet]
@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetPayment> listPayment = _paymentDAO.GetAll();
+                List<GetPayment> listPayment = _paymentService.GetAll();
                 return Ok(listPayment);
             }
             catch (Exception ex)
@@ -39,7 +39,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetPayment payment = _paymentDAO.Get(id);
+                GetPayment payment = _paymentService.Get(id);
                 return Ok(payment);
             }
             catch (Exception ex)
@@ -60,7 +60,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _paymentDAO.Create(createPayment);
+                _paymentService.Create(createPayment);
                 return Ok();
             }
             catch (Exception ex)
@@ -74,7 +74,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _paymentDAO.Delete(id);
+                _paymentService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                Tuple<List<int>, List<int>> money = _paymentDAO.Getmoney(year);
+                Tuple<List<int>, List<int>> money = _paymentService.Getmoney(year);
                 return Ok(money);
             }
             catch (Exception ex)
@@ -109,7 +109,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                Tuple<List<int>, List<int>> money = _paymentDAO.GetmoneybyId(id,year);
+                Tuple<List<int>, List<int>> money = _paymentService.GetmoneybyId(id,year);
                 return Ok(money);
             }
             catch (Exception ex)
@@ -131,7 +131,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                var url = _paymentDAO.CreatePaymentUrl(model, HttpContext);
+                var url = _paymentService.CreatePaymentUrl(model, HttpContext);
 
                 return Ok(url);
             }
@@ -147,7 +147,7 @@ namespace WebAPI.Controllers
         {
             try 
             {
-                var response = _paymentDAO.PaymentExecute(model);
+                var response = _paymentService.PaymentExecute(model);
 
                 return Ok(response);
             }

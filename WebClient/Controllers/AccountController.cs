@@ -1,5 +1,4 @@
 ﻿using BAL.DTOs.Accounts;
-using BAL.DTOs.Feedbacks;
 using BAL.DTOs.TestResults;
 using DAL.Models;
 using Microsoft.AspNetCore.Authentication;
@@ -16,14 +15,12 @@ namespace WebClient.Controllers
         private readonly HttpClient client;
         private string baseApiUrl = "";
         private string testApiUrl = "";
-        private string feedbackApiUrl = "";
         public AccountController()
         {
             client = new HttpClient();
             var contentType = new MediaTypeWithQualityHeaderValue("application/json");
             client.DefaultRequestHeaders.Accept.Add(contentType);
             baseApiUrl = "http://localhost:1189/api/Account";
-            feedbackApiUrl = "http://localhost:1189/api/Feedback";
 
         }
         public async Task<IActionResult> Index()
@@ -77,16 +74,6 @@ namespace WebClient.Controllers
             };
             List<GetAccount> list = JsonSerializer.Deserialize<List<GetAccount>>(strData, options);
             GetAccount account = list.Where(p => p.Id == id).FirstOrDefault();
-            //Feedback
-            HttpResponseMessage feedbackResponse = await client.GetAsync($"{feedbackApiUrl}/{id}");
-            var feedbackData = await feedbackResponse.Content.ReadAsStringAsync();
-
-            var optionF = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-            List<GetFeedback> listFeedback = JsonSerializer.Deserialize<List<GetFeedback>>(feedbackData, optionF);
-            ViewBag.Feedbacks = listFeedback;
             //TestResult
             HttpResponseMessage testResultResponse = await client.GetAsync($"{baseApiUrl}/GetTestResult/{id}");
             var testResultData = await testResultResponse.Content.ReadAsStringAsync();

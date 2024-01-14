@@ -3,8 +3,8 @@ using WebClient.Hubs;
 using WebClient.SubscribeTableDependencies;
 using WebClient.MiddlewareExtensions;
 using WebClient.Interface;
-using BAL.DAOs.Implementations;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Implementations;
+using BAL.Services.Interfaces;
 using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;
 using BAL.Profiles;
@@ -21,7 +21,7 @@ builder.Services.AddSingleton<IUserConnectionManager, UserConnectionManager>();
 
 builder.Services.AddSingleton<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<ISlotRepository, SlotRepository>();
-builder.Services.AddSingleton<INotificationDAO, NotificationDAO>();
+builder.Services.AddSingleton<INotificationService, NotificationService>();
 builder.Services.AddAutoMapper(typeof(NotificationProfile));
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();

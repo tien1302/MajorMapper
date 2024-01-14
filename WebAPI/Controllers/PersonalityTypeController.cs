@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.PersonalityTypes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +12,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PersonalityTypeController : ControllerBase
     {
-        private IPersonalityTypeDAO _personalityTypeDAO;
+        private IPersonalityTypeService _personalityTypeService;
 
-        public PersonalityTypeController(IPersonalityTypeDAO personalityTypeDAO)
+        public PersonalityTypeController(IPersonalityTypeService personalityTypeService)
         {
-            _personalityTypeDAO = personalityTypeDAO;
+            _personalityTypeService = personalityTypeService;
         }
 
         [PermissionAuthorize("Admin", "Consultant")]
@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetPersonalityType> listPersonalityType = _personalityTypeDAO.GetAll();
+                List<GetPersonalityType> listPersonalityType = _personalityTypeService.GetAll();
                 return Ok(listPersonalityType);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetPersonalityType personalityType = _personalityTypeDAO.Get(id);
+                GetPersonalityType personalityType = _personalityTypeService.Get(id);
                 return Ok(personalityType);
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _personalityTypeDAO.Create(createPersonalityType);
+                _personalityTypeService.Create(createPersonalityType);
                 return Ok();
             }
             catch (Exception ex)
@@ -84,7 +84,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _personalityTypeDAO.Update(id, updatePersonalityType);
+                _personalityTypeService.Update(id, updatePersonalityType);
                 return Ok();
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _personalityTypeDAO.Delete(id);
+                _personalityTypeService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

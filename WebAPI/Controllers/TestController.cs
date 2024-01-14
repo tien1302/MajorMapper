@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Tests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +10,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
-        private ITestDAO _testDAO;
+        private ITestService _testService;
 
-        public TestController(ITestDAO testDAO)
+        public TestController(ITestService testService)
         {
-            _testDAO = testDAO;
+            _testService = testService;
         }
 
         [PermissionAuthorize("Player")]
@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetTest> list = _testDAO.GetAll();
+                List<GetTest> list = _testService.GetAll();
                 return Ok(list);
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetTest test = _testDAO.Get(id);
+                GetTest test = _testService.Get(id);
                 return Ok(test);
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _testDAO.Create(create);
+                _testService.Create(create);
                 return Ok();
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _testDAO.Update(id, update);
+                _testService.Update(id, update);
                 return Ok();
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _testDAO.Delete(id);
+                _testService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

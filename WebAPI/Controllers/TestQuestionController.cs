@@ -1,6 +1,6 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Implementations;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Implementations;
+using BAL.Services.Interfaces;
 using BAL.DTOs.TestQuestions;
 using BAL.DTOs.Tests;
 using Microsoft.AspNetCore.Http;
@@ -12,11 +12,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class TestQuestionController : ControllerBase
     {
-        private ITestQuestionDAO _testQuestionDAO;
+        private ITestQuestionService _testQuestionService;
 
-        public TestQuestionController(ITestQuestionDAO testQuestionDAO)
+        public TestQuestionController(ITestQuestionService testQuestionService)
         {
-            _testQuestionDAO = testQuestionDAO;
+            _testQuestionService = testQuestionService;
         }
 
         [PermissionAuthorize("Player")]
@@ -25,7 +25,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetTestQuestion> list = _testQuestionDAO.GetAll();
+                List<GetTestQuestion> list = _testQuestionService.GetAll();
                 return Ok(list);
             }
             catch (Exception ex)
@@ -43,7 +43,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetTestQuestion testQuestion = _testQuestionDAO.Get(id);
+                GetTestQuestion testQuestion = _testQuestionService.Get(id);
                 return Ok(testQuestion);
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _testQuestionDAO.Create(create);
+                _testQuestionService.Create(create);
                 return Ok();
             }
             catch (Exception ex)
@@ -84,7 +84,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _testQuestionDAO.Update(id, update);
+                _testQuestionService.Update(id, update);
                 return Ok();
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _testQuestionDAO.Delete(id);
+                _testQuestionService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

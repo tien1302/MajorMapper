@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Scores;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +10,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ScoreController : ControllerBase
     {
-        private IScoreDAO _scoreDAO;
+        private IScoreService _scoreService;
 
-        public ScoreController(IScoreDAO scoreDAO)
+        public ScoreController(IScoreService scoreService)
         {
-            _scoreDAO = scoreDAO;
+            _scoreService = scoreService;
         }
 
         [HttpGet]
@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetScore> list = _scoreDAO.GetAll();
+                List<GetScore> list = _scoreService.GetAll();
                 return Ok(list);
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetScore score = _scoreDAO.Get(id);
+                GetScore score = _scoreService.Get(id);
                 return Ok(score);
             }
             catch (Exception ex)
@@ -62,7 +62,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _scoreDAO.Create(create);
+                _scoreService.Create(create);
                 return Ok();
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _scoreDAO.Update(id, update);
+                _scoreService.Update(id, update);
                 return Ok();
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _scoreDAO.Delete(id);
+                _scoreService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

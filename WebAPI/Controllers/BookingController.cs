@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Bookings;
 using DAL.Models;
 using Microsoft.AspNetCore.Http;
@@ -11,11 +11,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class BookingController : ControllerBase
     {
-        public IBookingDAO _DAO;
+        public IBookingService _Service;
 
-        public BookingController(IBookingDAO DAO)
+        public BookingController(IBookingService Service)
         {
-            _DAO = DAO;
+            _Service = Service;
         }
 
         [HttpGet]
@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetBooking> bookings = this._DAO.GetAll();
+                List<GetBooking> bookings = this._Service.GetAll();
                 return Ok(bookings);
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetBooking booking = _DAO.Get(id);
+                GetBooking booking = _Service.Get(id);
                 return Ok(booking);
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                GetBooking booking = _DAO.Create(create);
+                GetBooking booking = _Service.Create(create);
                 return Ok(booking);
             }
             catch (Exception ex)

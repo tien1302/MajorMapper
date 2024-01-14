@@ -20,8 +20,7 @@ public partial class MajorMapperContext : DbContext
 
     public virtual DbSet<Booking> Bookings { get; set; }
 
-    public virtual DbSet<Feedback> Feedbacks { get; set; }
-
+   
     public virtual DbSet<Major> Majors { get; set; }
 
     public virtual DbSet<Method> Methods { get; set; }
@@ -97,20 +96,7 @@ public partial class MajorMapperContext : DbContext
                 .HasConstraintName("FK_Booking_Slot");
         });
 
-        modelBuilder.Entity<Feedback>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("PK__feedback__3214EC07F4DEEA96");
-
-            entity.ToTable("Feedback");
-
-            entity.Property(e => e.CreateDateTime).HasColumnType("datetime");
-
-            entity.HasOne(d => d.Booking).WithMany(p => p.Feedbacks)
-                .HasForeignKey(d => d.BookingId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Feedback_Booking");
-        });
-
+       
         modelBuilder.Entity<Major>(entity =>
         {
             entity.ToTable("Major");

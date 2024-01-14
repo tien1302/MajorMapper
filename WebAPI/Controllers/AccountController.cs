@@ -1,6 +1,6 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Implementations;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Implementations;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Accounts;
 using BAL.DTOs.Authentications;
 using BAL.DTOs.TestResults;
@@ -15,12 +15,12 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        public IAccountDAO _DAO;
+        public IAccountService _Service;
         private IOptions<JwtAuth> _jwtAuthOptions;
 
-        public AccountController(IAccountDAO dAO, IOptions<JwtAuth> jwtAuthOptions)
+        public AccountController(IAccountService Service, IOptions<JwtAuth> jwtAuthOptions)
         {
-            _DAO = dAO;
+            _Service = Service;
             _jwtAuthOptions = jwtAuthOptions;
         }
 
@@ -30,7 +30,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetAccount> accounts = this._DAO.GetAll();
+                List<GetAccount> accounts = this._Service.GetAll();
                 return Ok(accounts);
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetAccount account = _DAO.Get(id);
+                GetAccount account = _Service.Get(id);
                 return Ok(account);
             }
             catch (Exception ex)
@@ -66,7 +66,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetTestResult> list = _DAO.GetTestResultbyAccountId(id);
+                List<GetTestResult> list = _Service.GetTestResultbyAccountId(id);
                 return Ok(list);
             }
             catch (Exception ex)
@@ -87,7 +87,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _DAO.Create(create);
+                _Service.Create(create);
                 return Ok();
             }
             catch (Exception ex)
@@ -106,7 +106,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _DAO.Update(id, update);
+                _Service.Update(id, update);
                 return Ok();
             }
             catch (Exception ex)
@@ -125,7 +125,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _DAO.ResetPassword(reset);
+                _Service.ResetPassword(reset);
                 return Ok();
             }
             catch (Exception ex)
@@ -139,7 +139,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _DAO.Delete(id);
+                _Service.Delete(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -157,7 +157,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                GetAccount getAccount = this._DAO.Login(authenAccount, this._jwtAuthOptions.Value);
+                GetAccount getAccount = this._Service.Login(authenAccount, this._jwtAuthOptions.Value);
                 return Ok(getAccount);
             }
             catch (Exception ex)
@@ -177,7 +177,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                GetAccount getAccount = this._DAO.LoginGoogle(authenAccount, this._jwtAuthOptions.Value);
+                GetAccount getAccount = this._Service.LoginGoogle(authenAccount, this._jwtAuthOptions.Value);
                 return Ok(getAccount);
             }
             catch (Exception ex)

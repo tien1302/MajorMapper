@@ -1,4 +1,4 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Services.Interfaces;
 using BAL.DTOs.Bookings;
 using BAL.DTOs.Payments;
 using BAL.DTOs.Slots;

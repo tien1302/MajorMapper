@@ -1,4 +1,4 @@
-﻿using BAL.DAOs.Interfaces;
+﻿using BAL.Services.Interfaces;
 using BAL.DTOs.Notifications;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -9,12 +9,12 @@ namespace WebClient.Hubs
     public class NotificationHub : Hub
     {
         private readonly IUserConnectionManager _userConnectionManager;
-        public INotificationDAO _DAO;
+        public INotificationService _Service;
 
-        public NotificationHub(IUserConnectionManager userConnectionManager, INotificationDAO dAO)
+        public NotificationHub(IUserConnectionManager userConnectionManager, INotificationService Service)
         {
             _userConnectionManager = userConnectionManager;
-            _DAO = dAO;
+            _Service = Service;
         }
         public override Task OnConnectedAsync()
         {
@@ -53,7 +53,7 @@ namespace WebClient.Hubs
 
         public async Task SendNotifications(string consultantId)
         {
-            List<GetNotification> notifications = _DAO.GetAllByConsultantId(consultantId);
+            List<GetNotification> notifications = _Service.GetAllByConsultantId(consultantId);
             await Clients.All.SendAsync("ReceivedNotifications", notifications);
 
         }

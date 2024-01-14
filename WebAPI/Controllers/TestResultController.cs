@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.TestResults;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +10,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class TestResultController : ControllerBase
     {
-        private ITestResultDAO _testResultDAO;
+        private ITestResultService _testResultService;
 
-        public TestResultController(ITestResultDAO testResultDAO)
+        public TestResultController(ITestResultService testResultService)
         {
-            _testResultDAO = testResultDAO;
+            _testResultService = testResultService;
         }
 
         [PermissionAuthorize("Consultant", "Player")]
@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetTestResult> list = _testResultDAO.GetAll();
+                List<GetTestResult> list = _testResultService.GetAll();
                 return Ok(list);
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetTestResult testResult = _testResultDAO.Get(id);
+                GetTestResult testResult = _testResultService.Get(id);
                 return Ok(testResult);
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _testResultDAO.Create(create);
+                _testResultService.Create(create);
                 return Ok();
             }
             catch (Exception ex)
@@ -78,7 +78,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _testResultDAO.Delete(id);
+                _testResultService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

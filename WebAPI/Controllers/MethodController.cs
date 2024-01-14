@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Methods;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +10,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class MethodController : ControllerBase
     {
-        private IMethodDAO _methodDAO;
+        private IMethodService _methodService;
 
-        public MethodController(IMethodDAO methodDAO)
+        public MethodController(IMethodService methodService)
         {
-            _methodDAO = methodDAO;
+            _methodService = methodService;
         }
 
         [PermissionAuthorize("Admin", "Consultant")]
@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetMethod> list = _methodDAO.GetAll();
+                List<GetMethod> list = _methodService.GetAll();
                 return Ok(list);
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetMethod method = _methodDAO.Get(id);
+                GetMethod method = _methodService.Get(id);
                 return Ok(method);
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _methodDAO.Create(create);
+                _methodService.Create(create);
                 return Ok();
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _methodDAO.Update(id, update);
+                _methodService.Update(id, update);
                 return Ok();
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _methodDAO.Delete(id);
+                _methodService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

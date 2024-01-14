@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Accounts;
 using BAL.DTOs.Questions;
 using Microsoft.AspNetCore.Http;
@@ -11,11 +11,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class QuestionController : ControllerBase
     {
-        private IQuestionDAO _questionDAO;
+        private IQuestionService _questionService;
 
-        public QuestionController(IQuestionDAO questionDAO)
+        public QuestionController(IQuestionService questionService)
         {
-            _questionDAO = questionDAO;
+            _questionService = questionService;
         }
 
         [PermissionAuthorize("Admin", "Consultant")]
@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetQuestion> list = _questionDAO.GetAll();
+                List<GetQuestion> list = _questionService.GetAll();
                 return Ok(list);
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetQuestion> question = _questionDAO.GetProcessing();
+                List<GetQuestion> question = _questionService.GetProcessing();
                 return Ok(question);
             }
             catch (Exception ex)
@@ -60,7 +60,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetQuestion question = _questionDAO.Get(id);
+                GetQuestion question = _questionService.Get(id);
                 return Ok(question);
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _questionDAO.Create(create);
+                _questionService.Create(create);
                 return Ok();
             }
             catch (Exception ex)
@@ -101,7 +101,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _questionDAO.Update(id, update);
+                _questionService.Update(id, update);
                 return Ok();
             }
             catch (Exception ex)
@@ -116,7 +116,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _questionDAO.Delete(id);
+                _questionService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

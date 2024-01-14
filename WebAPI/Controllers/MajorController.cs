@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Majors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +10,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class MajorController : ControllerBase
     {
-        private IMajorDAO _majorDAO;
+        private IMajorService _majorService;
 
-        public MajorController(IMajorDAO majorDAO)
+        public MajorController(IMajorService majorService)
         {
-            _majorDAO = majorDAO;
+            _majorService = majorService;
         }
 
         [PermissionAuthorize("Admin", "Consultant")]
@@ -23,7 +23,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetMajor> listMajor = _majorDAO.GetAll();
+                List<GetMajor> listMajor = _majorService.GetAll();
                 return Ok(listMajor);
             }
             catch (Exception ex)
@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetMajor major = _majorDAO.Get(id);
+                GetMajor major = _majorService.Get(id);
                 return Ok(major);
             }
             catch (Exception ex)
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _majorDAO.Create(createMajor);
+                _majorService.Create(createMajor);
                 return Ok();
             }
             catch (Exception ex)
@@ -82,7 +82,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _majorDAO.Update(id, updateMajor);
+                _majorService.Update(id, updateMajor);
                 return Ok();
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _majorDAO.Delete(id);
+                _majorService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)

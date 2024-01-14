@@ -1,5 +1,5 @@
-using BAL.DAOs.Implementations;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Implementations;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Authentications;
 using BAL.Profiles;
 using DAL.Repositories.Implementations;
@@ -99,28 +99,26 @@ builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 builder.Services.AddScoped<ISlotRepository, SlotRepository>();
 builder.Services.AddScoped<IMethodRepository, MethodRepository>();
 builder.Services.AddScoped<IPaymentRepository, PaymentRepository>();
-builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<ITestResultRepository, TestResultRepository>();
 builder.Services.AddScoped<IScoreRepository, ScoreRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<ITestRepository, TestRepository>();
 builder.Services.AddScoped<ITestQuestionRepository, TestQuestionRepository>();
 
-builder.Services.AddScoped<IMajorDAO, MajorDAO>();
-builder.Services.AddScoped<IAccountDAO, AccountDAO>();
-builder.Services.AddScoped<IRoleDAO, RoleDAO>();
-builder.Services.AddScoped<IPersonalityTypeDAO, PersonalityTypeDAO>();
-builder.Services.AddScoped<IBookingDAO, BookingDAO>();
-builder.Services.AddScoped<INotificationDAO, NotificationDAO>();
-builder.Services.AddScoped<ISlotDAO, SlotDAO>();
-builder.Services.AddScoped<IMethodDAO, MethodDAO>();
-builder.Services.AddScoped<IPaymentDAO, PaymentDAO>();
-builder.Services.AddScoped<IFeedbackDAO, FeedbackDAO>();
-builder.Services.AddScoped<ITestResultDAO, TestResultDAO>();
-builder.Services.AddScoped<IScoreDAO, ScoreDAO>();
-builder.Services.AddScoped<IQuestionDAO, QuestionDAO>();
-builder.Services.AddScoped<ITestDAO, TestDAO>();
-builder.Services.AddScoped<ITestQuestionDAO, TestQuestionDAO>();
+builder.Services.AddScoped<IMajorService, MajorService>();
+builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IPersonalityTypeService, PersonalityTypeService>();
+builder.Services.AddScoped<IBookingService, BookingService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<ISlotService, SlotService>();
+builder.Services.AddScoped<IMethodService, MethodService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<ITestResultService, TestResultService>();
+builder.Services.AddScoped<IScoreService, ScoreService>();
+builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<ITestService, TestService>();
+builder.Services.AddScoped<ITestQuestionService, TestQuestionService>();
 
 builder.Services.AddAutoMapper(typeof(AccountProfile),
                                typeof(BookingProfile),
@@ -130,7 +128,6 @@ builder.Services.AddAutoMapper(typeof(AccountProfile),
                                typeof(PersonalityTypeProfile),
                                typeof(SlotProfile),
                                typeof(PaymentProfile),
-                               typeof(FeedbackProfile),
                                typeof(TestResultProfile),
                                typeof(ScoreProfile),
                                typeof(QuestionProfile),

@@ -1,5 +1,5 @@
 ﻿using BAL.Authentications;
-using BAL.DAOs.Interfaces;
+using BAL.Services.Interfaces;
 using BAL.DTOs.Slots;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +10,11 @@ namespace WebAPI.Controllers
     [ApiController]
     public class SlotController : ControllerBase
     {
-        private ISlotDAO _slotDAO;
+        private ISlotService _slotService;
 
-        public SlotController(ISlotDAO slotDAO)
+        public SlotController(ISlotService slotService)
         {
-            _slotDAO = slotDAO;
+            _slotService = slotService;
         }
 
         [HttpGet]
@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetSlot> listSlot = _slotDAO.GetAll();
+                List<GetSlot> listSlot = _slotService.GetAll();
                 return Ok(listSlot);
             }
             catch (Exception ex)
@@ -41,8 +41,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<GetSlot> slot = _slotDAO.CheckStatus();
-                slot = _slotDAO.Get(id);
+                List<GetSlot> slot = _slotService.CheckStatus();
+                slot = _slotService.Get(id);
                 return Ok(slot);
             }
             catch (Exception ex)
@@ -61,8 +61,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _slotDAO.CheckStatus();
-                List<GetSlot> slot = _slotDAO.GetAllSlotActive();
+                _slotService.CheckStatus();
+                List<GetSlot> slot = _slotService.GetAllSlotActive();
                 return Ok(slot);
             }
             catch (Exception ex)
@@ -81,7 +81,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                GetSlot slot = _slotDAO.GetBySlotId(id);
+                GetSlot slot = _slotService.GetBySlotId(id);
                 return Ok(slot);
             }
             catch (Exception ex)
@@ -103,7 +103,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _slotDAO.Create(createSlot);
+                _slotService.Create(createSlot);
                 return Ok();
             }
             catch (Exception ex)
@@ -118,7 +118,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                _slotDAO.Delete(id);
+                _slotService.Delete(id);
                 return Ok();
             }
             catch (Exception ex)
@@ -136,7 +136,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _slotDAO.Update(id);
+                _slotService.Update(id);
                 return Ok();
             }
             catch (Exception ex)
