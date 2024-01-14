@@ -20,7 +20,6 @@ public partial class MajorMapperContext : DbContext
 
     public virtual DbSet<Booking> Bookings { get; set; }
 
-   
     public virtual DbSet<Major> Majors { get; set; }
 
     public virtual DbSet<Method> Methods { get; set; }
@@ -96,7 +95,6 @@ public partial class MajorMapperContext : DbContext
                 .HasConstraintName("FK_Booking_Slot");
         });
 
-       
         modelBuilder.Entity<Major>(entity =>
         {
             entity.ToTable("Major");
@@ -274,8 +272,9 @@ public partial class MajorMapperContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_TestResult_Test");
         });
-        modelBuilder.Entity<Notification>().ToTable(tb => tb.HasTrigger("TriggerName"));
+
         OnModelCreatingPartial(modelBuilder);
+        modelBuilder.Entity<Notification>().ToTable(tb => tb.HasTrigger("TriggerName"));
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

@@ -11,6 +11,8 @@ public partial class PersonalityType
 
     public string Name { get; set; } = null!;
 
+    public string? Description { get; set; }
+
     public DateTime CreateDateTime { get; set; }
 
     public DateTime UpdateDateTime { get; set; }
