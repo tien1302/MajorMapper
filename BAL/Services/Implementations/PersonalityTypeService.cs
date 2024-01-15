@@ -39,6 +39,7 @@ namespace BAL.Services.Implementations
                 {
                     Name = createPersonalityType.Name,
                     MethodId = createPersonalityType.MethodId,
+                    Description = createPersonalityType.Description,
                     CreateDateTime = DateTime.Now,
                     UpdateDateTime = DateTime.Now,
                 };
@@ -120,6 +121,7 @@ namespace BAL.Services.Implementations
                 }
 
                 existedPersonalityType.Name = updatePersonalityType.Name;
+                existedPersonalityType.Description = updatePersonalityType.Description;
                 existedPersonalityType.MethodId = updatePersonalityType.MethodId;
                 existedPersonalityType.UpdateDateTime = DateTime.Now;
                 _personalityTypeRepository.Update(existedPersonalityType);

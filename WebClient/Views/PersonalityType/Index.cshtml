@@ -48,7 +48,9 @@
                                         <th data-field="name" data-sortable="true">
                                             Tên tính cách
                                         </th>
-                                       
+                                        <th data-field="des" data-sortable="true">
+                                            Mô tả
+                                        </th>
                                         <th data-field="date" data-sortable="true">
                                             Phương pháp
                                         </th>
@@ -65,6 +67,9 @@
 
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Description)
                                             </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.MethodName)

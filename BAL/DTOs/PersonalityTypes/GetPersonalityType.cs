@@ -12,8 +12,15 @@ namespace BAL.DTOs.PersonalityTypes
         [Key]
         public int Id { get; set; }
 
-        public string Name { get; set; }
         public int MethodId { get; set; }
+
+        public string Name { get; set; } = null!;
+
+        public string? Description { get; set; }
+
+        public DateTime CreateDateTime { get; set; }
+
         public string MethodName { get; set; }
+        
     }
 }

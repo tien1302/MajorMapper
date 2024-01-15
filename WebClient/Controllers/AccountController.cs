@@ -149,9 +149,7 @@ namespace WebClient.Controllers
                     {
                         ViewBag.Message = token.Replace("\"", "");
                     }
-                }
-                else
-                    TempData["AlertMessageError"] = "Thêm tài khoản thất bại.";
+                }  
                 return View("Create");
             }
             catch (Exception)
@@ -237,8 +235,6 @@ namespace WebClient.Controllers
                         ViewBag.Message = token2.Replace("\"", "");
                     }
                 }
-                else
-                    TempData["AlertMessageError"] = "Cập nhật tài khoản thất bại.";
                 return View("Update");
             }
             catch (Exception)

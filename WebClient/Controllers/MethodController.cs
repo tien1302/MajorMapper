@@ -1,6 +1,7 @@
 ﻿using BAL.DTOs.Majors;
 using BAL.DTOs.Methods;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -69,6 +70,7 @@ namespace WebClient.Controllers
                     string strData = JsonSerializer.Serialize(p);
                     var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
                     HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
+                    var token = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
                         TempData["AlertMessage"] = "Thêm phương pháp thành công.";
@@ -76,7 +78,7 @@ namespace WebClient.Controllers
                     }
                     else
                     {
-                        TempData["AlertMessageError"] = "Thêm phương pháp thất bại.";
+                        ViewBag.Message = token.Replace("\"", "");
                     }
                 }
                 else
@@ -134,6 +136,7 @@ namespace WebClient.Controllers
                     string strData = JsonSerializer.Serialize(p);
                     var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
                     HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
+                    var token = await response.Content.ReadAsStringAsync();
                     if (response.IsSuccessStatusCode)
                     {
                         TempData["AlertMessage"] = "Cập nhật phương pháp thành công.";
@@ -141,11 +144,10 @@ namespace WebClient.Controllers
                     }
                     else
                     {
-                        TempData["AlertMessageError"] = "Cập nhật phương pháp thất bại.";
+                        ViewBag.Message = token.Replace("\"", "");
                     }
                 }
-                else
-                    TempData["AlertMessageError"] = "Cập nhật phương pháp thất bại.";
+                
                 return View("Update");
             }
             catch (Exception)

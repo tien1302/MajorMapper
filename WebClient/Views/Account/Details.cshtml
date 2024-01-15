@@ -23,76 +23,82 @@
         <strong>Cảnh báo!</strong> @TempData["AlertMessageError"]
     </div>
 }
-
+<style>
+    strong{
+        margin-left: 80px;
+    }
+</style>
 <!-- Single pro tab review Start-->
 <div class="single-pro-review-area mt-t-30 mg-b-15">
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
-                <div class="profile-info-inner">
-                    <div class="profile-img">
-                        @if(Model.Gender == "Nam")
-                        {
-                            <img src="~/img/avatar_male.jpg" />
-                        }else{
-                            <img src="~/img/avatar_female.jpg" />
-                        }
-                        
-                    </div>
-                    <div class="profile-details-hr">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div >
-                                    <p><b>Họ và tên:</b> @Html.DisplayFor(model => model.Name)</p>
+        @if (Model.RoleName == "Player")
+        {
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="profile-info-inner">
+                        <div class="profile-img">
+                            @if (Model.Gender == "Nam")
+                            {
+                                <img src="~/img/avatar_male.jpg" />
+                            }
+                            else
+                            {
+                                <img src="~/img/avatar_female.jpg" />
+                            }
+
+                        </div>
+                        <div class="profile-details-hr">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <p><b>Họ và tên:</b> @Html.DisplayFor(model => model.Name)</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div >
-                                    <p><b>Ngày sinh:</b> @Html.DisplayFor(model => model.DoB)</p>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <p><b>Ngày sinh:</b> @Html.DisplayFor(model => model.DoB)</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div >
-                                    <p><b>Giới tính:</b> @Html.DisplayFor(model => model.Gender)</p>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <p><b>Giới tính:</b> @Html.DisplayFor(model => model.Gender)</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div >
-                                    <p><b>Email:</b> @Html.DisplayFor(model => model.Email)</p>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <p><b>Email:</b> @Html.DisplayFor(model => model.Email)</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div >
-                                    <p><b>Số điện thoại:</b> @Html.DisplayFor(model => model.Phone)</p>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <p><b>Số điện thoại:</b> @Html.DisplayFor(model => model.Phone)</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div >
-                                    <p><b>Địa chỉ:</b> @Html.DisplayFor(model => model.Address)</p>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div>
+                                        <p><b>Địa chỉ:</b> @Html.DisplayFor(model => model.Address)</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            <a style="margin-left:10px;" onclick="history.back()">Quay lại</a>
+                            <div class="form-group">
+                                <a style="margin-left:10px;" onclick="history.back()">Quay lại</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                <div class="product-payment-inner-st res-mg-t-30 analysis-progrebar-ctn">
-                    <div id="myTabContent" class="tab-content custom-product-edit st-prf-pro">
-                        @if (Model.RoleName == "Player")
-                        {
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <div class="product-payment-inner-st res-mg-t-30 analysis-progrebar-ctn">
+                        <div id="myTabContent" class="tab-content custom-product-edit st-prf-pro">
                             @foreach (GetTestResult item in ViewBag.TestResults)
                             {
                                 <div class="product-tab-list tab-pane fade active in" id="description">
@@ -111,7 +117,7 @@
                                                         </div>
                                                         <div class="progress-skill">
                                                             @{
-                                                                int value1 = @item.getScores.Where(q => q.PersonalityTypeId == 1).Select(s => s.Result).FirstOrDefault()*10;
+                                                                int value1 = @item.getScores.Where(q => q.PersonalityTypeId == 1).Select(s => s.Result).FirstOrDefault() * 10;
                                                             }
                                                             <h2>Kỹ thuật</h2>
                                                             <h2><span>@value1</span>%</h2>
@@ -169,7 +175,7 @@
                                                                 <div style="width: @value6%;" class="progress-bar progress-purple"></div>
                                                             </div>
                                                         </div>
-                                                       
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -177,27 +183,94 @@
                                     </div>
                                 </div>
                             }
-                        }
-                        
-                        @if (Model.RoleName == "Consultant")
-                        {
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.RoleName == "Consultant")
+        {
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="product-payment-inner-st">
+                        <h1>Thông tin tài khoản</h1>
+                        <div id="myTabContent" class="tab-content custom-product-edit">
                             <div class="product-tab-list tab-pane fade active in" id="reviews">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                         <div class="review-content-section">
-                                            <div class="chat-discussion" style="height: auto">
-                                              
-                                                
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                        <strong class="mb-0">Họ và tên:</strong>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <p class="text-muted mb-0">@Html.DisplayFor(model => model.Name)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                        <strong class="mb-0"> Email:</strong>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <p class="text-muted mb-0">@Html.DisplayFor(model => model.Email)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                        <strong class="mb-0">Ngày sinh:</strong>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <p class="text-muted mb-0">@Html.DisplayFor(model => model.DoB)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-sm-2">
+                                                        <strong class="mb-0">Giới tính:</strong>
+                                                        </div>
+                                                        <div class="col-sm-10">
+                                                            <p class="text-muted mb-0">@Html.DisplayFor(model => model.Gender)</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <strong class="mb-0">Số điện thoại:</strong>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <p class="text-muted mb-0">@Html.DisplayFor(model => model.Phone)</p>
+                                                    </div>
+                                                </div>
                                             </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-2">
+                                                        <strong class="mb-0">Địa chỉ:</strong>
+                                                    </div>
+                                                    <div class="col-sm-10">
+                                                        <p class="text-muted mb-0">@Html.DisplayFor(model => model.Address)</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                <div class="form-group">
+
+                                                <a style="margin-left:10px;" onclick="history.back()">Quay lại</a>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        }
-                        
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div>
 </div>

@@ -14,5 +14,7 @@ namespace BAL.DTOs.PersonalityTypes
         public string Name { get; set; }
         [Required(ErrorMessage = "Không được để trống")]
         public int MethodId { get; set; }
+        [Required(ErrorMessage = "Không được để trống")]
+        public string? Description { get; set; }
     }
 }

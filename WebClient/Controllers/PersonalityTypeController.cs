@@ -2,6 +2,7 @@
 using BAL.DTOs.PersonalityTypes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using NuGet.Common;
 using System.Net.Http.Headers;
 using System.Text.Json;
 
@@ -91,15 +92,16 @@ namespace WebClient.Controllers
 					string strData = JsonSerializer.Serialize(p);
 					var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
 					HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
-					if (response.IsSuccessStatusCode)
+                    var token = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
 					{
 						TempData["AlertMessage"] = "Thêm tính cách thành công.";
 						return RedirectToAction(nameof(Index));
 					}
 					else
 					{
-						TempData["AlertMessageError"] = "Thêm tính cách thất bại.";
-					}
+                        ViewBag.Message = token.Replace("\"", "");
+                    }
 				}
 				else
 					TempData["AlertMessageError"] = "Thêm tính cách thất bại.";
@@ -176,18 +178,18 @@ namespace WebClient.Controllers
 					string strData = JsonSerializer.Serialize(p);
 					var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
 					HttpResponseMessage response = await client.PutAsync($"{baseApiUrl}/{id}", contentData);
-					if (response.IsSuccessStatusCode)
+                    var token = await response.Content.ReadAsStringAsync();
+                    if (response.IsSuccessStatusCode)
 					{
 						TempData["AlertMessage"] = "Cập nhật tính cách thành công.";
 						return RedirectToAction(nameof(Index));
 					}
-					else
+                    else
 					{
-						TempData["AlertMessageError"] = "Cập nhật tính cách thất bại.";
-					}
+                        ViewBag.Message = token.Replace("\"", "");
+                    }
 				}
-				else
-					TempData["AlertMessageError"] = "Cập nhật tính cách thất bại.";
+				
 				return View("Update");
 			}
 			catch (Exception)
