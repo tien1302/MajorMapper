@@ -28,6 +28,12 @@ namespace BAL.Services.Implementations
         {
             try
             {
+                var checkName = _repo.Get(filter: m => m.Name.Equals(createMethod.Name)).FirstOrDefault();
+                if (checkName != null)
+                {
+                    throw new Exception("Tên phương pháp bị trùng");
+                }
+
                 Method method = new Method()
                 {
                     Name = createMethod.Name,
@@ -105,6 +111,12 @@ namespace BAL.Services.Implementations
                 if (existedMethod == null)
                 {
                     throw new Exception("Id does not exist in the system.");
+                }
+
+                var checkName = _repo.Get(filter: m => m.Id != key && m.Name.Equals(updateMethod.Name)).FirstOrDefault();
+                if (checkName != null)
+                {
+                    throw new Exception("Tên ngành nghề bị trùng");
                 }
 
                 existedMethod.Name = updateMethod.Name;

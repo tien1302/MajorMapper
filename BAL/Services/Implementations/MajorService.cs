@@ -41,6 +41,12 @@ namespace BAL.Services.Implementations
                     listPersonalityType.Add(checkPersonalityTypeId);
                 }
 
+                var checkName = _majorRepository.Get(filter: m => m.Name.Equals(createMajor.Name)).FirstOrDefault();
+                if (checkName != null)
+                {
+                    throw new Exception("Tên ngành nghề bị trùng");
+                }
+
                 Major major = new Major()
                 {
                     Name = createMajor.Name,
@@ -138,6 +144,12 @@ namespace BAL.Services.Implementations
                 if (existedMajor == null)
                 {
                     throw new Exception("Id does not exist in the system.");
+                }
+
+                var checkName = _majorRepository.Get(filter: m => m.Id != key && m.Name.Equals(updateMajor.Name)).FirstOrDefault();
+                if (checkName != null)
+                {
+                    throw new Exception("Tên phương pháp bị trùng");
                 }
 
                 existedMajor.Name = updateMajor.Name;

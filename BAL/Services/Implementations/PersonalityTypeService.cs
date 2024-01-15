@@ -29,6 +29,12 @@ namespace BAL.Services.Implementations
         {
             try
             {
+                var checkName = _personalityTypeRepository.Get(filter: m => m.Name.Equals(createPersonalityType.Name)).FirstOrDefault();
+                if (checkName != null)
+                {
+                    throw new Exception("Tên tính cách bị trùng");
+                }
+
                 PersonalityType personalityType = new PersonalityType()
                 {
                     Name = createPersonalityType.Name,
@@ -105,6 +111,12 @@ namespace BAL.Services.Implementations
                 if (existedPersonalityType == null)
                 {
                     throw new Exception("Id does not exist in the system.");
+                }
+
+                var checkName = _personalityTypeRepository.Get(filter: m => m.Id != key && m.Name.Equals(updatePersonalityType.Name)).FirstOrDefault();
+                if (checkName != null)
+                {
+                    throw new Exception("Tên tính cách bị trùng");
                 }
 
                 existedPersonalityType.Name = updatePersonalityType.Name;
