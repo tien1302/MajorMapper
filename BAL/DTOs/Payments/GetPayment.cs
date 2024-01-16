@@ -11,12 +11,10 @@ namespace BAL.DTOs.Payments
     {
         [Key]
         public int Id { get; set; }
-
-        public string OrderType { get; set; }
-
+        public int PlayerId { get; set; }
         public int? BookingId { get; set; }
 
-        public int? TestResultId { get; set; }
+        public int? TestId { get; set; }
 
         public string OrderId { get; set; }
 

@@ -13,7 +13,6 @@ namespace BAL.DTOs.Slots
         public int ConsultantId { get; set; }
         [Required(ErrorMessage = "Không được để trống")]
         public DateTime Date {  get; set; }
-        [valiSlot(ErrorMessage = "Không được để trống")]
         public DateTime StartDateTime { get; set; }
 
         public bool AllDay { get; set; }

@@ -41,7 +41,7 @@ namespace BAL.Services.Implementations
                     listPersonalityType.Add(checkPersonalityTypeId);
                 }
 
-                var checkName = _majorRepository.Get(filter: m => m.Name.Equals(createMajor.Name)).FirstOrDefault();
+                var checkName = _majorRepository.Get(filter: m => m.Name.Equals(createMajor.Name.Trim())).FirstOrDefault();
                 if (checkName != null)
                 {
                     throw new Exception("Tên ngành nghề bị trùng");

@@ -4,13 +4,15 @@
       "commandName": "Project",
       "launchBrowser": true,
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:5054"
+      "applicationUrl": "http://localhost:5054",
+      "hotReloadEnabled": false
     },
     "https": {
       "commandName": "Project",
       "launchBrowser": true,
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7093;http://localhost:5054"
+      "applicationUrl": "https://localhost:7093;http://localhost:5054",
+      "hotReloadEnabled": false
     },
     "IIS Express": {
       "commandName": "IISExpress",

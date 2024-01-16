@@ -114,7 +114,7 @@ namespace BAL.Services.Implementations
                     throw new Exception("Id does not exist in the system.");
                 }
 
-                var checkName = _personalityTypeRepository.Get(filter: m => m.Id != key && m.Name.Equals(updatePersonalityType.Name)).FirstOrDefault();
+                var checkName = _personalityTypeRepository.Get(filter: m => m.Id != key && m.Name.Equals(updatePersonalityType.Name.Trim())).FirstOrDefault();
                 if (checkName != null)
                 {
                     throw new Exception("Tên tính cách bị trùng");

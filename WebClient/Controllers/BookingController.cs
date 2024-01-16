@@ -76,38 +76,14 @@ namespace WebClient.Controllers
                 HttpResponseMessage response = await client.PostAsync(baseApiUrl, contentData);
                 if (response.IsSuccessStatusCode)
                 {
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                    ViewBag.Message = "Insert successfully!";
-                    string strDatas = JsonSerializer.Serialize(p.SlotId);
-                    var contentDatas = new StringContent(strDatas, System.Text.Encoding.UTF8, "application/json");
-                    HttpResponseMessage responses = await client.PutAsync($"{slotApiUrl}/{p.SlotId}", contentDatas);
-
                     var responseBody = await response.Content.ReadAsStringAsync();
-                    // Deserialize the response body to get the ID
-                    var options = new JsonSerializerOptions
+                    var options1 = new JsonSerializerOptions
                     {
                         PropertyNameCaseInsensitive = true
                     };
-                    GetBooking responseObject = JsonSerializer.Deserialize<GetBooking>(responseBody, options);
-                    if (responseObject != null)
-                    {
-                        // Assuming the ID is in a property called "Id" in the response JSON
-                        var id = responseObject.Id;
-                        // Use the ID as needed
-                        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-
-                        HttpResponseMessage response1 = await client.GetAsync($"{baseApiUrl}/{id}");
-                        var strData1 = await response1.Content.ReadAsStringAsync();
-
-                        var options1 = new JsonSerializerOptions
-                        {
-                            PropertyNameCaseInsensitive = true
-                        };
-                        GetBooking booking = JsonSerializer.Deserialize<GetBooking>(strData1, options1);
-
-                        return RedirectToAction("CreatePaymentUrl", "Payment", booking);
-                    }
+                    GetBooking booking = JsonSerializer.Deserialize<GetBooking>(responseBody, options1);
+                    // Deserialize the response body to get the ID
+                    return RedirectToAction("CreatePaymentUrl", "Payment", booking);
                 }
                 else
                 {

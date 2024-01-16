@@ -113,7 +113,7 @@ namespace BAL.Services.Implementations
                     throw new Exception("Id does not exist in the system.");
                 }
 
-                var checkName = _repo.Get(filter: m => m.Id != key && m.Name.Equals(updateMethod.Name)).FirstOrDefault();
+                var checkName = _repo.Get(filter: m => m.Id != key && m.Name.Equals(updateMethod.Name.Trim())).FirstOrDefault();
                 if (checkName != null)
                 {
                     throw new Exception("Tên ngành nghề bị trùng");

@@ -50,7 +50,22 @@ namespace WebAPI.Controllers
                 });
             }
         }
-
+        [HttpGet("GetByOrderId/{id}")]
+        public IActionResult GetByOrderId(string id)
+        {
+            try
+            {
+                GetPayment payment = _paymentService.GetByOrderId(id);
+                return Ok(payment);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
         [HttpPost]
         public IActionResult Post([FromBody] CreatePayment createPayment)
         {

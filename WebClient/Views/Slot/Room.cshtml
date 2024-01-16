@@ -27,7 +27,9 @@
 </section>
 
 <script src="~/agora/agorartc_n-4.19.3.js" asp-append-version="true"></script>
+<script src="_framework/aspnetcore-browser-refresh.js"></script>
 <script type="text/javascript">
+    debugger;
     const APP_ID = '32f662b1d5cf4a50bbf47cd0ba9bfcd5'
     const TOKEN = sessionStorage.getItem('token')
     const CHANNEL = sessionStorage.getItem('room')
@@ -53,12 +55,7 @@
             window.open('/', '_self')
         }
 
-        localTracks = await Promise.all([
-            AgoraRTC.createMicrophoneAudioTrack(),
-            AgoraRTC.createCameraVideoTrack(),
-        ]);
-
-        // let member = await createMember()
+        localTracks = await AgoraRTC.createMicrophoneAndCameraTracks()
 
         let player = `<div  class="video-container" id="user-container-${UID}">
                          <div class="video-player" id="user-${UID}"></div>

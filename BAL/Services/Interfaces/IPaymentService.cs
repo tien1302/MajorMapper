@@ -12,7 +12,7 @@ namespace BAL.Services.Interfaces
     {
         public List<GetPayment> GetAll();
         public GetPayment Get(int key);
-        public GetPayment Get(string orderId);
+        public GetPayment GetByOrderId(string orderId);
         public void Create(CreatePayment createPayment);
         public void Delete(int key);
         //Tạo url của Vnpay

@@ -41,7 +41,7 @@ function BindProductsToGrid(products) {
     $.each(products, function (index,product) {
         console.log(product);
         let li = $('<li/>');
-        li.append($(`<a href="/Account/Details/${product.playerId}">`) // Create a link for each product
+        li.append($(`<a href="/Account/DetailsPlayer/${product.playerId}">`) // Create a link for each product
             .append($('<div class="notification-content">')
                 
                 .append($(`<h2>${product.title}</h2>`) )// Use product name as sender

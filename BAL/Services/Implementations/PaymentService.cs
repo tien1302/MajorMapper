@@ -192,7 +192,7 @@ namespace BAL.Services.Implementations
             }
         }
 
-        public GetPayment Get(string orderId)
+        public GetPayment GetByOrderId(string orderId)
         {
             try
             {

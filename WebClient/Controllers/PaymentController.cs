@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using WebClient.Models;
+using BAL.DTOs.Accounts;
 
 namespace WebClient.Controllers
 {
@@ -223,24 +224,31 @@ namespace WebClient.Controllers
             var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync($"{baseApiUrl}/CreatePaymentUrl", contentData);
             var url = await response.Content.ReadAsStringAsync();
-
             string link = url.Replace("\"", "");
-            TempData["CreatePayment"] = strData;
             return Redirect(link);
         }
 
         public async Task<IActionResult> PaymentCallbackAsync()
         {
             IQueryCollection collections = Request.Query;
-            // Get serialized data from TempData
-            string serializedData = TempData["CreatePayment"] as string;
-
-            // Deserialize serialized data back to CreatePayment object
-            CreatePayment model = JsonSerializer.Deserialize<CreatePayment>(serializedData);
-            model.SecureHash = collections["vnp_SecureHash"];
-            model.OrderId = collections["vnp_TxnRef"];
-            model.TransactionId = collections["vnp_TransactionNo"];
-
+			//Get Peyment
+            HttpResponseMessage response1 = await client.GetAsync($"{baseApiUrl}/GetByOrderId/{collections["vnp_TxnRef"]}");
+            string strData1 = await response1.Content.ReadAsStringAsync();
+            var options1 = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            GetPayment payment = JsonSerializer.Deserialize<GetPayment>(strData1, options1);
+			CreatePayment model = new CreatePayment()
+			{
+				PlayerId = payment.PlayerId,
+				BookingId = payment.BookingId,
+				OrderId = payment.OrderId,
+				TransactionId = collections["vnp_TransactionNo"],
+				Amount = payment.Amount,
+                Description = payment.Description,
+				SecureHash = collections["vnp_SecureHash"],
+        };
             string strData = JsonSerializer.Serialize(model);
             var contentData = new StringContent(strData, System.Text.Encoding.UTF8, "application/json");
             HttpResponseMessage response = await client.PostAsync($"{baseApiUrl}/PaymentCallback", contentData);
