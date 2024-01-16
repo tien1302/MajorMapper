@@ -64,18 +64,20 @@ namespace BAL.Services.Implementations
         //Tạo url của Vnpay
         public string CreatePaymentUrl(CreatePayment create, HttpContext context)
         {
+            var tick = DateTime.Now.Ticks.ToString();
             if (create.TestId > 0)
             {
                 create.Amount = 50000;
                 create.Description = "Thanh toán test's results";
+                create.OrderId = tick;
             }
             else if (create.BookingId > 0)
             {
                 create.Amount = 100000;
                 create.Description = "Thanh toán booking";
+                create.OrderId = tick;
             }
 
-            var tick = DateTime.Now.Ticks.ToString();
             var pay = new VnPayLibrary();
             var urlCallBack = _configuration["PaymentCallBack:ReturnUrl"];
 
@@ -101,8 +103,8 @@ namespace BAL.Services.Implementations
             pay.AddRequestData("vnp_ReturnUrl", urlCallBack);
             pay.AddRequestData("vnp_TxnRef", tick);
 
-            var paymentUrl =
-                pay.CreateRequestUrl(_configuration["Vnpay:BaseUrl"], _configuration["Vnpay:HashSecret"]);
+            var paymentUrl = pay.CreateRequestUrl(_configuration["Vnpay:BaseUrl"], _configuration["Vnpay:HashSecret"]);
+            Create(create);
 
             return paymentUrl;
         }
@@ -114,7 +116,11 @@ namespace BAL.Services.Implementations
             var response = pay.GetFullResponseData(model, _configuration["Vnpay:HashSecret"]);
             if (response != null)
             {
-                Create(response);
+                Payment payment = _paymentRepository.Get(filter: p => p.PlayerId == model.PlayerId && p.OrderId == model.OrderId).FirstOrDefault();
+                payment.TransactionId = model.TransactionId;
+                _paymentRepository.Update(payment);
+                _paymentRepository.Commit();
+
                 if (response.TestId > 0)
                 {
                     Test test = _testRepository.GetByID(response.TestId);
@@ -179,6 +185,25 @@ namespace BAL.Services.Implementations
 
                 GetPayment result = listPayment.FirstOrDefault(p => p.Id == payment.Id);
                 return _mapper.Map<GetPayment>(result);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public GetPayment Get(string orderId)
+        {
+            try
+            {
+                GetPayment result = _mapper.Map<GetPayment>(_paymentRepository.Get(filter: p => p.OrderId.Equals(orderId)).FirstOrDefault());
+
+                if (result == null)
+                {
+                    throw new Exception("Payment does not exist in the system.");
+                }
+
+                return result;
             }
             catch (Exception ex)
             {
