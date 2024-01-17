@@ -10,6 +10,8 @@ namespace BAL.Services.Interfaces
     public interface IPersonalityTypeService
     {
         public List<GetPersonalityType> GetAll();
+        //Lấy danh sách personalityType theo methodId
+        public List<GetPersonalityType> GetAllByMethodId(int methodId);
         public GetPersonalityType Get(int key);
         public void Create(CreatePersonalityType createPersonalityType);
         public void Update(int key, UpdatePersonalityType updatePersonalityType);

@@ -109,25 +109,17 @@ namespace BAL.Services.Implementations
             }
         }
 
-        public void Update(int key, UpdateTest update)
+        public void Update(int key)
         {
             try
             {
-                var checkUserId = _accountRepository.GetByID(update.PlayerId);
-                if (checkUserId == null)
-                {
-                    throw new Exception("Player Id does not exist in the system.");
-                }
-
                 Test existedTest = _testRepository.GetByID(key);
                 if (existedTest == null)
                 {
                     throw new Exception("Id does not exist in the system.");
                 }
 
-                existedTest.PlayerId = update.PlayerId;
-                existedTest.StatusGame = update.StatusGame;
-                existedTest.StatusPayment = update.StatusPayment;
+                existedTest.StatusGame = true;
                 _testRepository.Update(existedTest);
                 _testRepository.Commit();
             }
@@ -141,7 +133,7 @@ namespace BAL.Services.Implementations
         {
             try
             {
-                List<GetTest> listTest = _mapper.Map<List<GetTest>>(_testRepository.Get(filter: x=> x.PlayerId == key && x.StatusPayment==true,includeProperties: "TestResults").ToList());
+                List<GetTest> listTest = _mapper.Map<List<GetTest>>(_testRepository.Get(filter: x => x.PlayerId == key && x.StatusPayment == true, includeProperties: "TestResults").ToList());
                 foreach (var test in listTest)
                 {
                     foreach (var item in test.getTestResults)

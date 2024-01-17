@@ -37,6 +37,24 @@ namespace WebAPI.Controllers
             }
         }
 
+        [PermissionAuthorize("Player")]
+        [HttpGet("GetAllByMethodId/{id}")]
+        public IActionResult GetAllByMethodId(int methodId)
+        {
+            try
+            {
+                List<GetPersonalityType> listPersonalityType = _personalityTypeService.GetAllByMethodId(methodId);
+                return Ok(listPersonalityType);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
+
         [PermissionAuthorize("Admin", "Consultant")]
         [HttpGet("{id}")]
         public IActionResult Get(int id)

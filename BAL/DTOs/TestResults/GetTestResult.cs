@@ -12,10 +12,13 @@ namespace BAL.DTOs.TestResults
     {
         [Key]
         public int Id { get; set; }
+
         public int TestId { get; set; }
-        public int UserId { get; set; }
+
         public string MethodName { get; set; } = null!;
+
         public DateTime CreateDateTime { get; set; }
+
         public List<GetScore> getScores { get; set; }
     }
 }
