@@ -13,7 +13,7 @@ namespace BAL.Services.Interfaces
         public List<GetTest> GetAll();
         public GetTest Get(int key);
         public void Create(CreateTest create);
-        public void Update(int key, UpdateTest update);
+        public void Update(int key);
         public void Delete(int key);
         public List<GetTest> GetTestbyAccountId(int key);
     }

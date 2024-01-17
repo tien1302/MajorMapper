@@ -11,6 +11,8 @@ namespace BAL.Services.Interfaces
     {
         public List<GetTestResult> GetAll();
         public GetTestResult Get(int key);
+        //Lấy test result theo methodName và testId
+        public GetTestResult GetByMethodAndTest(string methodName, int testId);
         public void Create(CreateTestResult create);
         public void Delete(int key);
     }

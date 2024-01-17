@@ -76,7 +76,7 @@ namespace BAL.Services.Implementations
         {
             try
             {
-                GetPersonalityType result = _mapper.Map<GetPersonalityType>(_personalityTypeRepository.Get(filter: x=>x.Id==key,includeProperties: "Method").FirstOrDefault());
+                GetPersonalityType result = _mapper.Map<GetPersonalityType>(_personalityTypeRepository.Get(filter: x => x.Id == key).FirstOrDefault());
 
                 if (result == null)
                 {
@@ -91,11 +91,25 @@ namespace BAL.Services.Implementations
             }
         }
 
+        //Lấy danh sách personalityType theo methodId
+        public List<GetPersonalityType> GetAllByMethodId(int methodId)
+        {
+            try
+            {
+                List<GetPersonalityType> listPersonalityType = _mapper.Map<List<GetPersonalityType>>(_personalityTypeRepository.Get(filter: p => p.MethodId == methodId).ToList());
+                return listPersonalityType;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public List<GetPersonalityType> GetAll()
         {
             try
             {
-                List<GetPersonalityType> listPersonalityType = _mapper.Map<List<GetPersonalityType>>(_personalityTypeRepository.Get(includeProperties: "Method").ToList());
+                List<GetPersonalityType> listPersonalityType = _mapper.Map<List<GetPersonalityType>>(_personalityTypeRepository.Get().ToList());
                 return listPersonalityType;
             }
             catch (Exception ex)

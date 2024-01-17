@@ -75,7 +75,7 @@ namespace WebAPI.Controllers
 
         [PermissionAuthorize("Player")]
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UpdateTest update)
+        public IActionResult Put(int id)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace WebAPI.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-                _testService.Update(id, update);
+                _testService.Update(id);
                 return Ok();
             }
             catch (Exception ex)

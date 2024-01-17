@@ -33,6 +33,7 @@ namespace BAL.Services.Implementations
                 TestResult testResult = new TestResult()
                 {
                     TestId = create.TestId,
+                    MethodName = create.MethodName,
                     CreateDateTime = DateTime.Now,
                 };
 
@@ -78,6 +79,26 @@ namespace BAL.Services.Implementations
 
                 GetTestResult result = listTestResult.FirstOrDefault(p => p.Id == testResult.Id);
                 return _mapper.Map<GetTestResult>(result);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //Lấy test result theo methodName và testId
+        public GetTestResult GetByMethodAndTest(string methodName,int testId)
+        {
+            try
+            {
+                GetTestResult testResult = _mapper.Map<GetTestResult>(_testResultRepository.Get(filter: t => t.MethodName.Equals(methodName.Trim()) && t.TestId == testId, 
+                                                                                                includeProperties: "Scores").FirstOrDefault());
+
+                if (testResult == null)
+                {
+                    throw new Exception("Id does not exist in the system.");
+                }
+                return testResult;
             }
             catch (Exception ex)
             {

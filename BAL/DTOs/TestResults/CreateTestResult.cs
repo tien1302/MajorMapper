@@ -9,12 +9,8 @@ namespace BAL.DTOs.TestResults
 {
     public class CreateTestResult
     {
-        [Key]
-        public int Id { get; set; }
-
         public int TestId { get; set; }
-        public string MethodName { get; set; } = null!;
 
-        public DateTime CreateDateTime { get; set; }
+        public string MethodName { get; set; } = null!;
     }
 }

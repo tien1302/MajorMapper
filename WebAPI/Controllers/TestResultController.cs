@@ -53,6 +53,25 @@ namespace WebAPI.Controllers
             }
         }
 
+        //Lấy test result theo methodName và testId
+        [PermissionAuthorize("Player")]
+        [HttpGet("GetByMethodAndTest")]
+        public IActionResult GetByMethodAndTest(string methodName, int testId)
+        {
+            try
+            {
+                GetTestResult testResult = _testResultService.GetByMethodAndTest(methodName, testId);
+                return Ok(testResult);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
+            }
+        }
+
         [PermissionAuthorize("Player")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateTestResult create)
