@@ -17,7 +17,7 @@ namespace WebAPI.Controllers
         {
             _Service = Service;
         }
-
+        [PermissionAuthorize("Player")]
         [HttpGet]
         public IActionResult Get()
         {

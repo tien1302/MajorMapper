@@ -3,6 +3,7 @@ using BAL.Services.Interfaces;
 using BAL.DTOs.Tests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using BAL.DTOs.TestResults;
 
 namespace WebAPI.Controllers
 {
@@ -103,6 +104,24 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        //[PermissionAuthorize("Admin", "Consultant", "Player")]
+        [HttpGet("GetTest/{id}")]
+        public IActionResult GetTest(int id)
+        {
+            try
+            {
+                List<GetTest> list = _testService.GetTestbyAccountId(id);
+                return Ok(list);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new
+                {
+                    Message = ex.Message
+                });
             }
         }
     }

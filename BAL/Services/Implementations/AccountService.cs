@@ -2,7 +2,6 @@
 using BAL.Services.Interfaces;
 using BAL.DTOs.Accounts;
 using BAL.DTOs.Authentications;
-using BAL.DTOs.TestResults;
 using DAL.Models;
 using DAL.Repositories.Implementations;
 using DAL.Repositories.Interfaces;
@@ -23,14 +22,12 @@ namespace BAL.Services.Implementations
     {
         private AccountRepository _Repo;
         private RoleRepository _roleRepo;
-        private TestResultRepository _testResultRepo;
         private IMapper _mapper;
 
-        public AccountService(IAccountRepository repo, IRoleRepository roleRepo, ITestResultRepository testResultRepo, IMapper mapper)
+        public AccountService(IAccountRepository repo, IRoleRepository roleRepo, IMapper mapper)
         {
             _Repo = (AccountRepository)repo;
             _roleRepo = (RoleRepository)roleRepo;
-            _testResultRepo = (TestResultRepository)testResultRepo;
             _mapper = mapper;
         }
 
@@ -178,7 +175,7 @@ namespace BAL.Services.Implementations
                         }
                     case 3:
                         {
-                            getAccount.RoleName = "User";
+                            getAccount.RoleName = "Player";
                             break;
                         }
                 }
@@ -256,25 +253,6 @@ namespace BAL.Services.Implementations
                 getAccount.AccessToken = accessToken;
 
                 return getAccount;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        public List<GetTestResult> GetTestResultbyAccountId(int key)
-        {
-            try
-            {
-                List<GetTestResult> listTestResult = _mapper.Map<List<GetTestResult>>(_testResultRepo.Get(includeProperties: "Scores,Test").ToList());
-                Account account = _Repo.GetByID(key);
-                if (account == null)
-                {
-                    throw new Exception("Account Id không tồn tại.");
-                }
-                List<GetTestResult> result = listTestResult.Where(t => t.UserId == key).ToList();
-                return (result);
             }
             catch (Exception ex)
             {

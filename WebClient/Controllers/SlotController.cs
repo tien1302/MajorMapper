@@ -192,7 +192,7 @@ namespace WebClient.Controllers
             uint privilegeExpiredTs = currentTimeStamp + expirationTimeInSeconds;
             RtcTokenBuilder.Role role = RtcTokenBuilder.Role.RolePublisher;
 
-            string token = RtcTokenBuilder.buildTokenWithUID(appId, appCertificate, channel, uid, role, privilegeExpiredTs);
+            string token = RtcTokenBuilder.buildTokenWithUID(appId, appCertificate, "2", uid, role, privilegeExpiredTs);
 
 
             return Json(new { token = token, uid = uid });

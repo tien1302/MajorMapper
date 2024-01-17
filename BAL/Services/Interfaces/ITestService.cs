@@ -15,5 +15,6 @@ namespace BAL.Services.Interfaces
         public void Create(CreateTest create);
         public void Update(int key, UpdateTest update);
         public void Delete(int key);
+        public List<GetTest> GetTestbyAccountId(int key);
     }
 }

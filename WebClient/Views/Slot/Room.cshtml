@@ -7,7 +7,7 @@
 }
 
 <section id="room-name-wrapper">
-    <p>Room Name: <span id="room-name"></span></p>
+    <p>Phòng số: <span id="room-name"></span></p>
 </section>
 
 <section id="video-streams"></section>
@@ -59,7 +59,7 @@
 
         let player = `<div  class="video-container" id="user-container-${UID}">
                          <div class="video-player" id="user-${UID}"></div>
-                             <div class="username-wrapper"><span class="user-name">${NAME}</span></div>
+                             
                       </div>`
 
         document.getElementById('video-streams').insertAdjacentHTML('beforeend', player)
@@ -81,7 +81,7 @@
 
             player = `<div  class="video-container" id="user-container-${user.uid}">
                 <div class="video-player" id="user-${user.uid}"></div>
-                <div class="username-wrapper"><span class="user-name">MyName</span></div>
+                
             </div>`
 
             document.getElementById('video-streams').insertAdjacentHTML('beforeend', player)

@@ -13,5 +13,6 @@ namespace BAL.DTOs.Scores
         public int PersonalityTypeId { get; set; }
 
         public int Result { get; set; }
+        public string PersonalityTypeName { get; set; }
     }
 }

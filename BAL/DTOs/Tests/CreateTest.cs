@@ -9,9 +9,5 @@ namespace BAL.DTOs.Tests
     public class CreateTest
     {
         public int PlayerId { get; set; }
-
-        public bool StatusGame { get; set; }
-
-        public bool StatusPayment { get; set; }
     }
 }

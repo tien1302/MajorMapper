@@ -17,7 +17,7 @@ namespace BAL.Services.Interfaces
         public void Create(CreateAccount create);
         public void Update(int key, UpdateAccount update);
         public void Delete(int key);
-        public List<GetTestResult> GetTestResultbyAccountId(int key);
+
         public GetAccount Login(AuthenticationAccount authenAccount, JwtAuth jwtAuth);
         public GetAccount LoginGoogle(AuthenticationAccountGoogle authenAccount, JwtAuth jwtAuth);
         public void ResetPassword(ResetPassword reset);

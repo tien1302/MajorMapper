@@ -13,8 +13,7 @@ namespace BAL.Profiles
     {
         public TestResultProfile()
         {
-            CreateMap<TestResult, GetTestResult>().ForMember(dept => dept.getScores, opts => opts.MapFrom(src => src.Scores))
-                                                  .ForMember(dept => dept.UserId, opts => opts.MapFrom(src => src.Test.PlayerId)).ReverseMap();
+            CreateMap<TestResult, GetTestResult>().ForMember(dept => dept.getScores, opts => opts.MapFrom(src => src.Scores)).ReverseMap();
         }
     }
 }

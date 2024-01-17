@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BAL.DTOs.TestResults;
 using BAL.DTOs.Tests;
 using DAL.Models;
 using System;
@@ -13,7 +14,9 @@ namespace BAL.Profiles
     {
         public TestProfile() 
         {
-            CreateMap<Test, GetTest>().ReverseMap();
+            CreateMap<Test, GetTest>().ForMember(dept => dept.getTestResults, opts => opts.MapFrom(src => src.TestResults))
+                                      .ReverseMap();
+                            
         }
     }
 }

@@ -13,7 +13,7 @@ namespace BAL.Profiles
     {
         public ScoreProfile()
         {
-            CreateMap<Score, GetScore>().ReverseMap();
+            CreateMap<Score, GetScore>().ForMember(dept => dept.PersonalityTypeName, opts => opts.MapFrom(src => src.PersonalityType.Name)).ReverseMap();
         }
     }
 }

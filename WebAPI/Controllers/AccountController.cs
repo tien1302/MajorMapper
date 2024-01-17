@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
             _jwtAuthOptions = jwtAuthOptions;
         }
 
-        [PermissionAuthorize("Admin", "Consultant")]
+        [PermissionAuthorize("Admin", "Consultant", "Player")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -60,23 +60,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [PermissionAuthorize("Admin","Consultant", "Player")]
-        [HttpGet("GetTestResult/{id}")]
-        public IActionResult GetTestResult(int id)
-        {
-            try
-            {
-                List<GetTestResult> list = _Service.GetTestResultbyAccountId(id);
-                return Ok(list);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(new
-                {
-                    Message = ex.Message
-                });
-            }
-        }
+        
         [PermissionAuthorize("Admin")]
         [HttpPost]
         public IActionResult Post([FromBody] CreateAccount create)
